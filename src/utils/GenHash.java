@@ -4,14 +4,14 @@ import models.Candidate;
 import models.NonCandidate;
 import models.Politician;
 
-public class GenHash
+public class GenHash<E>
 {
-    private static final int MAX_PROBES = 25;
-    Node[] hashTable;
+    private static final int MAX_PROBES = 20;
+    Node<E>[] hashTable;
 
     public GenHash(int size){
 
-        hashTable= new Node [size]; //Zeros (default) indicate empty slots
+        hashTable= (Node<E>[]) new Node [size]; //Zeros (default) indicate empty slots
 
     }
     public int hashFunction(String key){
@@ -27,7 +27,7 @@ public class GenHash
         return totalAdds/(double)hashTable.length;
 
     }
-    void rehash(){
+    public void rehash(){
 
         System.out.println("Rehashing...");
 
@@ -35,17 +35,22 @@ public class GenHash
 
         hashTable=new Node [(int)(hashTable.length*1.5)];
 
-        for(Node x : hashTable2) add(x);
+        for(Node x : hashTable2) {
+            if(x!=null)
+            add(x);
+        }
 
     }
     public int add(Node item){
-        // if(loadFactor()>=0.6) rehash();​
+        if(loadFactor()>=0.6)
+            rehash();
 
         //hashTable[hashFunction(item)]=item;
 
         int loc=hashFunction(item.getKey());
 
-        if(hashTable[loc]==null) hashTable[loc]=item;
+        if(hashTable[loc]==null)
+            hashTable[loc]=item;
 
         else { //Collision -> quadratic probe
 
@@ -86,49 +91,11 @@ public class GenHash
     }
 
     public Node getValue(int key){
+
        return  hashTable[key];
     }
 
-    //============================================
-    public static void main(String[] args) {
-        GenHash h = new GenHash(10);
 
 
-//        System.out.println("Stored item 77 in "+h.add(77));
 
-//        System.out.println("Stored item 54 in "+h.add(54));
-
-//        System.out.println("Stored item 222 in "+h.add(222));
-
-//        System.out.println("Stored item 44 in "+h.add(44));
-
-//        System.out.println("Stored item 4499 in "+h.add(4499));
-
-//        System.out.println("Stored item 99 in "+h.add(99));
-
-//        System.out.println("Stored item 123 in "+h.add(123));
-
-//        System.out.println("Stored item 502 in "+h.add(502));
-
-//        h.displayHashTable();
-        /*Scanner k=new Scanner(System.in);
-        do{
-            System.out.print("Enter value: ");
-            int x=k.nextInt();
-            if(x==-1) break;
-            System.out.println("Stored item "+x+" in "+h.add(x));
-        }while(true);         */
-        Politician pol = new NonCandidate("jon", "222", "", "Wat", "sddsdsdsds");
-
-        Node<Politician> pl = new Node<Politician>();
-        pl.setContents(pol);
-        pl.setKey(pol.getName());
-
-        pl.setContents(pol);
-        System.out.println(pl.getContents().toString());
-        h.add(pl);
-
-        System.out.println(h.getValue(h.hashFunction(pl.getKey())).getContents().toString());
-        h.displayHashTable();
-    }
 }
