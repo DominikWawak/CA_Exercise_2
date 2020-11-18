@@ -21,11 +21,53 @@ public class Controller implements Initializable {
         politician.setKey(pol.getName());
         politicians.add(politician);
 }
+
+    public void updatePolitician(){
+
+    }
+    public void deletePolitician(){
+
+    }
+
+    public void searchPoliticianByName(){
+
+    }
+    public void searchPoliticianByParty(){
+
+    }
+    public void searchPoliticianByLocation(){
+
+    }
+    public void sort(){
+
+    }
+
+    public String listPoliticians(){
+        String list = "";
+        for(Node politician : politicians.hashTable){
+            if(politician != null){
+                list = list + " " + politician.getContents().toString()+"\n";
+            }
+        }
+        return list;
+    }
+
+
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
        addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
-       politicians.displayHashTable();
-       System.out.println(politicians.getValue(politicians.hashFunction("Dominik")).getContents().toString());
+        addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
+        addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
+        addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
+        addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
+
+       //politicians.displayHashTable();
+      // System.out.println(politicians.getValue(politicians.hashFunction("Dominik")).getContents().toString());
+       System.out.println(listPoliticians());
 
     }
+
+
+
 }

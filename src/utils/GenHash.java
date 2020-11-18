@@ -7,7 +7,7 @@ import models.Politician;
 public class GenHash<E>
 {
     private static final int MAX_PROBES = 20;
-    Node<E>[] hashTable;
+    public Node<E>[] hashTable;
 
     public GenHash(int size){
 
