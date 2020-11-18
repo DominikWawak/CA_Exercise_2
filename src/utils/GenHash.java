@@ -16,7 +16,7 @@ public class GenHash<E>
     }
     public int hashFunction(String key){
 
-        return key.hashCode()%hashTable.length;
+        return Math.abs(key.hashCode())%hashTable.length;
     }
     public double loadFactor(){
 
@@ -47,7 +47,7 @@ public class GenHash<E>
 
         //hashTable[hashFunction(item)]=item;
 
-        int loc=hashFunction(item.getKey());
+        int loc=hashFunction((item.getKey()));
 
         if(hashTable[loc]==null)
             hashTable[loc]=item;
@@ -69,9 +69,9 @@ public class GenHash<E>
             }while(probeCount<MAX_PROBES); //QP not quaranteed to find a slot, so stop after MAX_PROBES
 
             System.out.println("Add failed. Max probe count exceeded!");
-            //rehash();
+            rehash();
 
-            //add(item);
+            add(item);
 
             return -1; //Add failed
 
@@ -94,7 +94,6 @@ public class GenHash<E>
 
        return  hashTable[key];
     }
-
 
 
 
