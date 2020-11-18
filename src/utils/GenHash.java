@@ -1,6 +1,7 @@
 package utils;
 
 import models.Candidate;
+import models.NonCandidate;
 import models.Politician;
 
 public class GenHash
@@ -13,7 +14,7 @@ public class GenHash
         hashTable= new Node [size]; //Zeros (default) indicate empty slots
 
     }
-    public int hashFunction(Node key){
+    public int hashFunction(String key){
 
         return key.hashCode()%hashTable.length;
     }
@@ -42,7 +43,7 @@ public class GenHash
 
         //hashTable[hashFunction(item)]=item;
 
-        int loc=hashFunction(item);
+        int loc=hashFunction(item.getKey());
 
         if(hashTable[loc]==null) hashTable[loc]=item;
 
@@ -80,13 +81,17 @@ public class GenHash
 
         for(int i=0;i<hashTable.length;i++)
 
-            System.out.println("Slot "+i+": "+hashTable[i]+(hashTable[i]==null || hashFunction(hashTable[i])==i ? "" : " *"));
+            System.out.println("Slot "+i+": "+hashTable[i]+(hashTable[i]==null || hashFunction(hashTable[i].getContents().toString())==i ? "" : " *"));
 
+    }
+
+    public Node getValue(int key){
+       return  hashTable[key];
     }
 
     //============================================
     public static void main(String[] args) {
-        GenHash h = new GenHash(101);
+        GenHash h = new GenHash(10);
 
 
 //        System.out.println("Stored item 77 in "+h.add(77));
@@ -113,11 +118,17 @@ public class GenHash
             if(x==-1) break;
             System.out.println("Stored item "+x+" in "+h.add(x));
         }while(true);         */
-        Politician pol = new Candidate("jon", "222", "", "Wat", "sddsdsdsds");
+        Politician pol = new NonCandidate("jon", "222", "", "Wat", "sddsdsdsds");
 
         Node<Politician> pl = new Node<Politician>();
         pl.setContents(pol);
+        pl.setKey(pol.getName());
+
+        pl.setContents(pol);
+        System.out.println(pl.getContents().toString());
         h.add(pl);
+
+        System.out.println(h.getValue(h.hashFunction(pl.getKey())).getContents().toString());
         h.displayHashTable();
     }
 }
