@@ -18,6 +18,10 @@ public class GenHash<E>
 
         return Math.abs(key.hashCode())%hashTable.length;
     }
+    public int hashFunction(int key){
+
+        return Math.abs(key)%hashTable.length;
+    }
     public double loadFactor(){
 
         int totalAdds=0;
@@ -61,6 +65,9 @@ public class GenHash<E>
                 System.out.println("Slot "+loc+" full. Quadratic probe number "+probeCount+"...");
 
                 loc=(home+probeCount*probeCount)%hashTable.length; //Loc becomes home+n^2 with wraparound
+                //System.out.println(item.getKey());
+                //item.setKey(loc);
+                //System.out.println(item.getKey());
 
                 probeCount++;
 

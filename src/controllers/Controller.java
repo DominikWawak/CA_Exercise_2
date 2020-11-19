@@ -18,13 +18,11 @@ public class Controller implements Initializable {
         NonCandidate pol = new NonCandidate(name,dob,party,homeCounty,imgUrl);
         Node<NonCandidate> politician= new Node<NonCandidate>();
         politician.setContents(pol);
-        politician.setKey(pol.getName());
+      //  politician.setKey(pol.getName()+imgUrl);
         politicians.add(politician);
 }
 
-    public void updatePolitician(){
 
-    }
     public void deletePolitician(){
 
     }
@@ -56,15 +54,18 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
-        addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
+   /*    addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
+        addPolitician("kinimoD","2020/04/13","","wicklow","www.pic.ie");
         addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
         addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
         addPolitician("Dominik","2020/04/13","","wicklow","www.pic.ie");
 
        //politicians.displayHashTable();
-      // System.out.println(politicians.getValue(politicians.hashFunction("Dominik")).getContents().toString());
+       System.out.println("The chosen     "+politicians.getValue(politicians.hashFunction("kinimoDwww.pic.ie")).getContents().toString());
        System.out.println(listPoliticians());
+
+
+    */
 
     }
 

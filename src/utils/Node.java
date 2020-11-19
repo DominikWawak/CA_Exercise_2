@@ -3,7 +3,8 @@ package utils;
 public class Node <E> {
 
     private E contents;
-    private String key;
+    //private String key;
+    public int k;
 
     public Node<E> next = null;
 
@@ -16,11 +17,12 @@ public class Node <E> {
         this.contents = contents;
     }
 
-    public String getKey() {
-        return key;
+
+    public int getKey() {
+        return k;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey(int k) {
+        this.k = k;
     }
 }

@@ -13,7 +13,7 @@ public abstract class Politician {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
 
-        this.politicalParty = (politicalParty == null) ? "Independent":politicalParty;
+        this.politicalParty = (politicalParty.isEmpty()) ? "Independent":politicalParty;
         this.homeCounty = homeCounty;
         this.imgUrl = imgUrl;
     }
@@ -57,6 +57,8 @@ public abstract class Politician {
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
+
+    public abstract void update(Politician politician, String politicalParty, String homeCounty, String imgUrl);
 
     @Override
     public String toString() {
