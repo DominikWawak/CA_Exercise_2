@@ -1,5 +1,6 @@
 package models;
 
+import utils.GenList;
 import utils.Node;
 
 public class Election {
@@ -8,7 +9,7 @@ public class Election {
     public String date;
     public int numberOfSeats;
 
-    public Election(String electionType, String electionLocation, String date, int numberOfSeats , Node<Candidate> candidates) {
+    public Election(String electionType, String electionLocation, String date, int numberOfSeats , GenList<Candidate> candidateGenList) {
         this.electionType = electionType;
         this.electionLocation = electionLocation;
         this.date = date;

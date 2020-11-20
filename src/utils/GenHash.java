@@ -66,7 +66,7 @@ public class GenHash<E>
 
                 loc=(home+probeCount*probeCount)%hashTable.length; //Loc becomes home+n^2 with wraparound
                 //System.out.println(item.getKey());
-                //item.setKey(loc);
+                item.setKey(loc);
                 //System.out.println(item.getKey());
 
                 probeCount++;

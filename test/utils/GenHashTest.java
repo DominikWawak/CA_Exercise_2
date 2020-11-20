@@ -16,7 +16,11 @@ class GenHashTest {
 
         politician= new Node<NonCandidate>();
         politician.setContents(pol);
-        politician.setKey(politicians.hashFunction(pol.getName()+pol.getImgUrl()));
+        politician.setKey(politicians.hashFunction(pol.getName()));
+
+
+
+
         ///////////////////////////////////////////////
         NonCandidate pol2 = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mycip.ie");
 
