@@ -1,12 +1,13 @@
 package controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
 import org.controlsfx.control.textfield.TextFields;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +16,7 @@ import models.Politician;
 import utils.GenHash;
 import utils.Node;
 
-import java.net.MalformedURLException;
+
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -25,7 +26,14 @@ public class Controller implements Initializable {
     GenHash<NonCandidate> politicians =new GenHash(13);
 
     @FXML
-    private TextField polName,polParty,polCounty,polImg;
+    private TextField polImg;
+
+    @FXML
+    private Pane cardViewPane;
+
+    @FXML
+    private ComboBox<String>polName,polParty,polCounty;
+
 
     @FXML
     private DatePicker polDob;
@@ -37,6 +45,41 @@ public class Controller implements Initializable {
     private Label cName, cDate,cParty,cCounty;
     @FXML
     private ImageView cImg;
+
+    private ObservableList<String> names =  FXCollections.observableArrayList();
+    private ObservableList<String> counties =  FXCollections.observableArrayList("Antrim",
+            "Armagh",
+            "Carlow",
+            "Cavan",
+            "Clare",
+            "Cork",
+            "Derry",
+            "Donegal",
+            "Down",
+            "Dublin",
+            "Fermanagh",
+            "Galway",
+            "Kerry",
+            "Kildare",
+            "Kilkenny",
+            "Laois",
+            "Leitrim",
+            "Limerick",
+            "Longford",
+            "Louth",
+            "Mayo",
+            "Meath",
+            "Monaghan",
+            "Offaly",
+            "Roscommon",
+            "Sligo",
+            "Tipperary",
+            "Tyrone",
+           "Waterford",
+            "Westmeath",
+            "Wexford",
+            "Wicklow");
+    private ObservableList<String> parties =  FXCollections.observableArrayList();
 
 
 
@@ -55,7 +98,18 @@ public class Controller implements Initializable {
 
 
     void addPoliticianGui(ActionEvent event) {
-        Node<NonCandidate> pol = addPolitician(polName.getText(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getText(),polCounty.getText(),polImg.getText());
+        Node<NonCandidate> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
+        names.add(polName.getValue());
+        parties.add(polParty.getValue());
+        polName.setItems(names);
+        polParty.setItems(parties);
+        polName.getEditor().clear();
+        polDob.getEditor().clear();
+        polParty.getEditor().clear();
+        polCounty.getEditor().clear();
+
+
+
 
         System.out.println(pol.getKey());
 
@@ -64,7 +118,7 @@ public class Controller implements Initializable {
         politicians.displayHashTable();
 
         //Setting the profile view
-        setProfileView(polName.getText(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getText(),polCounty.getText(),polImg.getText());
+        setProfileView(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
 
 
 
@@ -120,9 +174,10 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        cardViewPane.setStyle("-fx-border-color: black");
+        polCounty.setItems(counties);
 
-       // String [] words = {"Wicklow","Waterford","Kilkenny"};
-       // TextFields.bindAutoCompletion(polCounty,words);
+
 
         //
         //LAST STOP
