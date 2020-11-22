@@ -174,7 +174,7 @@ public class Controller implements Initializable {
     }
 
     public void addElectionGUI(Action event){
-        Node<Election> eleccNode=addElection(elecType.getValue(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
+        Node<Election> elecNode=addElection(elecType.getValue(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
 
 
 
