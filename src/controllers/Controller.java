@@ -8,15 +8,19 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
+import models.Candidate;
+import models.Election;
 import org.controlsfx.control.textfield.TextFields;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.NonCandidate;
 import models.Politician;
 import utils.GenHash;
+import utils.GenList;
 import utils.Node;
 
 
+import javax.swing.*;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
@@ -24,10 +28,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     GenHash<NonCandidate> politicians =new GenHash(13);
-    //
-    //
-    //Make Gen hash of Elections
-    //
+   GenHash<Election> elections=new GenHash<>(13);
 
     @FXML
     private TextField polImg;
@@ -39,11 +40,17 @@ public class Controller implements Initializable {
     private ComboBox<String>polName,polParty,polCounty;
 
 
-    @FXML
-    private DatePicker polDob;
+    @FXML  private ComboBox<String>elecType,elecLocation;
+
+    @FXML private ComboBox<Integer>noOfSeats;
 
     @FXML
-    private Button addPol;
+    private DatePicker polDob,elecDate;
+
+    @FXML private GenList<Candidate> candidateGenList;
+
+    @FXML
+    private Button addPol,addElec;
 
     @FXML
     private Label cName, cDate,cParty,cCounty;
@@ -156,6 +163,24 @@ public class Controller implements Initializable {
     //
     //
 
+    public Node addElection(String type, String location, String date, int noOfSeats, GenList<Candidate> candidate) {
+        Election elec=new Election(type,location,date,noOfSeats,candidate);
+        Node<Election> elecNode=new Node<Election>();
+        elecNode.setContents(elec);
+        elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
+
+        elections.add(elecNode);
+        return elecNode;
+    }
+
+    public void addElectionGUI(Action event){
+        Node<Election> eleccNode=addElection(elecType.getValue(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
+
+
+
+
+        elections.displayHashTable();
+    }
 
 
     public void deletePolitician(){
