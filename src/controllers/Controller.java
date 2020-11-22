@@ -24,6 +24,10 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     GenHash<NonCandidate> politicians =new GenHash(13);
+    //
+    //
+    //Make Gen hash of Elections
+    //
 
     @FXML
     private TextField polImg;
@@ -82,8 +86,19 @@ public class Controller implements Initializable {
     private ObservableList<String> parties =  FXCollections.observableArrayList();
 
 
-
-
+    /**
+     * addPoloticianMethod and addPoliticianGui
+     *
+     * This is a method for adding politicians that are non candidates of a election.
+     * The first method creates the politician object and the node that is added to the hashtable.
+     * The key is set to the name of the politician.
+     * @param name
+     * @param dob
+     * @param party
+     * @param homeCounty
+     * @param imgUrl
+     * @return Node of type Politician
+     */
 
     public Node addPolitician(String name,String dob,String party,String homeCounty,String imgUrl){
         NonCandidate pol = new NonCandidate(name,dob,party,homeCounty,imgUrl);
@@ -100,6 +115,9 @@ public class Controller implements Initializable {
     void addPoliticianGui(ActionEvent event) {
         Node<NonCandidate> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
         names.add(polName.getValue());
+        //
+        // TODO sort these arrays.
+        //
         parties.add(polParty.getValue());
         polName.setItems(names);
         polParty.setItems(parties);
@@ -125,6 +143,18 @@ public class Controller implements Initializable {
 
 
     }
+
+    //
+    //
+    // TODO Make a add for elections simmillar to my of politicians
+    //
+    // key for election is election type + date (strings)
+    //
+    // Try to comment
+    //
+    // test with System.out and then make a simple method in tests
+    //
+    //
 
 
 
@@ -160,6 +190,13 @@ public class Controller implements Initializable {
 
     }
 
+    /**\
+     * listPoliticians
+     *
+     * this method loops through the Nodes in the hashtable returns all that are not null
+     * @return String list
+     */
+
     public String listPoliticians(){
         String list = "";
         for(Node politician : politicians.hashTable){
@@ -179,10 +216,6 @@ public class Controller implements Initializable {
 
 
 
-        //
-        //LAST STOP
-        //
-        //
 
 
 
