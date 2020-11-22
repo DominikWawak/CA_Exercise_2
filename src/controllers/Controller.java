@@ -31,13 +31,14 @@ public class Controller implements Initializable {
    GenHash<Election> elections=new GenHash<>(13);
 
     @FXML
-    private TextField polImg;
+    private TextField polImg, updatePolImg;
 
     @FXML
-    private Pane cardViewPane;
+    private Pane cardViewPane,addPoliticianPane;
+    //TODO set visible / not visible
 
     @FXML
-    private ComboBox<String>polName,polParty,polCounty;
+    private ComboBox<String>polName,polParty,polCounty, updatePolParty,updatePolCounty,polToUpdate;
 
 
     @FXML  private ComboBox<String>elecType,elecLocation;
@@ -50,7 +51,7 @@ public class Controller implements Initializable {
     @FXML private GenList<Candidate> candidateGenList;
 
     @FXML
-    private Button addPol,addElec;
+    private Button addPol,addElec,updatePol;
 
     @FXML
     private Label cName, cDate,cParty,cCounty;
@@ -92,7 +93,9 @@ public class Controller implements Initializable {
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
 
-
+//
+    // sample image https://i.pinimg.com/originals/7d/1a/3f/7d1a3f77eee9f34782c6f88e97a6c888.jpg
+    ////
     /**
      * addPoloticianMethod and addPoliticianGui
      *
@@ -119,7 +122,7 @@ public class Controller implements Initializable {
 
 
 
-    void addPoliticianGui(ActionEvent event) {
+    public void addPoliticianGui (ActionEvent event) {
         Node<NonCandidate> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
         names.add(polName.getValue());
         //
@@ -128,6 +131,12 @@ public class Controller implements Initializable {
         parties.add(polParty.getValue());
         polName.setItems(names);
         polParty.setItems(parties);
+        //
+        // FOR UPDATE METHOD
+        polToUpdate.setItems(polName.getItems());
+        updatePolParty.setItems(polParty.getItems());
+        updatePolCounty.setItems(counties);
+        //
         polName.getEditor().clear();
         polDob.getEditor().clear();
         polParty.getEditor().clear();
@@ -143,7 +152,7 @@ public class Controller implements Initializable {
         politicians.displayHashTable();
 
         //Setting the profile view
-        setProfileView(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
+        setProfileView(pol);
 
 
 
@@ -185,17 +194,30 @@ public class Controller implements Initializable {
     }
 
 
+
+    public void updatePoliticianGui(ActionEvent actionEvent) {
+
+        //
+
+        //
+
+
+        Node<NonCandidate> upPol= searchPoliticianByName(polToUpdate.getValue());
+        upPol.getContents().update(upPol.getContents(),updatePolParty.getValue(),updatePolCounty.getValue(),updatePolImg.getText());
+        setProfileView(upPol);
+    }
+
     public void deletePolitician(){
 
     }
 
-    public void setProfileView(String name,String DOB,String party, String county,String img) {
-        cName.setText(name);
-        cParty.setText(party);
-        cCounty.setText(county);
-        cDate.setText(DOB);
+    public void setProfileView(Node<NonCandidate> node) {
+        cName.setText(node.getContents().getName());
+        cParty.setText(node.getContents().getPoliticalParty());
+        cCounty.setText(node.getContents().getHomeCounty());
+        cDate.setText(node.getContents().getDateOfBirth());
 
-        Image image = new Image(img);
+        Image image = new Image(node.getContents().getImgUrl());
         cImg.setImage(image);
 
 
@@ -204,7 +226,10 @@ public class Controller implements Initializable {
 
 
 
-    public void searchPoliticianByName(){
+    public Node searchPoliticianByName(String Name){
+
+        return politicians.getValue(politicians.hashFunction(Name));
+
 
     }
     public void searchPoliticianByParty(){

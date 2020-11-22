@@ -7,25 +7,41 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Rectangle?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="906.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Controller">
    <children>
-      <Pane layoutX="541.0" layoutY="310.0" prefHeight="274.0" prefWidth="342.0">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#26972b38" height="250.0" layoutX="547.0" layoutY="352.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="3.0" width="345.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1f93ff20" height="488.0" layoutX="58.0" layoutY="111.0" stroke="BLACK" strokeType="INSIDE" width="288.0" />
+      <Pane layoutX="556.0" layoutY="378.0" prefHeight="221.0" prefWidth="328.0">
          <children>
-            <DatePicker fx:id="polDob" layoutX="215.0" layoutY="73.0" prefHeight="25.0" prefWidth="106.0" />
-            <Label layoutX="91.0" layoutY="47.0" prefHeight="17.0" prefWidth="69.0" text="NAME" />
-            <Label layoutX="92.0" layoutY="78.0" prefHeight="17.0" prefWidth="69.0" text="Date of birth" />
-            <Label layoutX="92.0" layoutY="111.0" prefHeight="17.0" prefWidth="69.0" text="Party" />
-            <Label layoutX="91.0" layoutY="143.0" prefHeight="17.0" prefWidth="97.0" text="Home County" />
-            <Label layoutX="92.0" layoutY="179.0" prefHeight="17.0" prefWidth="69.0" text="Image url" />
-            <TextField fx:id="polImg" layoutX="216.0" layoutY="175.0" prefHeight="25.0" prefWidth="106.0" />
-            <Button fx:id="addPol" layoutX="151.0" layoutY="223.0" mnemonicParsing="false" onAction="#addPoliticianGui" text="ADD" />
-            <ComboBox fx:id="polName" editable="true" layoutX="215.0" layoutY="35.0" prefHeight="25.0" prefWidth="106.0" />
-            <ComboBox fx:id="polCounty" editable="true" layoutX="215.0" layoutY="139.0" prefHeight="25.0" prefWidth="106.0" />
-            <ComboBox fx:id="polParty" editable="true" layoutX="215.0" layoutY="107.0" prefHeight="25.0" prefWidth="106.0" />
+            <Button fx:id="updatePol" layoutX="138.0" layoutY="182.0" mnemonicParsing="false" onAction="#updatePoliticianGui" text="Update Politician" />
+            <Label layoutX="28.0" layoutY="75.0" prefHeight="17.0" prefWidth="69.0" text="County" />
+            <Label layoutX="28.0" layoutY="42.0" prefHeight="17.0" prefWidth="69.0" text="Party" />
+            <Label layoutX="28.0" layoutY="119.0" prefHeight="17.0" prefWidth="69.0" text="Img URL" />
+            <ComboBox fx:id="updatePolParty" editable="true" layoutX="116.0" layoutY="38.0" prefWidth="150.0" />
+            <ComboBox fx:id="updatePolCounty" editable="true" layoutX="116.0" layoutY="71.0" prefWidth="150.0" />
+            <TextField fx:id="updatePolImg" layoutX="117.0" layoutY="115.0" />
+            <Label layoutX="14.0" layoutY="6.0" text="Please select the politician" />
+            <ComboBox fx:id="polToUpdate" editable="true" layoutX="164.0" layoutY="2.0" prefHeight="25.0" prefWidth="106.0" />
          </children>
       </Pane>
-      <Pane fx:id="cardViewPane" layoutX="89.0" layoutY="63.0" prefHeight="463.0" prefWidth="276.0">
+      <Pane fx:id="addPoliticianPane" layoutX="582.0" layoutY="89.0" prefHeight="221.0" prefWidth="288.0">
+         <children>
+            <DatePicker fx:id="polDob" layoutX="110.0" layoutY="56.0" prefHeight="25.0" prefWidth="106.0" />
+            <Label layoutX="22.0" layoutY="27.0" prefHeight="17.0" prefWidth="69.0" text="NAME" />
+            <Label layoutX="22.0" layoutY="60.0" prefHeight="17.0" prefWidth="69.0" text="Date of birth" />
+            <Label layoutX="22.0" layoutY="93.0" prefHeight="17.0" prefWidth="69.0" text="Party" />
+            <Label layoutX="14.0" layoutY="123.0" prefHeight="17.0" prefWidth="97.0" text="Home County" />
+            <Label layoutX="22.0" layoutY="156.0" prefHeight="17.0" prefWidth="69.0" text="Image url" />
+            <TextField fx:id="polImg" layoutX="110.0" layoutY="152.0" prefHeight="25.0" prefWidth="106.0" />
+            <Button fx:id="addPol" layoutX="71.0" layoutY="188.0" mnemonicParsing="false" onAction="#addPoliticianGui" text="ADD Politician" />
+            <ComboBox fx:id="polName" editable="true" layoutX="110.0" layoutY="23.0" prefHeight="25.0" prefWidth="106.0" />
+            <ComboBox fx:id="polCounty" editable="true" layoutX="110.0" layoutY="119.0" prefHeight="25.0" prefWidth="106.0" />
+            <ComboBox fx:id="polParty" editable="true" layoutX="110.0" layoutY="89.0" prefHeight="25.0" prefWidth="106.0" />
+         </children>
+      </Pane>
+      <Pane fx:id="cardViewPane" layoutX="67.0" layoutY="100.0" prefHeight="463.0" prefWidth="276.0">
          <children>
             <ImageView fx:id="cImg" fitHeight="250.0" fitWidth="232.0" layoutX="22.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
               </ImageView>

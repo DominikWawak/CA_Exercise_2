@@ -14,7 +14,7 @@ public class Candidate extends Politician {
 
     }
 
-    @Override
+
     public void update(Politician politician, String politicalParty, String homeCounty, String imgUrl) {
        politician.setPoliticalParty(politicalParty);
        politician.setHomeCounty(homeCounty);

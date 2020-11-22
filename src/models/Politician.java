@@ -58,7 +58,7 @@ public abstract class Politician {
         this.imgUrl = imgUrl;
     }
 
-    public abstract void update(Politician politician, String politicalParty, String homeCounty, String imgUrl);
+    //public abstract void update(Politician politician, String politicalParty, String homeCounty, String imgUrl);
 
     @Override
     public String toString() {
@@ -70,4 +70,6 @@ public abstract class Politician {
                 ", imgUrl='" + imgUrl + '\'' +
                 '}';
     }
+
+
 }
