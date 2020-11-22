@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import models.Candidate;
 import models.Election;
-import org.controlsfx.control.textfield.TextFields;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.NonCandidate;
@@ -116,7 +116,7 @@ public class Controller implements Initializable {
         politicians.add(politician);
         return politician;
 }
-    @FXML
+
 
 
     void addPoliticianGui(ActionEvent event) {
@@ -151,17 +151,19 @@ public class Controller implements Initializable {
 
     }
 
-    //
-    //
-    // TODO Make a add for elections simmillar to my of politicians
-    //
-    // key for election is election type + date (strings)
-    //
-    // Try to comment
-    //
-    // test with System.out and then make a simple method in tests
-    //
-    //
+    /**
+     * This is a method for creating and adding an election.
+     * The first method creates the election object and the node that is added to the hashtable.
+     * The key is set to the election type and date.
+     * @param type
+     * @param location
+     * @param date
+     * @param noOfSeats
+     * @param candidate
+     * @return Node of the type Election.
+     */
+
+
 
     public Node addElection(String type, String location, String date, int noOfSeats, GenList<Candidate> candidate) {
         Election elec=new Election(type,location,date,noOfSeats,candidate);
