@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import models.Candidate;
 import models.Election;
@@ -30,11 +31,24 @@ public class Controller implements Initializable {
     GenHash<NonCandidate> politicians =new GenHash(13);
    GenHash<Election> elections=new GenHash<>(13);
 
+   //
+    // SET UP TABLE
+    //
+   @FXML
+   private TableView<NonCandidate> polTableView;
+   @FXML
+   private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
+
+
+
+   @FXML
+   private MenuItem addPolMenu,updatePolMenu;
+
     @FXML
     private TextField polImg, updatePolImg;
 
     @FXML
-    private Pane cardViewPane,addPoliticianPane;
+    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane;
     //TODO set visible / not visible
 
     @FXML
@@ -92,6 +106,8 @@ public class Controller implements Initializable {
             "Wexford",
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
+    private  ObservableList<NonCandidate> pols = FXCollections.observableArrayList();
+
 
 //
     // sample image https://i.pinimg.com/originals/7d/1a/3f/7d1a3f77eee9f34782c6f88e97a6c888.jpg
@@ -115,6 +131,9 @@ public class Controller implements Initializable {
         Node<NonCandidate> politician= new Node<NonCandidate>();
         politician.setContents(pol);
         politician.setKey(politicians.hashFunction(pol.getName()));
+
+        pols.add(pol);
+        polTableView.getItems().add(pol);
 
         politicians.add(politician);
         return politician;
@@ -186,7 +205,9 @@ public class Controller implements Initializable {
 
     public void addElectionGUI(Action event){
         Node<Election> elecNode=addElection(elecType.getValue(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
-
+        //
+        // make election type a choice box with neral, local, European and presidential elections. so no input is needed.
+        //
 
 
 
@@ -194,7 +215,13 @@ public class Controller implements Initializable {
     }
 
 
-
+    /**
+     * updatePoliticianGui
+     *
+     * this method uses the method in the NonCandidate Class to get some inputs and update them.
+     *
+     * @param actionEvent
+     */
     public void updatePoliticianGui(ActionEvent actionEvent) {
 
         //
@@ -211,6 +238,10 @@ public class Controller implements Initializable {
 
     }
 
+    /**
+     * Makes the card object of the Politician
+     * @param node NonCandidate
+     */
     public void setProfileView(Node<NonCandidate> node) {
         cName.setText(node.getContents().getName());
         cParty.setText(node.getContents().getPoliticalParty());
@@ -222,6 +253,9 @@ public class Controller implements Initializable {
 
 
 
+    }
+    public void setProfileViewSelected(){
+        //TODO set profile view on selection from the table
     }
 
 
@@ -265,7 +299,13 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         cardViewPane.setStyle("-fx-border-color: black");
         polCounty.setItems(counties);
-
+        //
+        // Table view setters
+        //
+        nameColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("name"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("dateOfBirth"));
+        partyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("politicalParty"));
+        countyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("homeCounty"));
 
 
 
@@ -274,6 +314,29 @@ public class Controller implements Initializable {
 
     }
 
+    /*
+     * =============================================================
+     * ================ Menu Items ==================================
+     * =============================================================
+     */
+
+    /**
+     * open<PANE>Menu methods
+     *
+     * make the panes chosen by the menu visible and invisible,
+     * ie switch the panes.
+     * @param actionEvent
+     */
 
 
+
+    public void openAddPolMenu(ActionEvent actionEvent) {
+        addPoliticianPane.setVisible(true);
+        updatePoliticianPane.setVisible(false);
+    }
+
+    public void openUpPolMenu(ActionEvent actionEvent) {
+        addPoliticianPane.setVisible(false);
+        updatePoliticianPane.setVisible(true);
+    }
 }
