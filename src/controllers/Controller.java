@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import models.Candidate;
 import models.Election;
@@ -37,13 +38,13 @@ public class Controller implements Initializable {                 //im not able
     //
    @FXML
    private TableView<NonCandidate> polTableView;
-   @FXML private TableView<Election> elecTableView;
+   //@FXML private TableView<Election> elecTableView;
 
-   @FXML
+  @FXML
     private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
 
-    @FXML
-    private TableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
+   // @FXML
+ //   private TableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
     @FXML ChoiceBox elecType;
 
@@ -63,16 +64,17 @@ public class Controller implements Initializable {                 //im not able
 
     @FXML  private ComboBox<String>elecLocation;
 
+    @FXML
+    private Spinner<Integer> noOfSeats;
 
-
-    @FXML private ComboBox<Integer>noOfSeats;
+    //@FXML private ComboBox<Integer>noOfSeats;
 
     @FXML
     private DatePicker polDob,elecDate;
 
     @FXML private Label typeLbl,locationLbl,dateLbl,seatsLbl;
 
-    @FXML private GenList<Candidate> candidateGenList;
+
 
     @FXML
     private Button addPol,addElec,updatePol;
@@ -211,17 +213,18 @@ public class Controller implements Initializable {                 //im not able
         elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
 
         elections.add(elecNode);
-        elecTableView.getItems().add(elec);         //going to get errors if ran because i havent set the labels so they can be seen in scenebuilder can change to public if needed
-        return elecNode;                            //how do u want me to list out the GenList<Candidate>?
+       // elecTableView.getItems().add(elec);         //going to get errors if ran because i havent set the labels so they can be seen in scenebuilder can change to public if needed
+        return elecNode;                            // the genList will be a drop down, so this needs to be a TREE TABLE VIEW
     }
 
     public void addElectionGUI(Action event) throws IOException{
+        GenList<Candidate> candidateGenList = new GenList<>();
         Node<Election> elecNode=addElection(elecType.getItems().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
 
 
 
         elections.displayHashTable();
-        setElectionview(elecNode);
+        //setElectionview(elecNode); No need for a view since its all in the table but the view will be usefull
     }
 
     public void setElectionview(Node<Election> node){
@@ -272,8 +275,12 @@ public class Controller implements Initializable {                 //im not able
 
 
     }
-    public void setProfileViewSelected(){
-        //TODO set profile view on selection from the table
+
+    public void displaySelectedPol(MouseEvent mouseEvent) {
+        NonCandidate selected =  polTableView.getSelectionModel().getSelectedItem();
+        Node<NonCandidate> nodeSelected = new Node<>();
+        nodeSelected.setContents(selected);
+        setProfileView(nodeSelected);
     }
 
 
@@ -325,12 +332,21 @@ public class Controller implements Initializable {                 //im not able
         partyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("politicalParty"));
         countyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("homeCounty"));
 
-        typeColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("type"));
-        locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
-        elecDateColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("date"));
-        seatsColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("Number of Seats"));
+      //  typeColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("type"));
+     //   locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
+       // elecDateColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("date"));
+     //  seatsColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("Number of Seats"));
 
         elecType.setItems(elecList);
+        elecLocation.setItems(counties);
+
+        //
+        // Spinner set up
+        //
+
+        SpinnerValueFactory<Integer> spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,10,1);
+        noOfSeats.setValueFactory(spinner);
+
 
 
 
@@ -363,4 +379,6 @@ public class Controller implements Initializable {                 //im not able
         addPoliticianPane.setVisible(false);
         updatePoliticianPane.setVisible(true);
     }
+
+
 }
