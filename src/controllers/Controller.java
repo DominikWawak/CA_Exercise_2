@@ -115,7 +115,7 @@ public class Controller implements Initializable {                 //im not able
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
     private  ObservableList<NonCandidate> pols = FXCollections.observableArrayList();
-    private ObservableList<String> elecList=FXCollections.observableArrayList("neutral","local","European","presidenial");
+    private ObservableList<String> elecList=FXCollections.observableArrayList("neutral","local","European","presidential");
 
 
 //
