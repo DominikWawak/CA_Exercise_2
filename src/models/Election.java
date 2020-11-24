@@ -16,5 +16,36 @@ public class Election {
         this.numberOfSeats = numberOfSeats;
     }
 
-    // DO UPDATE METHOD HERE
+    public String getElectionType() {
+        return electionType;
+    }
+
+    public void setElectionType(String electionType) {
+        this.electionType = electionType;
+    }
+
+    public String getElectionLocation() {
+        return electionLocation;
+    }
+
+    public void setElectionLocation(String electionLocation) {
+        this.electionLocation = electionLocation;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public int getNumberOfSeats() {
+        return numberOfSeats;
+    }
+
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+// DO UPDATE METHOD HERE
 }

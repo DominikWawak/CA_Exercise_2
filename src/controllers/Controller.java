@@ -22,11 +22,12 @@ import utils.Node;
 
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
 
     GenHash<NonCandidate> politicians =new GenHash(13);
    GenHash<Election> elections=new GenHash(13);
@@ -42,7 +43,7 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
-
+    @FXML ChoiceBox elecType;
 
    @FXML
    private MenuItem addPolMenu,updatePolMenu;
@@ -58,12 +59,16 @@ public class Controller implements Initializable {
     private ComboBox<String>polName,polParty,polCounty, updatePolParty,updatePolCounty,polToUpdate;
 
 
-    @FXML  private ComboBox<String>elecType,elecLocation;
+    @FXML  private ComboBox<String>elecLocation;
+
+
 
     @FXML private ComboBox<Integer>noOfSeats;
 
     @FXML
     private DatePicker polDob,elecDate;
+
+    @FXML private Label typeLbl,locationLbl,dateLbl,seatsLbl;
 
     @FXML private GenList<Candidate> candidateGenList;
 
@@ -110,7 +115,7 @@ public class Controller implements Initializable {
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
     private  ObservableList<NonCandidate> pols = FXCollections.observableArrayList();
-    private ObservableList<String> elecList=FXCollections.observableArrayList("neral","local","European","presidenial");
+    private ObservableList<String> elecList=FXCollections.observableArrayList("neutral","local","European","presidenial");
 
 
 //
@@ -145,7 +150,7 @@ public class Controller implements Initializable {
 
 
 
-    public void addPoliticianGui (ActionEvent event) {
+    public void addPoliticianGui (ActionEvent event) throws IOException {
         Node<NonCandidate> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
         names.add(polName.getValue());
         //
@@ -204,18 +209,23 @@ public class Controller implements Initializable {
         elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
 
         elections.add(elecNode);
-        return elecNode;
+        return elecNode;                            //how do u want me to list out the GenList<Candidate>?
     }
 
-    public void addElectionGUI(Action event){
-        Node<Election> elecNode=addElection(elecType.getValue(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
-        //
-        // make election type a choice box with neral, local, European and presidential elections. so no input is needed.
-        //
+    public void addElectionGUI(Action event) throws IOException{
+        Node<Election> elecNode=addElection(elecType.getItems().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
 
 
 
         elections.displayHashTable();
+    }
+
+    public void setElectionview(Node<Election> node){
+        typeLbl.setText(node.getContents().getElectionType());
+        locationLbl.setText(node.getContents().getElectionLocation());
+        dateLbl.setText(node.getContents().getDate());
+
+        //seatsLbl.setText();
     }
 
 
@@ -315,6 +325,8 @@ public class Controller implements Initializable {
         locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
         elecDateColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("date"));
         seatsColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("Number of Seats"));
+
+        elecType.setItems(elecList);
 
 
 
