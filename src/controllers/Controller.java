@@ -211,7 +211,7 @@ public class Controller implements Initializable {                 //im not able
         elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
 
         elections.add(elecNode);
-        elecTableView.getItems().add(elec);
+        elecTableView.getItems().add(elec);         //going to get errors if ran because i havent set the labels so they can be seen in scenebuilder can change to public if needed
         return elecNode;                            //how do u want me to list out the GenList<Candidate>?
     }
 
