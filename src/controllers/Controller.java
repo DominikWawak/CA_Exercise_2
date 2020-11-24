@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
 
     GenHash<NonCandidate> politicians =new GenHash(13);
-   GenHash<Election> elections=new GenHash<>(13);
+   GenHash<Election> elections=new GenHash(13);
 
    //
     // SET UP TABLE
@@ -37,7 +37,10 @@ public class Controller implements Initializable {
    @FXML
    private TableView<NonCandidate> polTableView;
    @FXML
-   private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
+    private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
+
+    @FXML
+    private TableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
 
 
@@ -107,6 +110,7 @@ public class Controller implements Initializable {
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
     private  ObservableList<NonCandidate> pols = FXCollections.observableArrayList();
+    private ObservableList<String> elecList=FXCollections.observableArrayList("neral","local","European","presidenial");
 
 
 //
@@ -307,6 +311,10 @@ public class Controller implements Initializable {
         partyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("politicalParty"));
         countyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("homeCounty"));
 
+        typeColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("type"));
+        locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
+        elecDateColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("date"));
+        seatsColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("Number of Seats"));
 
 
 
