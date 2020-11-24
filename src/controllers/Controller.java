@@ -37,6 +37,8 @@ public class Controller implements Initializable {                 //im not able
     //
    @FXML
    private TableView<NonCandidate> polTableView;
+   @FXML private TableView<Election> elecTableView;
+
    @FXML
     private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
 
@@ -209,6 +211,7 @@ public class Controller implements Initializable {                 //im not able
         elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
 
         elections.add(elecNode);
+        elecTableView.getItems().add(elec);
         return elecNode;                            //how do u want me to list out the GenList<Candidate>?
     }
 
@@ -218,6 +221,7 @@ public class Controller implements Initializable {                 //im not able
 
 
         elections.displayHashTable();
+        setElectionview(elecNode);
     }
 
     public void setElectionview(Node<Election> node){
