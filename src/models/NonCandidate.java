@@ -11,15 +11,16 @@ public class NonCandidate extends Politician
 
 
 
-    public void update(NonCandidate pol, String politicalParty, String homeCounty, String imgUrl){
-        pol.setPoliticalParty(politicalParty);
-        pol.setHomeCounty(homeCounty); //Hmmmm idk
-        pol.setImgUrl(imgUrl);
-
-    }
 
     @Override
     public String toString() {
         return "nonCandidate"+ super.toString();
+    }
+
+    @Override
+    public void update(Politician pol, String politicalParty, String homeCounty, String imgUrl) {
+        pol.setPoliticalParty(politicalParty);
+        pol.setHomeCounty(homeCounty); //Hmmmm idk
+        pol.setImgUrl(imgUrl);
     }
 }

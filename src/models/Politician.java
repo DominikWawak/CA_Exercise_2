@@ -72,4 +72,5 @@ public abstract class Politician {
     }
 
 
+    public abstract void update( Politician pol,String politicalParty, String homeCounty, String imgUrl);
 }

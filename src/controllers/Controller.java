@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.NonCandidate;
 
+import models.Politician;
 import utils.GenHash;
 import utils.GenList;
 import utils.Node;
@@ -39,7 +40,7 @@ public class Controller implements Initializable {                 //im not able
     // SET UP TABLE
     //
    @FXML
-   private TableView<NonCandidate> polTableView;
+   private TableView<Politician> polTableView;
    @FXML private TreeTableView<Election> elecTableView;
 
   @FXML
@@ -119,7 +120,7 @@ public class Controller implements Initializable {                 //im not able
             "Wexford",
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
-    private  ObservableList<NonCandidate> pols = FXCollections.observableArrayList();
+    private  ObservableList<Politician> pols = FXCollections.observableArrayList();
   //  private  ObservableList<> pols = FXCollections.observableArrayList();
     private ObservableList<String> elecList=FXCollections.observableArrayList("neutral","local","European","presidential");
 
@@ -142,8 +143,8 @@ public class Controller implements Initializable {                 //im not able
      */
 
     public Node addPolitician(String name,String dob,String party,String homeCounty,String imgUrl){
-        NonCandidate pol = new NonCandidate(name,dob,party,homeCounty,imgUrl);
-        Node<NonCandidate> politician= new Node<NonCandidate>();
+        Politician pol = new NonCandidate(name,dob,party,homeCounty,imgUrl);
+        Node<Politician> politician= new Node<Politician>();
         politician.setContents(pol);
         politician.setKey(politicians.hashFunction(pol.getName()));
 
@@ -157,7 +158,7 @@ public class Controller implements Initializable {                 //im not able
 
 
     public void addPoliticianGui (ActionEvent event) throws IOException {
-        Node<NonCandidate> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
+        Node<Politician> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
         names.add(polName.getValue());
         //
         // TODO sort these arrays.
@@ -253,9 +254,10 @@ public class Controller implements Initializable {                 //im not able
         //
 
 
-        Node<NonCandidate> upPol= searchPoliticianByName(polToUpdate.getValue());
+        Node<Politician> upPol= searchPoliticianByName(polToUpdate.getValue());
         upPol.getContents().update(upPol.getContents(),updatePolParty.getValue(),updatePolCounty.getValue(),updatePolImg.getText());
         setProfileView(upPol);
+        polTableView.refresh();
     }
 
     public void deletePolitician(){
@@ -266,7 +268,7 @@ public class Controller implements Initializable {                 //im not able
      * Makes the card object of the Politician
      * @param node NonCandidate
      */
-    public void setProfileView(Node<NonCandidate> node) {
+    public void setProfileView(Node<Politician> node) {
         cName.setText(node.getContents().getName());
         cParty.setText(node.getContents().getPoliticalParty());
         cCounty.setText(node.getContents().getHomeCounty());
@@ -280,8 +282,8 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void displaySelectedPol(MouseEvent mouseEvent) {
-        NonCandidate selected =  polTableView.getSelectionModel().getSelectedItem();
-        Node<NonCandidate> nodeSelected = new Node<>();
+        Politician selected =  polTableView.getSelectionModel().getSelectedItem();
+        Node<Politician> nodeSelected = new Node<>();
         nodeSelected.setContents(selected);
         setProfileView(nodeSelected);
     }
