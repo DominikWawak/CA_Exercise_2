@@ -1,7 +1,8 @@
 package controllers;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,19 +11,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Callback;
 import models.Candidate;
 import models.Election;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import models.NonCandidate;
-import models.Politician;
+
 import utils.GenHash;
 import utils.GenList;
 import utils.Node;
 
 
-import javax.swing.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -38,13 +40,12 @@ public class Controller implements Initializable {                 //im not able
     //
    @FXML
    private TableView<NonCandidate> polTableView;
-   //@FXML private TableView<Election> elecTableView;
+   @FXML private TreeTableView<Election> elecTableView;
 
   @FXML
     private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
 
-   // @FXML
- //   private TableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
+    @FXML  private TreeTableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
     @FXML ChoiceBox elecType;
 
@@ -55,7 +56,7 @@ public class Controller implements Initializable {                 //im not able
     private TextField polImg, updatePolImg;
 
     @FXML
-    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane;
+    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane;
     //TODO set visible / not visible
 
     @FXML
@@ -119,6 +120,7 @@ public class Controller implements Initializable {                 //im not able
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
     private  ObservableList<NonCandidate> pols = FXCollections.observableArrayList();
+  //  private  ObservableList<> pols = FXCollections.observableArrayList();
     private ObservableList<String> elecList=FXCollections.observableArrayList("neutral","local","European","presidential");
 
 
@@ -146,7 +148,7 @@ public class Controller implements Initializable {                 //im not able
         politician.setKey(politicians.hashFunction(pol.getName()));
 
         pols.add(pol);
-        polTableView.getItems().add(pol);
+         polTableView.getItems().add(pol);
 
         politicians.add(politician);
         return politician;
@@ -211,20 +213,21 @@ public class Controller implements Initializable {                 //im not able
         Node<Election> elecNode=new Node<Election>();
         elecNode.setContents(elec);
         elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
+        TreeItem<Election> elecItem =new TreeItem<>(elec);
+       elecTableView.getRoot().getChildren().add(elecItem);
 
         elections.add(elecNode);
-       // elecTableView.getItems().add(elec);         //going to get errors if ran because i havent set the labels so they can be seen in scenebuilder can change to public if needed
+        ///elecTableView.getItems().add(elec);         //going to get errors if ran because i havent set the labels so they can be seen in scenebuilder can change to public if needed
         return elecNode;                            // the genList will be a drop down, so this needs to be a TREE TABLE VIEW
     }
 
-    public void addElectionGUI(Action event) throws IOException{
+
+    public void addElectionGUI(ActionEvent actionEvent) {
         GenList<Candidate> candidateGenList = new GenList<>();
         Node<Election> elecNode=addElection(elecType.getItems().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
-
-
-
+        System.out.println(elecNode.getKey());
+        System.out.println(elections.getValue(elections.hashFunction(elecNode.getContents().electionType+elecNode.getContents().date)).getContents().toString());
         elections.displayHashTable();
-        //setElectionview(elecNode); No need for a view since its all in the table but the view will be usefull
     }
 
     public void setElectionview(Node<Election> node){
@@ -332,8 +335,16 @@ public class Controller implements Initializable {                 //im not able
         partyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("politicalParty"));
         countyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("homeCounty"));
 
-      //  typeColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("type"));
-     //   locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
+        //Election table
+
+
+        TreeItem<Election> root = new TreeItem<Election>( new Election("type","Location","date",0,null));
+        elecTableView.setRoot(root);
+        elecTableView.setShowRoot(false);
+        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionType()));
+
+       // typeColumn.se(new PropertyValueFactory<Election,String>("type"));
+       // locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
        // elecDateColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("date"));
      //  seatsColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("Number of Seats"));
 
@@ -379,6 +390,7 @@ public class Controller implements Initializable {                 //im not able
         addPoliticianPane.setVisible(false);
         updatePoliticianPane.setVisible(true);
     }
+
 
 
 }

@@ -48,4 +48,15 @@ public class Election {
         this.numberOfSeats = numberOfSeats;
     }
 // DO UPDATE METHOD HERE
+
+
+    @Override
+    public String toString() {
+        return "Election{" +
+                "electionType='" + electionType + '\'' +
+                ", electionLocation='" + electionLocation + '\'' +
+                ", date='" + date + '\'' +
+                ", numberOfSeats=" + numberOfSeats +
+                '}';
+    }
 }
