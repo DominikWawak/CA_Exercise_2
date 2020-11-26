@@ -226,19 +226,13 @@ public class Controller implements Initializable {                 //im not able
 
     public void addElectionGUI(ActionEvent actionEvent) {
         GenList<Candidate> candidateGenList = new GenList<>();
-        Node<Election> elecNode=addElection(elecType.getItems().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
+        Node<Election> elecNode=addElection(elecType.getValue().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
         System.out.println(elecNode.getKey());
         System.out.println(elections.getValue(elections.hashFunction(elecNode.getContents().electionType+elecNode.getContents().date)).getContents().toString());
         elections.displayHashTable();
     }
 
-    public void setElectionview(Node<Election> node){
-        typeLbl.setText(node.getContents().getElectionType());
-        locationLbl.setText(node.getContents().getElectionLocation());
-        dateLbl.setText(node.getContents().getDate());
 
-        //seatsLbl.setText();
-    }
 
 
     /**
