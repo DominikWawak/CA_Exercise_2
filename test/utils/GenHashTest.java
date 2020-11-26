@@ -37,7 +37,7 @@ class GenHashTest {
 
     @org.junit.jupiter.api.Test
     void hashFunction() {
-        assertEquals(8,politicians.hashFunction(politician.getKey()));
+        assertEquals(politicians.hashFunction("Tony Stark"),politicians.hashFunction(politician.getKey()));
     }
 
     @org.junit.jupiter.api.Test

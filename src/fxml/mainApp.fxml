@@ -74,7 +74,7 @@
               </ImageView>
                            </children>
                         </Pane>
-                        <Pane fx:id="addPoliticianPane" layoutX="556.0" layoutY="293.0" prefHeight="221.0" prefWidth="288.0">
+                        <Pane fx:id="addPoliticianPane" layoutX="556.0" layoutY="293.0" prefHeight="221.0" prefWidth="288.0" visible="false">
                            <children>
                               <DatePicker fx:id="polDob" layoutX="110.0" layoutY="56.0" prefHeight="25.0" prefWidth="106.0" />
                               <Label layoutX="22.0" layoutY="27.0" prefHeight="17.0" prefWidth="69.0" text="NAME" />
@@ -89,7 +89,7 @@
                               <ComboBox fx:id="polParty" editable="true" layoutX="110.0" layoutY="89.0" prefHeight="25.0" prefWidth="106.0" />
                            </children>
                         </Pane>
-                        <TableView fx:id="polTableView" layoutX="472.0" layoutY="39.0" onMouseClicked="#displaySelectedPol" prefHeight="254.0" prefWidth="402.0">
+                        <TableView fx:id="polTableView" layoutX="472.0" layoutY="39.0" prefHeight="254.0" prefWidth="402.0">
                           <columns>
                             <TableColumn fx:id="nameColumn" prefWidth="92.0" text="NAME" />
                             <TableColumn fx:id="dateColumn" prefWidth="93.0" text="Date of Birth" />
@@ -97,6 +97,8 @@
                               <TableColumn fx:id="countyColumn" prefWidth="115.0" text="Home County" />
                           </columns>
                         </TableView>
+                        <Button fx:id="deletePol" layoutX="398.0" layoutY="261.0" mnemonicParsing="false" onAction="#deletePoliticianGui" prefHeight="25.0" prefWidth="66.0" text="Delete" />
+                        <Button fx:id="viewPol" layoutX="398.0" layoutY="230.0" mnemonicParsing="false" onAction="#displaySelectedPol" prefHeight="25.0" prefWidth="65.0" text="view" />
                      </children>
                   </Pane>
                </content>

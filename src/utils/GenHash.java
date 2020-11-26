@@ -17,6 +17,7 @@ public class GenHash<E>
     public int hashFunction(String key){
 
         return Math.abs(key.hashCode())%hashTable.length;
+
     }
     public int hashFunction(int key){
 
@@ -40,7 +41,7 @@ public class GenHash<E>
         hashTable=new Node [(int)(hashTable.length*1.5)];
 
         for(Node x : hashTable2) {
-            if(x!=null)
+            if(x!=null && x.getContents() != "tomb")
             add(x);
         }
 
@@ -100,6 +101,12 @@ public class GenHash<E>
     public Node getValue(int key){
 
        return  hashTable[key];
+    }
+
+    public void remove(int key){
+
+        hashTable[key].setContents((E) "tomb");
+
     }
 
 

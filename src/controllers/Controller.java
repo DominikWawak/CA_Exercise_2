@@ -27,24 +27,25 @@ import utils.Node;
 
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
 
-    GenHash<NonCandidate> politicians =new GenHash(13);
+    GenHash<NonCandidate> politicians =new GenHash(3);
    GenHash<Election> elections=new GenHash(13);
 
    //
     // SET UP TABLE
     //
    @FXML
-   private TableView<Politician> polTableView;
+   private TableView<Node<Politician>> polTableView;
    @FXML private TreeTableView<Election> elecTableView;
 
   @FXML
-    private TableColumn<NonCandidate,String> nameColumn,dateColumn,partyColumn,countyColumn;
+    private TableColumn<Node<Politician>,String> nameColumn,dateColumn,partyColumn,countyColumn;
 
     @FXML  private TreeTableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
@@ -79,7 +80,7 @@ public class Controller implements Initializable {                 //im not able
 
 
     @FXML
-    private Button addPol,addElec,updatePol;
+    private Button addPol,addElec,updatePol,deletePol,viewPol;
 
     @FXML
     private Label cName, cDate,cParty,cCounty;
@@ -149,7 +150,7 @@ public class Controller implements Initializable {                 //im not able
         politician.setKey(politicians.hashFunction(pol.getName()));
 
         pols.add(pol);
-         polTableView.getItems().add(pol);
+         polTableView.getItems().add(politician);
 
         politicians.add(politician);
         return politician;
@@ -260,7 +261,18 @@ public class Controller implements Initializable {                 //im not able
         polTableView.refresh();
     }
 
-    public void deletePolitician(){
+    public void deletePoliticianGui(ActionEvent actionEvent) {
+
+        //ObservableList<Node<Politician>> selected,allPoliticians;
+     // allPoliticians = polTableView.getItems();
+     Node selected = polTableView.getSelectionModel().getSelectedItem();
+     // for(Node<Politician> politicianNode : selected){
+            polTableView.getItems().remove(selected);
+            politicians.remove(selected.getKey());
+    //  }
+
+      politicians.displayHashTable();
+      System.out.println(selected.getContents().toString());
 
     }
 
@@ -274,18 +286,29 @@ public class Controller implements Initializable {                 //im not able
         cCounty.setText(node.getContents().getHomeCounty());
         cDate.setText(node.getContents().getDateOfBirth());
 
-        Image image = new Image(node.getContents().getImgUrl());
-        cImg.setImage(image);
+
+        try{
+            Image image = new Image(node.getContents().getImgUrl());
+            cImg.setImage(image);
+
+
+        }
+        catch (java.lang.IllegalArgumentException e){
+           Image image = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg/1200px-Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg");
+            cImg.setImage(image);
+        }
 
 
 
     }
 
-    public void displaySelectedPol(MouseEvent mouseEvent) {
-        Politician selected =  polTableView.getSelectionModel().getSelectedItem();
-        Node<Politician> nodeSelected = new Node<>();
-        nodeSelected.setContents(selected);
-        setProfileView(nodeSelected);
+    public void displaySelectedPol(ActionEvent actionEvent) {
+
+        Node<Politician> nodeSelected =  polTableView.getSelectionModel().getSelectedItem();
+        if(nodeSelected!= null) {
+            nodeSelected.setContents(nodeSelected.getContents());
+            setProfileView(nodeSelected);
+        }
     }
 
 
@@ -330,12 +353,14 @@ public class Controller implements Initializable {                 //im not able
         cardViewPane.setStyle("-fx-border-color: black");
         polCounty.setItems(counties);
         //
-        // Table view setters
+        // Table view Initialise
         //
-        nameColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("name"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("dateOfBirth"));
-        partyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("politicalParty"));
-        countyColumn.setCellValueFactory(new PropertyValueFactory<NonCandidate,String>("homeCounty"));
+        //Allow multiple selection
+        polTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getName()));
+      dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDateOfBirth()));;
+      partyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getPoliticalParty()));
+        countyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getHomeCounty()));
 
         //Election table
 
@@ -359,6 +384,16 @@ public class Controller implements Initializable {                 //im not able
 
         SpinnerValueFactory<Integer> spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,10,1);
         noOfSeats.setValueFactory(spinner);
+       /* NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
+        Node<Politician> p=new Node<>();
+        p.setContents(pol);
+
+        politicians.add(p);
+        politicians.add(p);
+        politicians.add(p);
+        politicians.displayHashTable();
+
+        */
 
 
 
