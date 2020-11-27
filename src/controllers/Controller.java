@@ -124,7 +124,7 @@ public class Controller implements Initializable {                 //im not able
     private ObservableList<String> parties =  FXCollections.observableArrayList();
     private  ObservableList<Politician> pols = FXCollections.observableArrayList();
   //  private  ObservableList<> pols = FXCollections.observableArrayList();
-    private ObservableList<String> elecList=FXCollections.observableArrayList("neutral","local","European","presidential");
+    private ObservableList<String> elecList=FXCollections.observableArrayList("general","local","European","presidential");
 
 
 //
@@ -233,13 +233,7 @@ public class Controller implements Initializable {                 //im not able
         elections.displayHashTable();
     }
 
-    public void setElectionview(Node<Election> node){
-        typeLbl.setText(node.getContents().getElectionType());
-        locationLbl.setText(node.getContents().getElectionLocation());
-        dateLbl.setText(node.getContents().getDate());
 
-        //seatsLbl.setText();
-    }
 
 
     /**
