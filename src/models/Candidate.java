@@ -11,6 +11,10 @@ public class Candidate extends Politician {
         this.partyStoodFor=partyStoodFor;
         this.totalVotes=totalVotes;
 
+        //
+        // When adding a candidate replace it, the non candidate with setContents
+        //
+
 
     }
 

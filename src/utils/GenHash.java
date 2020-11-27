@@ -105,7 +105,7 @@ public class GenHash<E>
 
     public void remove(int key){
 
-        hashTable[key].setContents((E) "tomb");
+        hashTable[key].setContents((E) "empty");
 
     }
 

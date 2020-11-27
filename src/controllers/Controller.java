@@ -34,7 +34,8 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
 
-    GenHash<NonCandidate> politicians =new GenHash(3);
+    GenHash<Politician> politicians =new GenHash(3);
+
    GenHash<Election> elections=new GenHash(13);
 
    //
@@ -226,7 +227,7 @@ public class Controller implements Initializable {                 //im not able
 
     public void addElectionGUI(ActionEvent actionEvent) {
         GenList<Candidate> candidateGenList = new GenList<>();
-        Node<Election> elecNode=addElection(elecType.getItems().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
+        Node<Election> elecNode=addElection(elecType.getValue().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
         System.out.println(elecNode.getKey());
         System.out.println(elections.getValue(elections.hashFunction(elecNode.getContents().electionType+elecNode.getContents().date)).getContents().toString());
         elections.displayHashTable();
@@ -293,9 +294,10 @@ public class Controller implements Initializable {                 //im not able
 
 
         }
-        catch (java.lang.IllegalArgumentException e){
+        catch (java.lang.IllegalArgumentException ex){
            Image image = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg/1200px-Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg");
             cImg.setImage(image);
+            System.out.println("Default image set");
         }
 
 
