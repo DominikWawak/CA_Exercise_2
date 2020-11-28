@@ -8,12 +8,22 @@ public class Election {
     public String electionLocation;
     public String date;
     public int numberOfSeats;
+    GenList<Politician> candidateGenList;
 
-    public Election(String electionType, String electionLocation, String date, int numberOfSeats , GenList<Candidate> candidateGenList) {
+    public GenList<Politician> getCandidateGenList() {
+        return candidateGenList;
+    }
+
+    public void setCandidateGenList(GenList<Politician> candidateGenList) {
+        this.candidateGenList = candidateGenList;
+    }
+
+    public Election(String electionType, String electionLocation, String date, int numberOfSeats , GenList<Politician> candidateGenList) {
         this.electionType = electionType;
         this.electionLocation = electionLocation;
         this.date = date;
         this.numberOfSeats = numberOfSeats;
+        this.candidateGenList=candidateGenList;
     }
 
     public String getElectionType() {

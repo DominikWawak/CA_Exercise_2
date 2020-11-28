@@ -50,7 +50,7 @@ public class Controller implements Initializable {                 //im not able
 
     @FXML  private TreeTableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
-    @FXML ChoiceBox elecType;
+    @FXML ChoiceBox<String> elecType,selectPolitician;
 
    @FXML
    private MenuItem addPolMenu,updatePolMenu;
@@ -59,17 +59,17 @@ public class Controller implements Initializable {                 //im not able
     private TextField polImg, updatePolImg;
 
     @FXML
-    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane;
+    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane,addCandidatePane;
     //TODO set visible / not visible
 
     @FXML
-    private ComboBox<String>polName,polParty,polCounty, updatePolParty,updatePolCounty,polToUpdate;
+    private ComboBox<String>polName,polParty,polCounty, updatePolParty,updatePolCounty,polToUpdate,partyStoodFor;
 
 
     @FXML  private ComboBox<String>elecLocation;
 
     @FXML
-    private Spinner<Integer> noOfSeats;
+    private Spinner<Integer> noOfSeats,totalVotesCandidate;
 
     //@FXML private ComboBox<Integer>noOfSeats;
 
@@ -81,7 +81,7 @@ public class Controller implements Initializable {                 //im not able
 
 
     @FXML
-    private Button addPol,addElec,updatePol,deletePol,viewPol;
+    private Button addPol,addElec,updatePol,deletePol,viewPol,addCandidate;
 
     @FXML
     private Label cName, cDate,cParty,cCounty;
@@ -173,6 +173,8 @@ public class Controller implements Initializable {                 //im not able
         polToUpdate.setItems(polName.getItems());
         updatePolParty.setItems(polParty.getItems());
         updatePolCounty.setItems(counties);
+        selectPolitician.setItems(names);
+        partyStoodFor.setItems(parties);
         //
         polName.getEditor().clear();
         polDob.getEditor().clear();
@@ -211,7 +213,7 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-    public Node addElection(String type, String location, String date, int noOfSeats, GenList<Candidate> candidate) {
+    public Node addElection(String type, String location, String date, int noOfSeats, GenList<Politician> candidate) {
         Election elec=new Election(type,location,date,noOfSeats,candidate);
         Node<Election> elecNode=new Node<Election>();
         elecNode.setContents(elec);
@@ -226,14 +228,24 @@ public class Controller implements Initializable {                 //im not able
 
 
     public void addElectionGUI(ActionEvent actionEvent) {
-        GenList<Candidate> candidateGenList = new GenList<>();
+        GenList<Politician> candidateGenList = new GenList<>();
         Node<Election> elecNode=addElection(elecType.getValue().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
         System.out.println(elecNode.getKey());
         System.out.println(elections.getValue(elections.hashFunction(elecNode.getContents().electionType+elecNode.getContents().date)).getContents().toString());
         elections.displayHashTable();
     }
 
+    public void addCandidateToElectionGui(ActionEvent actionEvent) {
+        Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
+        Politician candidate = new Candidate(selectPolitician.getValue(),forCandidate.getContents().getDateOfBirth(),forCandidate.getContents().getPoliticalParty(),partyStoodFor.getValue(),forCandidate.getContents().getHomeCounty(),forCandidate.getContents().getImgUrl(),totalVotesCandidate.getValue());
+       forCandidate.setContents(candidate);
 
+        Election election = elecTableView.getSelectionModel().getSelectedItem().getValue();
+
+        election.getCandidateGenList().addElement(candidate);
+
+        System.out.println(election.getCandidateGenList().head.getContents().toString());
+    }
 
 
     /**
@@ -244,10 +256,6 @@ public class Controller implements Initializable {                 //im not able
      * @param actionEvent
      */
     public void updatePoliticianGui(ActionEvent actionEvent) {
-
-        //
-
-        //
 
 
         Node<Politician> upPol= searchPoliticianByName(polToUpdate.getValue());
@@ -365,21 +373,25 @@ public class Controller implements Initializable {                 //im not able
         elecTableView.setRoot(root);
         elecTableView.setShowRoot(false);
         typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionType()));
+        locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionLocation()));
+        elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
+        seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
 
-       // typeColumn.se(new PropertyValueFactory<Election,String>("type"));
-       // locationColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("location"));
-       // elecDateColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("date"));
-     //  seatsColumn.setCellValueFactory(new PropertyValueFactory<Election,String>("Number of Seats"));
 
         elecType.setItems(elecList);
         elecLocation.setItems(counties);
 
+
+
+
         //
-        // Spinner set up
+        // Spinners set up
         //
 
         SpinnerValueFactory<Integer> spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,10,1);
         noOfSeats.setValueFactory(spinner);
+        totalVotesCandidate.setValueFactory(spinner);
+
        /* NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
         Node<Politician> p=new Node<>();
         p.setContents(pol);
@@ -390,6 +402,10 @@ public class Controller implements Initializable {                 //im not able
         politicians.displayHashTable();
 
         */
+
+       //
+
+        //
 
 
 
@@ -424,6 +440,17 @@ public class Controller implements Initializable {                 //im not able
         updatePoliticianPane.setVisible(true);
     }
 
+
+    public void openAddElectionMenu(ActionEvent actionEvent) {
+        addElectionPane.setVisible(true);
+        addCandidatePane.setVisible(false);
+
+    }
+
+    public void openAddCandidateMenu(ActionEvent actionEvent) {
+        addElectionPane.setVisible(false);
+        addCandidatePane.setVisible(true);
+    }
 
 
 }
