@@ -25,11 +25,13 @@ import utils.GenList;
 import utils.Node;
 
 
-
+import javax.swing.tree.TreeNode;
+import java.awt.event.ItemEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.Enumeration;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
@@ -44,11 +46,14 @@ public class Controller implements Initializable {                 //im not able
    @FXML
    private TableView<Node<Politician>> polTableView;
    @FXML private TreeTableView<Election> elecTableView;
+   @FXML private TreeTableView<Election> elecTableView2;
+   @FXML public TreeView canListView;
 
   @FXML
     private TableColumn<Node<Politician>,String> nameColumn,dateColumn,partyColumn,countyColumn;
 
     @FXML  private TreeTableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
+    @FXML private TreeTableColumn<Election,String> typeColumn2,locationColumn2,elecDateColumn2,seatsColumn2;
 
     @FXML ChoiceBox<String> elecType,selectPolitician;
 
@@ -240,9 +245,37 @@ public class Controller implements Initializable {                 //im not able
         Politician candidate = new Candidate(selectPolitician.getValue(),forCandidate.getContents().getDateOfBirth(),forCandidate.getContents().getPoliticalParty(),partyStoodFor.getValue(),forCandidate.getContents().getHomeCounty(),forCandidate.getContents().getImgUrl(),totalVotesCandidate.getValue());
        forCandidate.setContents(candidate);
 
-        Election election = elecTableView.getSelectionModel().getSelectedItem().getValue();
+        Election election = elecTableView2.getSelectionModel().getSelectedItem().getValue();
 
         election.getCandidateGenList().addElement(candidate);
+
+
+        TreeItem<String> rootItem=new TreeItem<String>("Election Type");
+        TreeItem<String> general=new  TreeItem<String>("General");
+        TreeItem<String> local=new  TreeItem<String>("Local");
+        TreeItem<String> european=new TreeItem<String>("European");
+        TreeItem<String> presidential=new TreeItem<String>("Presidential");
+        rootItem.getChildren().add(general);
+        rootItem.getChildren().add(local);
+        rootItem.getChildren().add(european);
+        rootItem.getChildren().add(presidential);
+
+        if(election.electionType.matches("general")){
+            general.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+        }else if(election.electionType.matches("local")){
+            local.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+        }else  if(election.electionType.matches("European")){
+            european.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+        }else if(election.electionType.matches("presidential")){
+            presidential.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+        }else System.out.println("no");
+
+        canListView.setRoot(rootItem);
+        canListView.getRoot().getChildren();
+
+
+
+
 
         System.out.println(election.getCandidateGenList().head.getContents().toString());
     }
@@ -377,6 +410,13 @@ public class Controller implements Initializable {                 //im not able
         elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
         seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
 
+
+        elecTableView2.setRoot(root);
+        elecTableView2.setShowRoot(false);
+        typeColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionType()));
+        locationColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionLocation()));
+        elecDateColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
+        seatsColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
 
         elecType.setItems(elecList);
         elecLocation.setItems(counties);

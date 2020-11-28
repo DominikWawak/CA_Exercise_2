@@ -29,9 +29,9 @@ public class Candidate extends Politician {
 
     @Override
     public String toString() {
-        return "Candidate{" +
-                "totalVotes=" + totalVotes +
-                ", partyStoodFor='" + partyStoodFor + '\'' + super.toString()+
-                '}';
+        return
+                totalVotes+
+                partyStoodFor + super.toString()
+                ;
     }
 }

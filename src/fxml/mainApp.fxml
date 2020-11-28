@@ -16,6 +16,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
@@ -109,18 +110,6 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Pane fx:id="addCandidatePane" layoutX="521.0" layoutY="332.0" prefHeight="200.0" prefWidth="327.0" visible="false">
-                           <children>
-                              <Label layoutX="22.0" layoutY="14.0" prefHeight="17.0" prefWidth="283.0" text="PLEASE SELECT A ELECTION FROM THE TABLE" />
-                              <ChoiceBox fx:id="selectPolitician" layoutX="135.0" layoutY="38.0" prefWidth="150.0" />
-                              <Label layoutX="10.0" layoutY="42.0" prefHeight="17.0" prefWidth="91.0" text="Select Politician" />
-                              <Label layoutX="14.0" layoutY="79.0" prefHeight="17.0" prefWidth="82.0" text="Party stood for" />
-                              <ComboBox fx:id="partyStoodFor" editable="true" layoutX="135.0" layoutY="75.0" prefWidth="150.0" />
-                              <Spinner fx:id="totalVotesCandidate" layoutX="136.0" layoutY="110.0" />
-                              <Label layoutX="23.0" layoutY="114.0" text="Totoal votes" />
-                              <Button fx:id="addCandidate" layoutX="138.0" layoutY="153.0" mnemonicParsing="false" onAction="#addCandidateToElectionGui" text="ADD CANDIDATE" />
-                           </children>
-                        </Pane>
                         <Pane fx:id="addElectionPane" layoutX="561.0" layoutY="331.0" prefHeight="201.0" prefWidth="286.0" visible="false">
                            <children>
                               <Label layoutX="14.0" layoutY="21.0" text="Election Type:" />
@@ -138,18 +127,47 @@
                           <columns>
                             <TreeTableColumn fx:id="typeColumn" prefWidth="92.0" text="Election" />
                             <TreeTableColumn fx:id="locationColumn" prefWidth="77.0" text="Location" />
-                              <TreeTableColumn fx:id="elecDateColumn" prefWidth="103.0" text="Number Of Seats" />
-                              <TreeTableColumn fx:id="seatsColumn" prefWidth="124.0" text="Date of Election" />
+                              <TreeTableColumn fx:id="seatsColumn" prefWidth="103.0" text="Number Of Seats" />
+                              <TreeTableColumn fx:id="elecDateColumn" prefWidth="124.0" text="Date of Election" />
                           </columns>
                         </TreeTableView>
                         <Pane layoutX="22.0" layoutY="9.0" prefHeight="402.0" prefWidth="354.0">
                            <children>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="395.0" stroke="BLACK" strokeType="INSIDE" width="350.0" />
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="395.0" layoutX="2.0" layoutY="4.0" stroke="BLACK" strokeType="INSIDE" width="350.0" />
                               <Label layoutX="60.0" layoutY="218.0" text="Expanded Election View:" />
                               <Label fx:id="typeLbl" layoutX="186.0" layoutY="299.0" text="Type" />
                               <Label fx:id="locationLbl" layoutX="165.0" layoutY="71.0" text="Location" />
                               <Label fx:id="dateLbl" layoutX="77.0" layoutY="88.0" text="Date" />
                               <Label layoutX="135.0" layoutY="143.0" text="Seats" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="addCandidatePane" layoutY="-4.0" prefHeight="555.0" prefWidth="900.0" visible="false">
+                           <children>
+                              <Pane layoutX="483.0" layoutY="12.0" prefHeight="521.0" prefWidth="401.0">
+                                 <children>
+                                    <Label layoutX="14.0" layoutY="323.0" prefHeight="17.0" prefWidth="283.0" text="PLEASE SELECT A ELECTION FROM THE TABLE" />
+                                    <ChoiceBox fx:id="selectPolitician" layoutX="210.0" layoutY="353.0" prefWidth="150.0" />
+                                    <Label layoutX="65.0" layoutY="357.0" prefHeight="17.0" prefWidth="91.0" text="Select Politician" />
+                                    <Label layoutX="47.0" layoutY="402.0" prefHeight="17.0" prefWidth="82.0" text="Party stood for" />
+                                    <ComboBox fx:id="partyStoodFor" editable="true" layoutX="210.0" layoutY="398.0" prefWidth="150.0" />
+                                    <Spinner fx:id="totalVotesCandidate" layoutX="211.0" layoutY="439.0" />
+                                    <Label layoutX="47.0" layoutY="434.0" text="Totoal votes" />
+                                    <Button fx:id="addCandidate" layoutX="129.0" layoutY="472.0" mnemonicParsing="false" onAction="#addCandidateToElectionGui" text="ADD CANDIDATE" />
+                                    <TreeTableView fx:id="elecTableView2" layoutY="28.0" prefHeight="294.0" prefWidth="401.0">
+                                      <columns>
+                                        <TreeTableColumn fx:id="typeColumn2" prefWidth="75.0" text="Election" />
+                                        <TreeTableColumn fx:id="locationColumn2" prefWidth="75.0" text="Location" />
+                                          <TreeTableColumn fx:id="elecDateColumn2" prefWidth="75.0" text="Date" />
+                                          <TreeTableColumn fx:id="seatsColumn2" prefWidth="173.6666259765625" text="Number of Seats" />
+                                      </columns>
+                                    </TreeTableView>
+                                 </children>
+                              </Pane>
+                              <Pane prefHeight="499.0" prefWidth="420.0">
+                                 <children>
+                                    <TreeView fx:id="canListView" layoutX="19.0" layoutY="12.0" prefHeight="408.0" prefWidth="369.0" />
+                                 </children>
+                              </Pane>
                            </children>
                         </Pane>
                      </children></AnchorPane>
