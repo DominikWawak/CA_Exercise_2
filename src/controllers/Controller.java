@@ -49,6 +49,7 @@ public class Controller implements Initializable {                 //im not able
    @FXML private TreeTableView<Election> elecTableView;
    @FXML private TreeTableView<Election> elecTableView2;
    @FXML public TreeView<String> canListView;
+   @FXML private TreeItem<String> rootItem;
 
 
   @FXML
@@ -258,7 +259,7 @@ public class Controller implements Initializable {                 //im not able
         //
 
 
-
+/*
         TreeItem<String> electionItem = new TreeItem<String>(election.toString());
         if(!(canListView.getRoot().getChildren().contains(electionItem))) {
 
@@ -271,39 +272,50 @@ public class Controller implements Initializable {                 //im not able
                     item.getChildren().add(new TreeItem<>(candidate.toString()));
                 }
             }
-        }
+        }*/
 
 
-        /*
 
-        I MOVED THE SET ROOT AND THE ROOT TO THE INITIALIZE METHOD
 
+
+
+        TreeItem<String> date=new TreeItem<>(election.date);
         TreeItem<String> general=new  TreeItem<String>("General");
         TreeItem<String> local=new  TreeItem<String>("Local");
         TreeItem<String> european=new TreeItem<String>("European");
         TreeItem<String> presidential=new TreeItem<String>("Presidential");
-        rootItem.getChildren().add(general);
-        rootItem.getChildren().add(local);
-        rootItem.getChildren().add(european);
-        rootItem.getChildren().add(presidential);
+        rootItem.getChildren().add(date);
+        date.getChildren().add(general);
+        date.getChildren().add(local);
+        date.getChildren().add(european);
+        date.getChildren().add(presidential);
 
-        if(election.electionType.matches("general")){
-            general.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-        }else if(election.electionType.matches("local")){
-            local.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-        }else  if(election.electionType.matches("European")){
-            european.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-        }else if(election.electionType.matches("presidential")){
-            presidential.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-        }else System.out.println("no");
 
-        canListView.setRoot(rootItem);
+      if(election.date.matches(canListView.getRoot().getChildren().toString())) {
+          if (election.electionType.matches("general")) {
+              general.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else if (election.electionType.matches("local")) {
+              local.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else if (election.electionType.matches("European")) {
+              european.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else if (election.electionType.matches("presidential")) {
+              presidential.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else System.out.println("no");
+      }else{
+          date=new TreeItem<>(election.date);
+          if (election.electionType.matches("general")) {
+              general.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else if (election.electionType.matches("local")) {
+              local.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else if (election.electionType.matches("European")) {
+              european.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else if (election.electionType.matches("presidential")) {
+              presidential.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+          } else System.out.println("no");
+      }
+
+
         canListView.getRoot().getChildren();
-
-*/
-
-        canListView.getRoot().getChildren();
-
 
 
         System.out.println(election.getCandidateGenList().head.getContents().toString());
@@ -475,11 +487,10 @@ public class Controller implements Initializable {                 //im not able
        //
 
         //
-        TreeItem<String> rootItem=new TreeItem<String>("Election Type");
+
+
+        rootItem=new TreeItem<String>("Election Type");
         canListView.setRoot(rootItem);
-
-
-
 
 
 
