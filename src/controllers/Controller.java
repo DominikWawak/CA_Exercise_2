@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import models.NonCandidate;
 
 import models.Politician;
+//import sun.reflect.generics.tree.Tree;
 import utils.GenHash;
 import utils.GenList;
 import utils.Node;
@@ -47,7 +48,8 @@ public class Controller implements Initializable {                 //im not able
    private TableView<Node<Politician>> polTableView;
    @FXML private TreeTableView<Election> elecTableView;
    @FXML private TreeTableView<Election> elecTableView2;
-   @FXML public TreeView canListView;
+   @FXML public TreeView<String> canListView;
+
 
   @FXML
     private TableColumn<Node<Politician>,String> nameColumn,dateColumn,partyColumn,countyColumn;
@@ -130,6 +132,8 @@ public class Controller implements Initializable {                 //im not able
     private  ObservableList<Politician> pols = FXCollections.observableArrayList();
   //  private  ObservableList<> pols = FXCollections.observableArrayList();
     private ObservableList<String> elecList=FXCollections.observableArrayList("general","local","European","presidential");
+
+
 
 
 //
@@ -249,8 +253,31 @@ public class Controller implements Initializable {                 //im not able
 
         election.getCandidateGenList().addElement(candidate);
 
+        //
+        //New List View
+        //
 
-        TreeItem<String> rootItem=new TreeItem<String>("Election Type");
+
+
+        TreeItem<String> electionItem = new TreeItem<String>(election.toString());
+        if(!(canListView.getRoot().getChildren().contains(electionItem))) {
+
+            canListView.getRoot().getChildren().add(electionItem);
+            electionItem.getChildren().add(new TreeItem<>(candidate.toString()));
+        }
+        else {
+            for(TreeItem<String> item: canListView.getRoot().getChildren()){
+                if(election.toString().equals(item.getValue())){
+                    item.getChildren().add(new TreeItem<>(candidate.toString()));
+                }
+            }
+        }
+
+
+        /*
+
+        I MOVED THE SET ROOT AND THE ROOT TO THE INITIALIZE METHOD
+
         TreeItem<String> general=new  TreeItem<String>("General");
         TreeItem<String> local=new  TreeItem<String>("Local");
         TreeItem<String> european=new TreeItem<String>("European");
@@ -273,7 +300,9 @@ public class Controller implements Initializable {                 //im not able
         canListView.setRoot(rootItem);
         canListView.getRoot().getChildren();
 
+*/
 
+        canListView.getRoot().getChildren();
 
 
 
@@ -446,6 +475,8 @@ public class Controller implements Initializable {                 //im not able
        //
 
         //
+        TreeItem<String> rootItem=new TreeItem<String>("Election Type");
+        canListView.setRoot(rootItem);
 
 
 

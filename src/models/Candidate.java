@@ -3,6 +3,7 @@ package models;
 public class Candidate extends Politician {
         private int totalVotes;
         private String partyStoodFor;
+        Election electionTookPartIn;
 
 
 
