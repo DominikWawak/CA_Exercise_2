@@ -14,6 +14,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.TreeTableColumn?>
 <?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.control.TreeView?>
@@ -163,9 +164,14 @@
                                     </TreeTableView>
                                  </children>
                               </Pane>
-                              <Pane prefHeight="499.0" prefWidth="420.0">
+                              <Pane fx:id="electionTreeViewPane" prefHeight="499.0" prefWidth="420.0" visible="false">
                                  <children>
                                     <TreeView fx:id="canListView" layoutX="19.0" layoutY="12.0" prefHeight="408.0" prefWidth="369.0" />
+                                 </children>
+                              </Pane>
+                              <Pane layoutX="24.0" layoutY="419.0" prefHeight="61.0" prefWidth="352.0">
+                                 <children>
+                                    <ToggleButton fx:id="toggleViewElection" layoutX="13.0" mnemonicParsing="false" onAction="#toggleView" prefHeight="25.0" prefWidth="327.0" text="view Elections" />
                                  </children>
                               </Pane>
                            </children>

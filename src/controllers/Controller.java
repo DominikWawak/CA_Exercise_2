@@ -1,6 +1,7 @@
 package controllers;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -50,6 +51,7 @@ public class Controller implements Initializable {                 //im not able
    @FXML private TreeTableView<Election> elecTableView2;
    @FXML public TreeView<String> canListView;
    @FXML private TreeItem<String> rootItem;
+   @FXML private ToggleButton toggleViewElection;
 
 
   @FXML
@@ -67,7 +69,7 @@ public class Controller implements Initializable {                 //im not able
     private TextField polImg, updatePolImg;
 
     @FXML
-    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane,addCandidatePane;
+    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane,addCandidatePane,electionTreeViewPane;
     //TODO set visible / not visible
 
     @FXML
@@ -322,6 +324,8 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
+
+
     /**
      * updatePoliticianGui
      *
@@ -465,6 +469,7 @@ public class Controller implements Initializable {                 //im not able
 
 
 
+
         //
         // Spinners set up
         //
@@ -491,6 +496,7 @@ public class Controller implements Initializable {                 //im not able
 
         rootItem=new TreeItem<String>("Election Type");
         canListView.setRoot(rootItem);
+
 
 
 
@@ -522,6 +528,14 @@ public class Controller implements Initializable {                 //im not able
         updatePoliticianPane.setVisible(true);
     }
 
+    public void toggleView(){
+        if(toggleViewElection.isSelected()){
+            electionTreeViewPane.setVisible(true);
+        }else{
+            electionTreeViewPane.setVisible(false);
+        }
+    }
+
 
     public void openAddElectionMenu(ActionEvent actionEvent) {
         addElectionPane.setVisible(true);
@@ -533,6 +547,8 @@ public class Controller implements Initializable {                 //im not able
         addElectionPane.setVisible(false);
         addCandidatePane.setVisible(true);
     }
+
+
 
 
 }
