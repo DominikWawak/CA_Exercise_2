@@ -1,5 +1,7 @@
 package controllers;
 
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -29,7 +31,7 @@ import utils.Node;
 
 import javax.swing.tree.TreeNode;
 import java.awt.event.ItemEvent;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -63,7 +65,7 @@ public class Controller implements Initializable {                 //im not able
     @FXML ChoiceBox<String> elecType,selectPolitician;
 
    @FXML
-   private MenuItem addPolMenu,updatePolMenu;
+   private MenuItem addPolMenu,updatePolMenu,loadMenu,saveMenu;
 
     @FXML
     private TextField polImg, updatePolImg;
@@ -252,12 +254,13 @@ public class Controller implements Initializable {                 //im not able
         Politician candidate = new Candidate(selectPolitician.getValue(),forCandidate.getContents().getDateOfBirth(),forCandidate.getContents().getPoliticalParty(),partyStoodFor.getValue(),forCandidate.getContents().getHomeCounty(),forCandidate.getContents().getImgUrl(),totalVotesCandidate.getValue());
        forCandidate.setContents(candidate);
 
-        Election election = elecTableView2.getSelectionModel().getSelectedItem().getValue();
+        ///Election election = elecTableView2.getSelectionModel().getSelectedItem().getValue();
+        Election election = elecTableView.getSelectionModel().getSelectedItem().getValue();
 
         election.getCandidateGenList().addElement(candidate);
 
         //
-        //New List View
+        //New List View alternative code
         //
 
      ///no
@@ -432,8 +435,24 @@ public class Controller implements Initializable {                 //im not able
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        //
+        /// Auto load
+        ///
+        try {
+            loadPoliticians();
+        } catch (Exception e) {
+            System.err.println("Error reading from file: " + e);
+        }
+        ///
+        ///
+
+
+
         cardViewPane.setStyle("-fx-border-color: black");
         polCounty.setItems(counties);
+        elecType.setItems(elecList);
+        elecLocation.setItems(counties);
         //
         // Table view Initialise
         //
@@ -455,7 +474,7 @@ public class Controller implements Initializable {                 //im not able
         elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
         seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
 
-
+/*
         elecTableView2.setRoot(root);
         elecTableView2.setShowRoot(false);
         typeColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionType()));
@@ -463,8 +482,11 @@ public class Controller implements Initializable {                 //im not able
         elecDateColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
         seatsColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
 
-        elecType.setItems(elecList);
-        elecLocation.setItems(counties);
+
+
+ */
+
+
 
 
 
@@ -550,5 +572,52 @@ public class Controller implements Initializable {                 //im not able
 
 
 
+    public void loadPoliticians() throws Exception {
+        XStream xstream = new XStream(new DomDriver());
+        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("elecSysPoliticians.xml"));
+        politicians=(GenHash<Politician>) is.readObject();
 
+        is.close();
+
+
+    }
+
+    public void savePoliticians() throws Exception {
+        XStream xstream = new XStream(new DomDriver());
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("elecSysPoliticians.xml"));
+
+        ((ObjectOutputStream) out).writeObject(politicians);
+        out.close();
+    }
+
+
+    public void loadApp(ActionEvent actionEvent) throws Exception {
+        try {
+            loadPoliticians();
+            reloadTable();
+
+        } catch (Exception e) {
+            System.err.println("Error reading from file: " + e);
+        }
+    }
+
+    public void saveApp(ActionEvent actionEvent) throws Exception {
+        try {
+            savePoliticians();
+
+        } catch (Exception e) {
+            System.err.println("Error saving the file: " + e);
+        }
+    }
+
+    public void reloadTable(){
+        for(Node x : politicians.hashTable){
+            if(x!= null && x.getContents()!="tomb"){
+                nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getName()));
+                dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDateOfBirth()));;
+                partyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getPoliticalParty()));
+                countyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getHomeCounty()));
+            }
+        }
+    }
 }

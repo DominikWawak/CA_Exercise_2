@@ -36,5 +36,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="javafx-swt" level="project" />
+    <orderEntry type="library" name="xstream-1.4.10" level="application" />
   </component>
 </module>
