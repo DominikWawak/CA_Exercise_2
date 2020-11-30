@@ -3,45 +3,15 @@
     <hashTable>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>Dominik</name>
-          <dateOfBirth>2020-11-12</dateOfBirth>
-          <politicalParty>gooo</politicalParty>
-          <homeCounty>Cavan</homeCounty>
-          <imgUrl>a</imgUrl>
+          <name>dsdf</name>
+          <dateOfBirth>2020-11-02</dateOfBirth>
+          <politicalParty>ds</politicalParty>
+          <homeCounty>Carlow</homeCounty>
+          <imgUrl>dd</imgUrl>
         </contents>
         <k>0</k>
       </utils.Node>
       <null/>
-      <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>Dominik</name>
-          <dateOfBirth>2020-11-04</dateOfBirth>
-          <politicalParty>dsdsd</politicalParty>
-          <homeCounty>Cavan</homeCounty>
-          <imgUrl>sdsd</imgUrl>
-        </contents>
-        <k>2</k>
-      </utils.Node>
-      <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>Dominik</name>
-          <dateOfBirth>2020-12-03</dateOfBirth>
-          <politicalParty>aaaabbaa</politicalParty>
-          <homeCounty>Derry</homeCounty>
-          <imgUrl>a</imgUrl>
-        </contents>
-        <k>3</k>
-      </utils.Node>
-      <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>Densi</name>
-          <dateOfBirth>2020-12-19</dateOfBirth>
-          <politicalParty>gooo</politicalParty>
-          <homeCounty>Cavan</homeCounty>
-          <imgUrl>a</imgUrl>
-        </contents>
-        <k>4</k>
-      </utils.Node>
       <null/>
     </hashTable>
   </utils.GenHash>
