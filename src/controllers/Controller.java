@@ -69,7 +69,7 @@ public class Controller implements Initializable {                 //im not able
    private MenuItem addPolMenu,updatePolMenu,loadMenu,saveMenu;
 
     @FXML
-    private TextField polImg, updatePolImg;
+    private TextField polImg, updatePolImg,searchText;
 
     @FXML
     private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane,addCandidatePane,electionTreeViewPane;
@@ -94,7 +94,7 @@ public class Controller implements Initializable {                 //im not able
 
 
     @FXML
-    private Button addPol,addElec,updatePol,deletePol,viewPol,addCandidate;
+    private Button addPol,addElec,updatePol,deletePol,viewPol,addCandidate,searchPolsButton,sortPolButton,viewAllPols;
 
     @FXML
     private Label cName, cDate,cParty,cCounty;
@@ -135,8 +135,8 @@ public class Controller implements Initializable {                 //im not able
             "Wexford",
             "Wicklow");
     private ObservableList<String> parties =  FXCollections.observableArrayList();
-    private  ObservableList<Politician> pols = FXCollections.observableArrayList();
-  //  private  ObservableList<> pols = FXCollections.observableArrayList();
+    private  ObservableList<Node<Politician>> pols = FXCollections.observableArrayList();
+
     private ObservableList<String> elecList=FXCollections.observableArrayList("general","local","European","presidential");
 
 
@@ -165,7 +165,7 @@ public class Controller implements Initializable {                 //im not able
         politician.setContents(pol);
         politician.setKey(politicians.hashFunction(pol.getName()));
 
-        pols.add(pol);
+        pols.add(politician);
          polTableView.getItems().add(politician);
 
 
@@ -433,7 +433,7 @@ public class Controller implements Initializable {                 //im not able
         return list;
     }
 
-    public void shellSort(ObservableList<Politician> toSort){
+    public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort){
         //int[] gaps = {1};
         ArrayList<Integer> gaps = new ArrayList<>();
         int size = toSort.size();
@@ -448,9 +448,9 @@ public class Controller implements Initializable {                 //im not able
 
         for(int g : gaps){
             for(int e =g;e<toSort.size();e++){
-                Politician elem = toSort.get(e);
+                Node<Politician> elem = toSort.get(e);
                 int i;
-                for(i=e;i>=g && toSort.get(i-g).getName().compareTo(elem.getName())>0;i-=g){
+                for(i=e;i>=g && toSort.get(i-g).getContents().getPoliticalParty().compareTo(elem.getContents().getPoliticalParty())<0;i-=g){
                         toSort.set(i,toSort.get(i-g)) ;
                 }
                 toSort.set(i,elem);
@@ -462,25 +462,12 @@ public class Controller implements Initializable {                 //im not able
             }
         }
 
-
+           return toSort;
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
-        NonCandidate pol1 = new NonCandidate("aTony Stark","20/02/22/","","Laois","Mypic.ie");
-        NonCandidate pol2 = new NonCandidate("cTony Stark","20/02/22/","","Laois","Mypic.ie");
-        NonCandidate pol3 = new NonCandidate("bTony Stark","20/02/22/","","Laois","Mypic.ie");
-        pols.add(pol);
-        pols.add(pol1);
-        pols.add(pol2);
-        pols.add(pol3);
-        System.out.println(pols);
-        shellSort(pols);
-        System.out.println();
-        System.out.println(pols);
-
 
 
         //
@@ -661,7 +648,28 @@ public class Controller implements Initializable {                 //im not able
         for(Node x : politicians.hashTable){
             if(x!= null && x.getContents()!="tomb"){
                 polTableView.getItems().add(x);
+                pols.add(x);
             }
         }
+    }
+
+    public void sortPoliticians(ActionEvent actionEvent) {
+
+        polTableView.setItems(shellSort(polTableView.getItems()));
+    }
+
+    public void searchPolTableView(ActionEvent actionEvent) {
+        ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();;
+        for(Node<Politician> politicianNode : polTableView.getItems()){
+            if(searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase())>-1){
+                searched.add(politicianNode);
+            }
+        }
+        polTableView.getItems().clear();
+        polTableView.setItems(searched);
+    }
+
+    public void viewAllPoliticiansInTableView(ActionEvent actionEvent) {
+        polTableView.setItems(pols);
     }
 }
