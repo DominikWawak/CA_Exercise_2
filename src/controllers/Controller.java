@@ -284,7 +284,7 @@ public class Controller implements Initializable {                 //im not able
 
         TreeItem<String> date=new TreeItem<>(election.date);
 
-
+//
         for(TreeItem<String> item: rootItem.getChildren()) {
             if (election.date.matches(item.getValue())) {
                 if (election.electionType.matches("general")) {
