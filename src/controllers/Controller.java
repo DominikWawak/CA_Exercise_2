@@ -304,6 +304,7 @@ public class Controller implements Initializable {                 //im not able
 
                 if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
                     x.getChildren().add(date);
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
 
 
                 }
