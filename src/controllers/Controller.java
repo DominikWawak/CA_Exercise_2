@@ -51,9 +51,9 @@ public class Controller implements Initializable {                 //im not able
    @FXML
    private TableView<Node<Politician>> polTableView;
    @FXML private TreeTableView<Election> elecTableView;
-   @FXML private TreeTableView<Election> elecTableView2;
+
    @FXML public TreeView<String> canListView;
-   @FXML private TreeItem<String> rootItem;
+   @FXML private TreeItem<String> rootItem,general,local,european,presidential;
    @FXML private ToggleButton toggleViewElection;
 
 
@@ -287,39 +287,51 @@ public class Controller implements Initializable {                 //im not able
 
 
         TreeItem<String> date=new TreeItem<>(election.date);
-        TreeItem<String> general=new  TreeItem<String>("General");
-        TreeItem<String> local=new  TreeItem<String>("Local");
-        TreeItem<String> european=new TreeItem<String>("European");
-        TreeItem<String> presidential=new TreeItem<String>("Presidential");
-        rootItem.getChildren().add(date);
-        date.getChildren().add(general);
-        date.getChildren().add(local);
-        date.getChildren().add(european);
-        date.getChildren().add(presidential);
 
 
-      if(election.date.matches(canListView.getRoot().getChildren().toString())) {
-          if (election.electionType.matches("general")) {
-              general.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else if (election.electionType.matches("local")) {
-              local.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else if (election.electionType.matches("European")) {
-              european.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else if (election.electionType.matches("presidential")) {
-              presidential.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else System.out.println("no");
-      }else{
-          date=new TreeItem<>(election.date);
-          if (election.electionType.matches("general")) {
-              general.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else if (election.electionType.matches("local")) {
-              local.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else if (election.electionType.matches("European")) {
-              european.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else if (election.electionType.matches("presidential")) {
-              presidential.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-          } else System.out.println("no");
-      }
+
+
+
+
+
+
+
+        for(TreeItem<String> item: rootItem.getChildren()) {
+            if (election.date.matches(item.getValue())) {
+                if (election.electionType.matches("general")) {
+                    item.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else if (election.electionType.matches("local")) {
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else if (election.electionType.matches("European")) {
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else if (election.electionType.matches("presidential")) {
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else System.out.println("no");
+            } else {
+                date = new TreeItem<>(election.date);
+                if (election.electionType.matches("general")) {
+                    general.getChildren().add(date);
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else if (election.electionType.matches("local")) {
+                    local.getChildren().add(date);
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else if (election.electionType.matches("European")) {
+                    european.getChildren().add(date);
+                   date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                   break;
+                } else if (election.electionType.matches("presidential")) {
+                    presidential.getChildren().add(date);
+                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    break;
+                } else System.out.println("no");
+            }
+        }
 
 
         canListView.getRoot().getChildren();
@@ -551,6 +563,15 @@ public class Controller implements Initializable {                 //im not able
 
 
         rootItem=new TreeItem<String>("Election Type");
+
+         general=new  TreeItem<String>("General");
+        local=new  TreeItem<String>("Local");
+        european=new TreeItem<String>("European");
+        presidential=new TreeItem<String>("Presidential");
+        rootItem.getChildren().add(general);
+        rootItem.getChildren().add(local);
+        rootItem.getChildren().add(european);
+        rootItem.getChildren().add(presidential);
         canListView.setRoot(rootItem);
 
 
