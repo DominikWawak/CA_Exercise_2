@@ -167,6 +167,7 @@ public class Controller implements Initializable {                 //im not able
         pols.add(pol);
          polTableView.getItems().add(politician);
 
+
         politicians.add(politician);
         return politician;
 }
@@ -613,10 +614,7 @@ public class Controller implements Initializable {                 //im not able
     public void reloadTable(){
         for(Node x : politicians.hashTable){
             if(x!= null && x.getContents()!="tomb"){
-                nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getName()));
-                dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDateOfBirth()));;
-                partyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getPoliticalParty()));
-                countyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getHomeCounty()));
+                polTableView.getItems().add(x);
             }
         }
     }
