@@ -2,7 +2,7 @@ package models;
 
 
 
-public abstract class Politician {
+public abstract class Politician implements Comparable<Politician> {
     private String name;
     private String dateOfBirth;
     private String politicalParty;
@@ -73,4 +73,11 @@ public abstract class Politician {
 
 
     public abstract void update( Politician pol,String politicalParty, String homeCounty, String imgUrl);
+
+    public int compareTo(Politician p){
+        return this.getName().compareTo(p.getName());
+
+    }
+
+
 }

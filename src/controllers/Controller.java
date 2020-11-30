@@ -35,6 +35,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
@@ -432,10 +433,55 @@ public class Controller implements Initializable {                 //im not able
         return list;
     }
 
+    public void shellSort(ObservableList<Politician> toSort){
+        //int[] gaps = {1};
+        ArrayList<Integer> gaps = new ArrayList<>();
+        int size = toSort.size();
+
+        while(size>1){
+            size = size/2;
+
+            gaps.add(size/2);
+        }
+
+
+
+        for(int g : gaps){
+            for(int e =g;e<toSort.size();e++){
+                Politician elem = toSort.get(e);
+                int i;
+                for(i=e;i>=g && toSort.get(i-g).getName().compareTo(elem.getName())>0;i-=g){
+                        toSort.set(i,toSort.get(i-g)) ;
+                }
+                toSort.set(i,elem);
+
+
+
+
+
+            }
+        }
+
+
+    }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
+        NonCandidate pol1 = new NonCandidate("aTony Stark","20/02/22/","","Laois","Mypic.ie");
+        NonCandidate pol2 = new NonCandidate("cTony Stark","20/02/22/","","Laois","Mypic.ie");
+        NonCandidate pol3 = new NonCandidate("bTony Stark","20/02/22/","","Laois","Mypic.ie");
+        pols.add(pol);
+        pols.add(pol1);
+        pols.add(pol2);
+        pols.add(pol3);
+        System.out.println(pols);
+        shellSort(pols);
+        System.out.println();
+        System.out.println(pols);
+
+
 
         //
         /// Auto load
