@@ -1,5 +1,6 @@
 package controllers;
 
+
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.beans.property.SimpleStringProperty;
@@ -23,6 +24,7 @@ import javafx.scene.image.ImageView;
 import models.NonCandidate;
 
 import models.Politician;
+//import sun.reflect.generics.tree.Tree;
 //import sun.reflect.generics.tree.Tree;
 import utils.GenHash;
 import utils.GenList;
@@ -280,9 +282,41 @@ public class Controller implements Initializable {                 //im not able
                 }
             }
         }*/
+        TreeItem<String> date = new TreeItem<>(election.getDate());
 
 
-        TreeItem<String> date=new TreeItem<>(election.date);
+        Boolean found = false;
+        for (TreeItem<String> x : canListView.getRoot().getChildren()) {
+            if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
+                for (TreeItem<String> y : x.getChildren()) {
+                    if (y.getValue().equals(election.getDate())) {
+                        y.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                        found = true;
+                    }
+
+                }
+
+
+            }
+        }
+        if (!found) {
+            for (TreeItem<String> x : canListView.getRoot().getChildren()) {
+
+                if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
+                    x.getChildren().add(date);
+
+
+                }
+            }
+        }
+
+
+
+
+
+/*
+       //reference
+        TreeItem<String> date=new TreeItem<>();
 
 
         for(TreeItem<String> item: rootItem.getChildren()) {
@@ -322,6 +356,8 @@ public class Controller implements Initializable {                 //im not able
             }
         }
 
+
+ */
 
         canListView.getRoot().getChildren();
 
@@ -470,17 +506,6 @@ public class Controller implements Initializable {                 //im not able
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-
-        //
-        /// Auto load
-        ///
-        try {
-            loadPoliticians();
-        } catch (Exception e) {
-            System.err.println("Error reading from file: " + e);
-        }
-        ///
-        ///
 
 
 
