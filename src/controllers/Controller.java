@@ -4,18 +4,13 @@ package controllers;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.util.Callback;
 import models.Candidate;
 import models.Election;
 
@@ -31,14 +26,11 @@ import utils.GenList;
 import utils.Node;
 
 
-import javax.swing.tree.TreeNode;
-import java.awt.event.ItemEvent;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Enumeration;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
@@ -471,7 +463,8 @@ public class Controller implements Initializable {                 //im not able
         return list;
     }
 
-    public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort){
+
+    public  ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort, Comparator<Node<Politician>> c){
         //int[] gaps = {1};
         ArrayList<Integer> gaps = new ArrayList<>();
         int size = toSort.size();
@@ -482,13 +475,12 @@ public class Controller implements Initializable {                 //im not able
             gaps.add(size/2);
         }
 
-
-
         for(int g : gaps){
             for(int e =g;e<toSort.size();e++){
                 Node<Politician> elem = toSort.get(e);
                 int i;
-                for(i=e;i>=g && toSort.get(i-g).getContents().getPoliticalParty().compareTo(elem.getContents().getPoliticalParty())<0;i-=g){
+                //toSort.get(i-g).getContents().getPoliticalParty().compareTo(elem.getContents().getPoliticalParty())
+                for(i=e;i>=g && c.compare(toSort.get(i-g),elem)<0;i-=g){
                         toSort.set(i,toSort.get(i-g)) ;
                 }
                 toSort.set(i,elem);
@@ -681,17 +673,19 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void reloadTable(){
-        for(Node x : politicians.hashTable){
-            if(x!= null && x.getContents()!="tomb"){
+        for(Node<Politician> x : politicians.hashTable){
+            if(x!= null && !(x.getContents().equals("tomb"))){
                 polTableView.getItems().add(x);
                 pols.add(x);
+                names.add(x.getContents().getName());
+                selectPolitician.setItems(names);
             }
         }
     }
 
     public void sortPoliticians(ActionEvent actionEvent) {
 
-        polTableView.setItems(shellSort(polTableView.getItems()));
+        polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));
     }
 
     public void searchPolTableView(ActionEvent actionEvent) {
