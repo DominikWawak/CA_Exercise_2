@@ -1,6 +1,6 @@
 package utils;
 
-import javafx.scene.Camera;
+
 import models.Candidate;
 
 public class GenList<G> {
