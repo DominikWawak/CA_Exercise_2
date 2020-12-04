@@ -253,6 +253,14 @@ public class Controller implements Initializable {                 //im not able
         elections.displayHashTable();
     }
 
+
+
+    public void deleteElection(ActionEvent event){
+        TreeItem selected=elecTableView.getSelectionModel().getSelectedItem();
+    }
+
+
+
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
         Politician candidate = new Candidate(selectPolitician.getValue(),forCandidate.getContents().getDateOfBirth(),forCandidate.getContents().getPoliticalParty(),partyStoodFor.getValue(),forCandidate.getContents().getHomeCounty(),forCandidate.getContents().getImgUrl(),totalVotesCandidate.getValue());
