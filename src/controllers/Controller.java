@@ -326,50 +326,6 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-/*
-       //reference
-        TreeItem<String> date=new TreeItem<>();
-
-
-        for(TreeItem<String> item: rootItem.getChildren()) {
-            if (election.date.matches(item.getValue())) {
-                if (election.electionType.matches("general")) {
-                    item.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("local")) {
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("European")) {
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("presidential")) {
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else System.out.println("no");
-            } else {
-                date = new TreeItem<>(election.date);
-                if (election.electionType.matches("general")) {
-                    general.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("local")) {
-                    local.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("European")) {
-                    european.getChildren().add(date);
-                   date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                   break;
-                } else if (election.electionType.matches("presidential")) {
-                    presidential.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else System.out.println("no");
-            }
-        }
-
-
- */
 
         canListView.getRoot().getChildren();
 
@@ -545,19 +501,6 @@ public class Controller implements Initializable {                 //im not able
         locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionLocation()));
         elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
         seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
-
-/*
-        elecTableView2.setRoot(root);
-        elecTableView2.setShowRoot(false);
-        typeColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionType()));
-        locationColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionLocation()));
-        elecDateColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
-        seatsColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
-
-
-
- */
-
 
 
 
