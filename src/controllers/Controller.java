@@ -61,6 +61,11 @@ public class Controller implements Initializable {                 //im not able
 
    @FXML
    private MenuItem addPolMenu,updatePolMenu,loadMenu,saveMenu;
+    @FXML
+    private RadioButton partySortChoice,polNameSortChoice;
+
+
+
 
     @FXML
     private TextField polImg, updatePolImg,searchText;
@@ -255,25 +260,7 @@ public class Controller implements Initializable {                 //im not able
 
         election.getCandidateGenList().addElement(candidate);
 
-        //
-        //New List View alternative code
-        //
 
-     ///no
-/*
-        TreeItem<String> electionItem = new TreeItem<String>(election.toString());
-        if(!(canListView.getRoot().getChildren().contains(electionItem))) {
-
-            canListView.getRoot().getChildren().add(electionItem);
-            electionItem.getChildren().add(new TreeItem<>(candidate.toString()));
-        }
-        else {
-            for(TreeItem<String> item: canListView.getRoot().getChildren()){
-                if(election.toString().equals(item.getValue())){
-                    item.getChildren().add(new TreeItem<>(candidate.toString()));
-                }
-            }
-        }*/
         TreeItem<String> date = new TreeItem<>(election.getDate());
 
 
@@ -304,60 +291,25 @@ public class Controller implements Initializable {                 //im not able
         }
 
 
-
-
-
-/*
-       //reference
-        TreeItem<String> date=new TreeItem<>();
-
-
-        for(TreeItem<String> item: rootItem.getChildren()) {
-            if (election.date.matches(item.getValue())) {
-                if (election.electionType.matches("general")) {
-                    item.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("local")) {
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("European")) {
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("presidential")) {
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else System.out.println("no");
-            } else {
-                date = new TreeItem<>(election.date);
-                if (election.electionType.matches("general")) {
-                    general.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("local")) {
-                    local.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else if (election.electionType.matches("European")) {
-                    european.getChildren().add(date);
-                   date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                   break;
-                } else if (election.electionType.matches("presidential")) {
-                    presidential.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                    break;
-                } else System.out.println("no");
-            }
-        }
-
-
- */
-
         canListView.getRoot().getChildren();
 
 
         System.out.println(election.getCandidateGenList().head.getContents().toString());
     }
 
+    /*
+     * =============================================================
+     * ================ REMOVING ==================================
+     * =============================================================
+     */
+
+
+
+    /*
+     * =============================================================
+     * ================ UPDATING ==================================
+     * =============================================================
+     */
 
 
 
@@ -480,7 +432,7 @@ public class Controller implements Initializable {                 //im not able
                 Node<Politician> elem = toSort.get(e);
                 int i;
                 //toSort.get(i-g).getContents().getPoliticalParty().compareTo(elem.getContents().getPoliticalParty())
-                for(i=e;i>=g && c.compare(toSort.get(i-g),elem)<0;i-=g){
+                for(i=e;i>=g && c.compare(toSort.get(i-g),elem)>0;i-=g){
                         toSort.set(i,toSort.get(i-g)) ;
                 }
                 toSort.set(i,elem);
@@ -498,8 +450,19 @@ public class Controller implements Initializable {                 //im not able
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //
+        //Some Testing
+        NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
+        Node<Politician> p=new Node<>();
+        p.setContents(pol);
 
-
+        politicians.add(p);
+        GenList<Politician> candidates = new GenList<>();
+        Election el = new Election("Local","Waterford","30-20-2992",22,candidates);
+        el.getCandidateGenList().addElement(pol);
+        System.out.println(el.getCandidateGenList().head.getContents().toString());
+        el.getCandidateGenList().removeElement(p,el.getCandidateGenList());
+        System.out.println(el.getCandidateGenList().head.getContents().toString());
 
 
         cardViewPane.setStyle("-fx-border-color: black");
@@ -526,22 +489,6 @@ public class Controller implements Initializable {                 //im not able
         locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionLocation()));
         elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
         seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
-
-/*
-        elecTableView2.setRoot(root);
-        elecTableView2.setShowRoot(false);
-        typeColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionType()));
-        locationColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getElectionLocation()));
-        elecDateColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getDate()));
-        seatsColumn2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue().getNumberOfSeats()+""));
-
-
-
- */
-
-
-
-
 
 
 
@@ -683,9 +630,12 @@ public class Controller implements Initializable {                 //im not able
         }
     }
 
-    public void sortPoliticians(ActionEvent actionEvent) {
-
+    public void sortPoliticiansByParty(ActionEvent actionEvent) {
+        if(partySortChoice.isSelected())
         polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));
+        else {
+            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getName())));
+        }
     }
 
     public void searchPolTableView(ActionEvent actionEvent) {

@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -105,11 +106,12 @@
                         </TableView>
                         <Button fx:id="deletePol" layoutX="398.0" layoutY="261.0" mnemonicParsing="false" onAction="#deletePoliticianGui" prefHeight="25.0" prefWidth="66.0" text="Delete" />
                         <Button fx:id="viewPol" layoutX="398.0" layoutY="230.0" mnemonicParsing="false" onAction="#displaySelectedPol" prefHeight="25.0" prefWidth="65.0" text="view" />
-                        <Button fx:id="sortPolButton" layoutX="679.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortPoliticians" prefHeight="25.0" prefWidth="43.0" text="Sort" />
-                        <ChoiceBox fx:id="sortChoicePol" layoutX="769.0" layoutY="14.0" prefHeight="25.0" prefWidth="75.0" />
+                        <Button fx:id="sortPolButton" layoutX="679.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortPoliticiansByParty" prefHeight="25.0" prefWidth="43.0" text="Sort" />
                         <TextField fx:id="searchText" layoutX="545.0" layoutY="14.0" prefHeight="25.0" prefWidth="128.0" />
                         <Button fx:id="searchPolsButton" layoutX="471.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchPolTableView" prefHeight="25.0" prefWidth="59.0" text="Search" />
                         <Button fx:id="viewAllPols" layoutX="398.0" layoutY="199.0" mnemonicParsing="false" onAction="#viewAllPoliticiansInTableView" prefHeight="25.0" prefWidth="64.0" text="view all" />
+                        <RadioButton fx:id="partySortChoice" layoutX="733.0" layoutY="18.0" mnemonicParsing="false" text="Party" />
+                        <RadioButton fx:id="polNameSortChoice" layoutX="787.0" layoutY="18.0" mnemonicParsing="false" text="Name" />
                      </children>
                   </Pane>
                </content>
