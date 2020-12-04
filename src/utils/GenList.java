@@ -10,6 +10,24 @@ public class GenList<G> {
         head=n;
 
     }
+
+    public void removeElement(Node<G> toRemove, GenList<G> head){
+        Node<G> previous = null;
+
+            for (Node<G> i = head.head; i != null; i = i.next) {
+                if (i.next != null && i.next.equals(toRemove)) {
+                    i.next = i.next.next; //skip
+
+                }
+                if(i.equals(toRemove)){
+                   toRemove=toRemove.next;
+                }
+
+            }
+        }
+
+
+
 }
 
 

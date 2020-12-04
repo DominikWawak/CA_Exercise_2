@@ -319,7 +319,7 @@ public class Controller implements Initializable {                 //im not able
        //reference
         TreeItem<String> date=new TreeItem<>();
 
-//
+
         for(TreeItem<String> item: rootItem.getChildren()) {
             if (election.date.matches(item.getValue())) {
                 if (election.electionType.matches("general")) {
