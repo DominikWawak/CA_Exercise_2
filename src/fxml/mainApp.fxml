@@ -134,14 +134,14 @@
                               <Button layoutX="117.0" layoutY="162.0" mnemonicParsing="false" onAction="#addElectionGUI" text="Add Election" />
                            </children>
                         </Pane>
-                        <TreeTableView fx:id="elecTableView" layoutX="474.0" layoutY="27.0" prefHeight="294.0" prefWidth="397.0">
+                        <TableView fx:id="elecTableView" layoutX="474.0" layoutY="27.0" prefHeight="294.0" prefWidth="397.0">
                           <columns>
-                            <TreeTableColumn fx:id="typeColumn" prefWidth="92.0" text="Election" />
-                            <TreeTableColumn fx:id="locationColumn" prefWidth="77.0" text="Location" />
-                              <TreeTableColumn fx:id="seatsColumn" prefWidth="103.0" text="Number Of Seats" />
-                              <TreeTableColumn fx:id="elecDateColumn" prefWidth="124.0" text="Date of Election" />
+                            <TableColumn fx:id="typeColumn" prefWidth="92.0" text="Election" />
+                            <TableColumn fx:id="locationColumn" prefWidth="77.0" text="Location" />
+                              <TableColumn fx:id="seatsColumn" prefWidth="103.0" text="Number Of Seats" />
+                              <TableColumn fx:id="elecDateColumn" prefWidth="124.0" text="Date of Election" />
                           </columns>
-                        </TreeTableView>
+                        </TableView>
                         <Pane fx:id="electionTreeViewPane" prefHeight="499.0" prefWidth="420.0" visible="false">
                            <children>
                               <TreeView fx:id="canListView" prefHeight="439.0" prefWidth="372.0" />
