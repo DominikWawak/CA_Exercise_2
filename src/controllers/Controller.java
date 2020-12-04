@@ -289,9 +289,20 @@ public class Controller implements Initializable {                 //im not able
         for (TreeItem<String> x : canListView.getRoot().getChildren()) {
             if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
                 for (TreeItem<String> y : x.getChildren()) {
-                    if (y.getValue().equals(election.getDate())) {
-                        y.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
-                        found = true;
+                    if(y!=null) {
+                        if (y.getValue().equals(election.getDate())) {
+                            y.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                            found = true;
+                        }
+                    }else {
+                        for (TreeItem<String> s : canListView.getRoot().getChildren()) {
+
+                            if (election.getElectionType().toUpperCase().equals(s.getValue().toUpperCase())) {
+                                s.getChildren().add(date);
+                                date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+
+                            }
+                        }
                     }
 
                 }

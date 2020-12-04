@@ -1,18 +1,18 @@
 <object-stream>
   <utils.GenHash>
     <hashTable>
+      <null/>
+      <null/>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>dsdf</name>
-          <dateOfBirth>2020-11-02</dateOfBirth>
-          <politicalParty>ds</politicalParty>
-          <homeCounty>Carlow</homeCounty>
-          <imgUrl>dd</imgUrl>
+          <name>den</name>
+          <dateOfBirth>2020-12-29</dateOfBirth>
+          <politicalParty>loki</politicalParty>
+          <homeCounty>Donegal</homeCounty>
+          <imgUrl></imgUrl>
         </contents>
-        <k>0</k>
+        <k>2</k>
       </utils.Node>
-      <null/>
-      <null/>
     </hashTable>
   </utils.GenHash>
 </object-stream>
