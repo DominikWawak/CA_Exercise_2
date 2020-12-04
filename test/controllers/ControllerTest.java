@@ -34,7 +34,7 @@ class ControllerTest {
 
 /*
   //
-        //Some Testing To DO
+        //Some Testing
         NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
         Node<Politician> p=new Node<>();
         p.setContents(pol);
