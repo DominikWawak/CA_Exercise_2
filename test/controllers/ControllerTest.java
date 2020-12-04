@@ -31,3 +31,41 @@ class ControllerTest {
 
     }
 }
+
+/*
+  //
+        //Some Testing
+        NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
+        Node<Politician> p=new Node<>();
+        p.setContents(pol);
+        NonCandidate pol2 = new NonCandidate("Tony bark","20/02/22/","","Laois","Mypic.ie");
+        Node<Politician> p2=new Node<>();
+        p2.setContents(pol2);
+
+        politicians.add(p);
+        GenList<Politician> candidates = new GenList<>();
+        Election el = new Election("Local","Waterford","30-20-2992",22,candidates);
+        el.getCandidateGenList().addElement(pol2);
+        el.getCandidateGenList().addElement(pol);
+
+
+        System.out.println(el.getCandidateGenList().head.getContents().toString());
+        el.getCandidateGenList().removeElement(p,el.getCandidateGenList());
+        System.out.println(el.getCandidateGenList().head.getContents().toString());
+
+        =============================
+         /* NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
+        Node<Politician> p=new Node<>();
+        p.setContents(pol);
+
+        politicians.add(p);
+        politicians.add(p);
+        politicians.add(p);
+        politicians.displayHashTable();
+
+        */
+
+//
+
+//
+

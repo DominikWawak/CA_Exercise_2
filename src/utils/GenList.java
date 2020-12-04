@@ -1,5 +1,8 @@
 package utils;
 
+import javafx.scene.Camera;
+import models.Candidate;
+
 public class GenList<G> {
     public  Node<G> head = null;
 
@@ -11,20 +14,57 @@ public class GenList<G> {
 
     }
 
-    public void removeElement(Node<G> toRemove, GenList<G> head){
-        Node<G> previous = null;
+    public void removeElement(Node<G> toRemove, GenList<G> list) {
+        Node<G> dummy = new Node<G>();
+        Candidate dummy1 = new Candidate("n","n","n","n","n","n",1);
+        dummy.setContents((G) dummy1);
+        dummy.next = list.head;
+        list.head = dummy;
 
-            for (Node<G> i = head.head; i != null; i = i.next) {
-                if (i.next != null && i.next.equals(toRemove)) {
-                    i.next = i.next.next; //skip
-
-                }
-                if(i.equals(toRemove)){
-                   toRemove=toRemove.next;
-                }
-
+        while(dummy.next!=null){
+            if(dummy.next.getContents().equals(toRemove.getContents())){
+                dummy.next = dummy.next.next;
+            }
+            else{
+                dummy = dummy.next;
             }
         }
+       list.head = list.head.next;
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
+
+        if (head.head != null) {
+            for (Node<G> i = head.head; i != null; i = i.next) {
+                System.out.println(i.getContents().toString());
+                if (i.getContents().equals(toRemove)) {
+                    toRemove = null;
+                    break;
+                }
+                if (i.next.getContents().equals(toRemove)) {
+                    i.next = (i.next.next != null) ? i.next.next: null; //skip
+                    break;
+
+                }
+
+
+            }
+        }*/
 
 
 
