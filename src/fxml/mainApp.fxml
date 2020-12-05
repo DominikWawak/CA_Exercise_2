@@ -16,8 +16,6 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -42,6 +40,7 @@
             <items>
                   <MenuItem fx:id="updatePolMenu" mnemonicParsing="false" onAction="#openUpPolMenu" text="Update Politician" />
               <MenuItem mnemonicParsing="false" text="Delete" />
+                  <MenuItem fx:id="updateElecMenu" mnemonicParsing="false" onAction="#openUpElecMenu" text="Update Election" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -132,6 +131,7 @@
                               <DatePicker fx:id="elecDate" layoutX="120.0" layoutY="88.0" prefHeight="25.0" prefWidth="155.0" />
                               <Spinner fx:id="noOfSeats" layoutX="123.0" layoutY="129.0" />
                               <Button layoutX="117.0" layoutY="162.0" mnemonicParsing="false" onAction="#addElectionGUI" text="Add Election" />
+                              <Button layoutX="11.0" layoutY="162.0" mnemonicParsing="false" onAction="#deleteElection" text="Delete Selected" />
                            </children>
                         </Pane>
                         <TableView fx:id="elecTableView" layoutX="474.0" layoutY="27.0" prefHeight="294.0" prefWidth="397.0">
@@ -157,7 +157,7 @@
                               <Label layoutX="135.0" layoutY="143.0" text="Seats" />
                            </children>
                         </Pane>
-                        <Pane fx:id="addCandidatePane" layoutX="468.0" layoutY="324.0" prefHeight="219.0" prefWidth="404.0" visible="false">
+                        <Pane fx:id="addCandidatePane" layoutX="472.0" layoutY="327.0" prefHeight="213.0" prefWidth="401.0" visible="false">
                            <children>
                               <Label layoutX="48.0" layoutY="21.0" prefHeight="17.0" prefWidth="283.0" text="PLEASE SELECT A ELECTION FROM THE TABLE" />
                               <ChoiceBox fx:id="selectPolitician" layoutX="208.0" layoutY="61.0" prefWidth="150.0" />
@@ -167,6 +167,15 @@
                               <Spinner fx:id="totalVotesCandidate" layoutX="209.0" layoutY="131.0" />
                               <Label layoutX="17.0" layoutY="135.0" text="Totoal votes" />
                               <Button fx:id="addCandidate" layoutX="148.0" layoutY="180.0" mnemonicParsing="false" onAction="#addCandidateToElectionGui" text="ADD CANDIDATE" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="updateElectionPane" layoutX="674.0" layoutY="340.0" prefHeight="187.0" prefWidth="205.0" visible="false">
+                           <children>
+                              <DatePicker fx:id="updDate" layoutX="7.0" layoutY="81.0" prefHeight="25.0" prefWidth="155.0" />
+                              <ComboBox fx:id="updElec" layoutX="10.0" layoutY="46.0" prefWidth="150.0" />
+                              <ChoiceBox fx:id="updType" layoutX="10.0" layoutY="14.0" prefWidth="150.0" />
+                              <Spinner fx:id="updSeats" layoutX="11.0" layoutY="121.0" />
+                              <Button layoutX="29.0" layoutY="155.0" mnemonicParsing="false" onAction="#updateElection" prefHeight="25.0" prefWidth="149.0" text="update chosen Election" />
                            </children>
                         </Pane>
                      </children></AnchorPane>

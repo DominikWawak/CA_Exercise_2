@@ -69,4 +69,6 @@ public class Election {
                 ", numberOfSeats=" + numberOfSeats +
                 '}';
     }
+
+
 }
