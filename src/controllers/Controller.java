@@ -52,7 +52,7 @@ public class Controller implements Initializable {                 //im not able
     //
    @FXML
    private TableView<Node<Politician>> polTableView;
-   @FXML private TableView<Election>elecTableView;
+   @FXML private TableView<Node<Election>>elecTableView;
 
    @FXML public TreeView<String> canListView;
    @FXML private TreeItem<String> rootItem,general,local,european,presidential;
@@ -62,7 +62,7 @@ public class Controller implements Initializable {                 //im not able
   @FXML
     private TableColumn<Node<Politician>,String> nameColumn,dateColumn,partyColumn,countyColumn;
 
-    @FXML  private TableColumn<Election,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
+    @FXML  private TableColumn<Node<Election>,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
 
 
     @FXML ChoiceBox<String> elecType,selectPolitician;
@@ -236,11 +236,9 @@ public class Controller implements Initializable {                 //im not able
         Node<Election> elecNode=new Node<Election>();
         elecNode.setContents(elec);
         elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
-        /*TreeItem<Election> elecItem =new TreeItem<>(elec);
-       elecTableView.getRoot().getChildren().add(elecItem);*/
 
         elections.add(elecNode);
-        elecTableView.getItems().add(elec);
+        elecTableView.getItems().add(elecNode);
         ///elecTableView.getItems().add(elec);         //going to get errors if ran because i havent set the labels so they can be seen in scenebuilder can change to public if needed
         return elecNode;                            // the genList will be a drop down, so this needs to be a TREE TABLE VIEW
     }
@@ -257,7 +255,7 @@ public class Controller implements Initializable {                 //im not able
 
 
     public void deleteElection(ActionEvent event){
-        Election selected=elecTableView.getSelectionModel().getSelectedItem();
+        Node selected=elecTableView.getSelectionModel().getSelectedItem();
         elecTableView.getItems().remove(selected);
 
     }
@@ -278,7 +276,9 @@ public class Controller implements Initializable {                 //im not able
        forCandidate.setContents(candidate);
 
 
-        Election election = elecTableView.getSelectionModel().getSelectedItem();
+        Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
+
+
 
         election.getCandidateGenList().addElement(candidate);
 
@@ -513,12 +513,12 @@ public class Controller implements Initializable {                 //im not able
         //Election table
 
 
-        TreeItem<Election> root = new TreeItem<Election>( new Election("type","Location","date",0,null));
 
-        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getElectionType()));
-        locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getElectionLocation()));
-        elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDate()));
-        seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getNumberOfSeats()+""));
+
+        typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getElectionType()));
+        locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getElectionLocation()));
+        elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDate()));
+        seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getNumberOfSeats()+""));
 
 
 
