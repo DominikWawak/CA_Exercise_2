@@ -40,6 +40,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -257,8 +258,6 @@ public class Controller implements Initializable {                 //im not able
         elections.displayHashTable();
     }
 
-
-
     public void deleteElection(ActionEvent event){
         Node selected=elecTableView.getSelectionModel().getSelectedItem();
         elecTableView.getItems().remove(selected);
@@ -284,6 +283,42 @@ public class Controller implements Initializable {                 //im not able
         elecTableView.refresh();
     }
 
+    public ObservableList<Node<Election>> quickSortElections(ObservableList<Node<Election>> a, int start, int end) {
+
+        int beginning = start;
+        int last = end;
+
+
+        Node<Election> pivot = a.get(start);
+        if(start>=end)return elecs;
+
+        while (beginning<=last){
+
+            while (a.get(beginning).getContents().getDate().compareTo(pivot.getContents().getDate())<0) beginning++;
+            while (a.get(last).getContents().getDate().compareTo(pivot.getContents().getDate())>0) last--;
+
+            if(beginning<=last){
+                Node<Election> swap=a.get(beginning);
+                a.get(beginning).setContents(a.get(last).getContents());
+                a.get(last).setContents(swap.getContents());
+
+                beginning++;
+                last--;
+
+            }
+        }
+
+        if(start<last) quickSortElections(a,start,end);
+        if(beginning<end) quickSortElections(a,start,end);
+
+
+        elecTableView.getItems();
+       // elecs.setAll();
+        return elecs;
+
+
+
+    }
 
 
 
@@ -715,5 +750,9 @@ public class Controller implements Initializable {                 //im not able
 
     public void viewAllPoliticiansInTableView(ActionEvent actionEvent) {
         polTableView.setItems(pols);
+    }
+
+    public void quickSortElectionsGui(ActionEvent actionEvent) {
+        elecTableView.setItems(quickSortElections(elecTableView.getItems(),0,elecTableView.getItems().size()));
     }
 }
