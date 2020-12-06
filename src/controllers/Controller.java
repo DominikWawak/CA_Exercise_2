@@ -294,8 +294,8 @@ public class Controller implements Initializable {                 //im not able
 
         while (beginning<=last){
 
-            while (a.get(beginning).getContents().getDate().compareTo(pivot.getContents().getDate())<0) beginning++;
-            while (a.get(last).getContents().getDate().compareTo(pivot.getContents().getDate())>0) last--;
+            while (a.get(beginning).getContents().getDate().equals(pivot.getContents().getDate())) beginning++;
+            while (a.get(last).getContents().getDate().equals(pivot.getContents().getDate())) last--;
 
             if(beginning<=last){
                 Node<Election> swap=a.get(beginning);
@@ -753,6 +753,6 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void quickSortElectionsGui(ActionEvent actionEvent) {
-        elecTableView.setItems(quickSortElections(elecTableView.getItems(),0,elecTableView.getItems().size()));
+        elecTableView.setItems(quickSortElections(elecTableView.getItems(),0,elecTableView.getItems().size()-1));
     }
 }
