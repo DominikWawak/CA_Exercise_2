@@ -7,7 +7,7 @@ public class Candidate extends Politician {
 
 
 
-    public Candidate(String name, String dateOfBirth, String politicalParty,String partyStoodFor, String homeCounty, String imgUrl,int totalVotes) {
+    public Candidate(String name, String dateOfBirth, String politicalParty, String partyStoodFor, String homeCounty, String imgUrl, int totalVotes) {
         super(name, dateOfBirth, politicalParty, homeCounty, imgUrl);
         this.partyStoodFor=partyStoodFor;
         this.totalVotes=totalVotes;
@@ -19,6 +19,21 @@ public class Candidate extends Politician {
 
     }
 
+    public int getTotalVotes() {
+        return totalVotes;
+    }
+
+    public void setTotalVotes(int totalVotes) {
+        this.totalVotes = totalVotes;
+    }
+
+    public String getPartyStoodFor() {
+        return partyStoodFor;
+    }
+
+    public void setPartyStoodFor(String partyStoodFor) {
+        this.partyStoodFor = partyStoodFor;
+    }
 
     public void update(Politician politician, String politicalParty, String homeCounty, String imgUrl) {
        politician.setPoliticalParty(politicalParty);
@@ -27,6 +42,7 @@ public class Candidate extends Politician {
 
 
     }
+
 
     @Override
     public String toString() {

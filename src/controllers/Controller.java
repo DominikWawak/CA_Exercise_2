@@ -345,13 +345,14 @@ public class Controller implements Initializable {                 //im not able
         TreeItem<String> date = new TreeItem<>(election.getDate());
 
 
+
         Boolean found = false;
         for (TreeItem<String> x : canListView.getRoot().getChildren()) {
             if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
                 for (TreeItem<String> y : x.getChildren()) {
                     if(y!=null) {
                         if (y.getValue().equals(election.getDate())) {
-                            y.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                            y.getChildren().add(new TreeItem<>("Name : "+forCandidate.getContents().getName()+"\n"+"Number of Votes : "+election.getNumberOfSeats()));
                             found = true;
                         }
                     }else {
@@ -359,7 +360,7 @@ public class Controller implements Initializable {                 //im not able
 
                             if (election.getElectionType().toUpperCase().equals(s.getValue().toUpperCase())) {
                                 s.getChildren().add(date);
-                                date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                                date.getChildren().add(new TreeItem<>("Name : "+forCandidate.getContents().getName()+"\n"+"Number of Votes : "+"\n"+"Party stood for : "));
 
                             }
                         }
