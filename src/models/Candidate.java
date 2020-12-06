@@ -5,12 +5,29 @@ public class Candidate extends Politician {
         private String partyStoodFor;
         Election electionTookPartIn;
 
+    public Election getElectionTookPartIn() {
+        return electionTookPartIn;
+    }
+
+    public void setElectionTookPartIn(Election electionTookPartIn) {
+        this.electionTookPartIn = electionTookPartIn;
+    }
+
+    public Candidate(String name, String dateOfBirth, String politicalParty, String partyStoodFor, String homeCounty, String imgUrl, int totalVotes,Election electionTookPartIn) {
+        super(name, dateOfBirth, politicalParty, homeCounty, imgUrl);
+        this.partyStoodFor=partyStoodFor;
+        this.totalVotes=totalVotes;
+        this.electionTookPartIn =electionTookPartIn;
 
 
+
+
+    }
     public Candidate(String name, String dateOfBirth, String politicalParty, String partyStoodFor, String homeCounty, String imgUrl, int totalVotes) {
         super(name, dateOfBirth, politicalParty, homeCounty, imgUrl);
         this.partyStoodFor=partyStoodFor;
         this.totalVotes=totalVotes;
+
 
         //
         // When adding a candidate replace it, the non candidate with setContents

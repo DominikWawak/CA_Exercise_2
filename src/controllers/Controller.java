@@ -323,12 +323,13 @@ public class Controller implements Initializable {                 //im not able
 
 
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
+        Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
-        Politician candidate = new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue());
+        Politician candidate = new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election);
         forCandidate.setContents(candidate);
 
 
-        Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
+
 
 
         election.getCandidateGenList().addElement(candidate);
@@ -404,9 +405,19 @@ public class Controller implements Initializable {                 //im not able
         // allPoliticians = polTableView.getItems();
         Node selected = polTableView.getSelectionModel().getSelectedItem();
         // for(Node<Politician> politicianNode : selected){
+        if(selected.getContents() instanceof Candidate){
+
+           for(TreeItem<String> item : canListView.getRoot().getChildren()){
+               if(item.getValue().toUpperCase().equals(((Candidate) selected.getContents()).getElectionTookPartIn().electionType.toUpperCase())){
+                   item.getChildren().removeIf(j -> j.getValue().contains(((Candidate) selected.getContents()).getName()));
+               }
+           }
+            ((Candidate) selected.getContents()).getElectionTookPartIn().getCandidateGenList().removeElement(selected,((Candidate) selected.getContents()).getElectionTookPartIn().getCandidateGenList());
+        }
         polTableView.getItems().remove(selected);
         politicians.remove(selected.getKey());
         //  }
+
 
         politicians.displayHashTable();
         System.out.println(selected.getContents().toString());
@@ -715,5 +726,9 @@ public class Controller implements Initializable {                 //im not able
 
     public void quickSortElectionsGui(ActionEvent actionEvent) {
         elecTableView.setItems(quickSortElections(elecTableView.getItems(), 0, elecTableView.getItems().size() - 1));
+    }
+
+    public void refreshTreeView(MouseEvent mouseEvent) {
+        canListView.refresh();
     }
 }

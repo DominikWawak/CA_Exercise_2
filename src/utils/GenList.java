@@ -2,6 +2,7 @@ package utils;
 
 
 import models.Candidate;
+import models.Election;
 
 public class GenList<G> {
     public  Node<G> head = null;
