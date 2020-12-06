@@ -290,32 +290,31 @@ public class Controller implements Initializable {                 //im not able
 
 
         Node<Election> pivot = a.get(start+(end-start)/2);
-        if(start>=end)return elecs;
+
 
         while (beginning<=last){
 
-            while (a.get(beginning).getContents().getDate().equals(pivot.getContents().getDate())) beginning++;
-            while (a.get(last).getContents().getDate().equals(pivot.getContents().getDate())) last--;
+            while (a.get(beginning).getContents().getDate().compareTo(pivot.getContents().getDate())>0) beginning++;
+            while (a.get(last).getContents().getDate().compareTo(pivot.getContents().getDate())<0) last--;
 
             if(beginning<=last){
                 Node<Election> swap=a.get(beginning);
-                a.get(beginning).setContents(a.get(last).getContents());
-                a.get(last).setContents(swap.getContents());
+
+                a.set(beginning,a.get(last));
+                a.set(last,swap);
+
 
                 beginning++;
                 last--;
 
-            }else return elecs;
+            }
         }
 
-        if(start<last) quickSortElections(a,start,end);
-        if(beginning<end) quickSortElections(a,start,end);
+        if(start<last) quickSortElections(a,start,last);
+        if(beginning<end) quickSortElections(a,beginning,end);
 
 
-        elecTableView.getItems();
-       // elecs.setAll();
-        return elecs;
-
+        return a;
 
 
     }
@@ -326,10 +325,7 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-    public void deleteElection(ActionEvent event){
-        TreeItem selected=elecTableView.getSelectionModel().getSelectedItem();
-    }
-
+    
 
 
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
