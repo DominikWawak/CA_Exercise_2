@@ -274,7 +274,7 @@ public class Controller implements Initializable {                 //im not able
 
 
         GenList<Politician> canGenList=old.getContents().getCandidateGenList();
-       // Node<Election> updateElec=addElection(updType.getValue(),updElec.getValue(),updDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),updSeats.getValue(),canGenList);
+
         old.getContents().setElectionType(updType.getValue());
         old.getContents().setElectionLocation(updElec.getValue());
         old.getContents().setDate(updDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
@@ -283,7 +283,7 @@ public class Controller implements Initializable {                 //im not able
         elecTableView.getItems().get(oldIndx).setContents(old.getContents());
         elecTableView.refresh();
     }
-    //second push
+
 
 
 
