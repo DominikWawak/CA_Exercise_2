@@ -283,6 +283,7 @@ public class Controller implements Initializable {                 //im not able
         elecTableView.getItems().get(oldIndx).setContents(old.getContents());
         elecTableView.refresh();
     }
+    //second push
 
 
 
