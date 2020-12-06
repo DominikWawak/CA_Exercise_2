@@ -289,7 +289,7 @@ public class Controller implements Initializable {                 //im not able
         int last = end;
 
 
-        Node<Election> pivot = a.get(start);
+        Node<Election> pivot = a.get(start+(end-start)/2);
         if(start>=end)return elecs;
 
         while (beginning<=last){
@@ -305,7 +305,7 @@ public class Controller implements Initializable {                 //im not able
                 beginning++;
                 last--;
 
-            }
+            }else return elecs;
         }
 
         if(start<last) quickSortElections(a,start,end);
