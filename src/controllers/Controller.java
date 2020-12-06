@@ -47,70 +47,77 @@ import java.util.regex.Pattern;
 
 public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
 
-    GenHash<Politician> politicians =new GenHash(3);
+    GenHash<Politician> politicians = new GenHash(3);
 
-   GenHash<Election> elections=new GenHash(13);
+    GenHash<Election> elections = new GenHash(13);
 
-   //
+    //
     // SET UP TABLE
     //
-   @FXML
-   private TableView<Node<Politician>> polTableView;
-   @FXML private TableView<Node<Election>>elecTableView;
-
-   @FXML public TreeView<String> canListView;
-   @FXML private TreeItem<String> rootItem,general,local,european,presidential;
-   @FXML private ToggleButton toggleViewElection;
-
-
-  @FXML
-    private TableColumn<Node<Politician>,String> nameColumn,dateColumn,partyColumn,countyColumn;
-
-    @FXML  private TableColumn<Node<Election>,String> typeColumn,locationColumn,elecDateColumn,seatsColumn;
-
-
-    @FXML ChoiceBox<String> elecType,selectPolitician,updType;
-
-   @FXML
-   private MenuItem addPolMenu,updatePolMenu,loadMenu,saveMenu,updateElecMenu;
+    @FXML
+    private TableView<Node<Politician>> polTableView;
+    @FXML
+    private TableView<Node<Election>> elecTableView;
 
     @FXML
-    private TextField polImg, updatePolImg,searchText;
+    public TreeView<String> canListView;
+    @FXML
+    private TreeItem<String> rootItem, general, local, european, presidential;
+    @FXML
+    private ToggleButton toggleViewElection;
 
 
     @FXML
-    private Pane cardViewPane,addPoliticianPane,updatePoliticianPane,addElectionPane,updateElectionPane,addCandidatePane,electionTreeViewPane;
+    private TableColumn<Node<Politician>, String> nameColumn, dateColumn, partyColumn, countyColumn;
+
+    @FXML
+    private TableColumn<Node<Election>, String> typeColumn, locationColumn, elecDateColumn, seatsColumn;
+
+
+    @FXML
+    ChoiceBox<String> elecType, selectPolitician, updType;
+
+    @FXML
+    private MenuItem addPolMenu, updatePolMenu, loadMenu, saveMenu, updateElecMenu;
+
+    @FXML
+    private TextField polImg, updatePolImg, searchText;
+
+
+    @FXML
+    private Pane cardViewPane, addPoliticianPane, updatePoliticianPane, addElectionPane, updateElectionPane, addCandidatePane, electionTreeViewPane;
     //TODO set visible / not visible
 
     @FXML
-    private ComboBox<String>polName,polParty,polCounty, updatePolParty,updatePolCounty,polToUpdate,partyStoodFor;
-
-
-    @FXML  private ComboBox<String>elecLocation,updElec;
-
-    @FXML
-    private Spinner<Integer> noOfSeats,totalVotesCandidate,updSeats;
-
-    @FXML
-    private RadioButton partySortChoice,polNameSortChoice;
-
-    @FXML
-    private DatePicker polDob,elecDate,updDate;
-
-    @FXML private Label typeLbl,locationLbl,dateLbl,seatsLbl;
-
+    private ComboBox<String> polName, polParty, polCounty, updatePolParty, updatePolCounty, polToUpdate, partyStoodFor;
 
 
     @FXML
-    private Button addPol,addElec,updatePol,deletePol,viewPol,addCandidate,searchPolsButton,sortPolButton,viewAllPols;
+    private ComboBox<String> elecLocation, updElec;
 
     @FXML
-    private Label cName, cDate,cParty,cCounty;
+    private Spinner<Integer> noOfSeats, totalVotesCandidate, updSeats;
+
+    @FXML
+    private RadioButton partySortChoice, polNameSortChoice;
+
+    @FXML
+    private DatePicker polDob, elecDate, updDate;
+
+    @FXML
+    private Label typeLbl, locationLbl, dateLbl, seatsLbl;
+
+
+    @FXML
+    private Button addPol, addElec, updatePol, deletePol, viewPol, addCandidate, searchPolsButton, sortPolButton, viewAllPols;
+
+    @FXML
+    private Label cName, cDate, cParty, cCounty;
     @FXML
     private ImageView cImg;
 
-    private ObservableList<String> names =  FXCollections.observableArrayList();
-    private ObservableList<String> counties =  FXCollections.observableArrayList("Antrim",
+    private ObservableList<String> names = FXCollections.observableArrayList();
+    private ObservableList<String> counties = FXCollections.observableArrayList("Antrim",
             "Armagh",
             "Carlow",
             "Cavan",
@@ -138,27 +145,27 @@ public class Controller implements Initializable {                 //im not able
             "Sligo",
             "Tipperary",
             "Tyrone",
-           "Waterford",
+            "Waterford",
             "Westmeath",
             "Wexford",
             "Wicklow");
-    private ObservableList<String> parties =  FXCollections.observableArrayList();
-    private  ObservableList<Node<Politician>> pols = FXCollections.observableArrayList();
-    private ObservableList<Node<Election>> elecs=FXCollections.observableArrayList();
-    private ObservableList<String> elecList=FXCollections.observableArrayList("general","local","European","presidential");
-
-
+    private ObservableList<String> parties = FXCollections.observableArrayList();
+    private ObservableList<Node<Politician>> pols = FXCollections.observableArrayList();
+    private ObservableList<Node<Election>> elecs = FXCollections.observableArrayList();
+    private ObservableList<String> elecList = FXCollections.observableArrayList("general", "local", "European", "presidential");
 
 
 //
     // sample image https://i.pinimg.com/originals/7d/1a/3f/7d1a3f77eee9f34782c6f88e97a6c888.jpg
     ////
+
     /**
      * addPoloticianMethod and addPoliticianGui
-     *
+     * <p>
      * This is a method for adding politicians that are non candidates of a election.
      * The first method creates the politician object and the node that is added to the hashtable.
      * The key is set to the name of the politician.
+     *
      * @param name
      * @param dob
      * @param party
@@ -167,24 +174,23 @@ public class Controller implements Initializable {                 //im not able
      * @return Node of type Politician
      */
 
-    public Node addPolitician(String name,String dob,String party,String homeCounty,String imgUrl){
-        Politician pol = new NonCandidate(name,dob,party,homeCounty,imgUrl);
-        Node<Politician> politician= new Node<Politician>();
+    public Node addPolitician(String name, String dob, String party, String homeCounty, String imgUrl) {
+        Politician pol = new NonCandidate(name, dob, party, homeCounty, imgUrl);
+        Node<Politician> politician = new Node<Politician>();
         politician.setContents(pol);
         politician.setKey(politicians.hashFunction(pol.getName()));
 
         pols.add(politician);
-         polTableView.getItems().add(politician);
+        polTableView.getItems().add(politician);
 
 
         politicians.add(politician);
         return politician;
-}
+    }
 
 
-
-    public void addPoliticianGui (ActionEvent event) throws IOException {
-        Node<Politician> pol = addPolitician(polName.getValue(),polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),polParty.getValue(),polCounty.getValue(),polImg.getText());
+    public void addPoliticianGui(ActionEvent event) throws IOException {
+        Node<Politician> pol = addPolitician(polName.getValue(), polDob.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), polParty.getValue(), polCounty.getValue(), polImg.getText());
         names.add(polName.getValue());
         //
         // TODO sort these arrays.
@@ -206,8 +212,6 @@ public class Controller implements Initializable {                 //im not able
         polCounty.getEditor().clear();
 
 
-
-
         System.out.println(pol.getKey());
 
         System.out.println(politicians.getValue(politicians.hashFunction(pol.getKey())).getContents().toString());
@@ -218,15 +222,13 @@ public class Controller implements Initializable {                 //im not able
         setProfileView(pol);
 
 
-
-
-
     }
 
     /**
      * This is a method for creating and adding an election.
      * The first method creates the election object and the node that is added to the hashtable.
      * The key is set to the election type and date.
+     *
      * @param type
      * @param location
      * @param date
@@ -236,12 +238,11 @@ public class Controller implements Initializable {                 //im not able
      */
 
 
-
     public Node addElection(String type, String location, String date, int noOfSeats, GenList<Politician> candidate) {
-        Election elec=new Election(type,location,date,noOfSeats,candidate);
-        Node<Election> elecNode=new Node<Election>();
+        Election elec = new Election(type, location, date, noOfSeats, candidate);
+        Node<Election> elecNode = new Node<Election>();
         elecNode.setContents(elec);
-        elecNode.setKey(elections.hashFunction(elec.electionType+elec.date));
+        elecNode.setKey(elections.hashFunction(elec.electionType + elec.date));
 
         elecs.add(elecNode);
         elections.add(elecNode);
@@ -253,14 +254,14 @@ public class Controller implements Initializable {                 //im not able
 
     public void addElectionGUI(ActionEvent actionEvent) {
         GenList<Politician> candidateGenList = new GenList<>();
-        Node<Election> elecNode=addElection(elecType.getValue().toString(),elecLocation.getValue(),elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")),noOfSeats.getValue(),candidateGenList);
+        Node<Election> elecNode = addElection(elecType.getValue().toString(), elecLocation.getValue(), elecDate.getValue().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), noOfSeats.getValue(), candidateGenList);
         System.out.println(elecNode.getKey());
-        System.out.println(elections.getValue(elections.hashFunction(elecNode.getContents().electionType+elecNode.getContents().date)).getContents().toString());
+        System.out.println(elections.getValue(elections.hashFunction(elecNode.getContents().electionType + elecNode.getContents().date)).getContents().toString());
         elections.displayHashTable();
     }
 
-    public void deleteElection(ActionEvent event){
-        Node selected=elecTableView.getSelectionModel().getSelectedItem();
+    public void deleteElection(ActionEvent event) {
+        Node selected = elecTableView.getSelectionModel().getSelectedItem();
         elecTableView.getItems().remove(selected);
         elections.remove(selected.getKey());
 
@@ -269,11 +270,11 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void updateElection(ActionEvent event) {
-        Node<Election> old= elecTableView.getSelectionModel().getSelectedItem();
-        int oldIndx=elecTableView.getSelectionModel().getSelectedIndex();
+        Node<Election> old = elecTableView.getSelectionModel().getSelectedItem();
+        int oldIndx = elecTableView.getSelectionModel().getSelectedIndex();
 
 
-        GenList<Politician> canGenList=old.getContents().getCandidateGenList();
+        GenList<Politician> canGenList = old.getContents().getCandidateGenList();
 
         old.getContents().setElectionType(updType.getValue());
         old.getContents().setElectionLocation(updElec.getValue());
@@ -290,19 +291,19 @@ public class Controller implements Initializable {                 //im not able
         int last = end;
 
 
-        Node<Election> pivot = a.get(start+(end-start)/2);
+        Node<Election> pivot = a.get(start + (end - start) / 2);
 
 
-        while (beginning<=last){
+        while (beginning <= last) {
 
-            while (a.get(beginning).getContents().getDate().compareTo(pivot.getContents().getDate())>0) beginning++;
-            while (a.get(last).getContents().getDate().compareTo(pivot.getContents().getDate())<0) last--;
+            while (a.get(beginning).getContents().getDate().compareTo(pivot.getContents().getDate()) > 0) beginning++;
+            while (a.get(last).getContents().getDate().compareTo(pivot.getContents().getDate()) < 0) last--;
 
-            if(beginning<=last){
-                Node<Election> swap=a.get(beginning);
+            if (beginning <= last) {
+                Node<Election> swap = a.get(beginning);
 
-                a.set(beginning,a.get(last));
-                a.set(last,swap);
+                a.set(beginning, a.get(last));
+                a.set(last, swap);
 
 
                 beginning++;
@@ -311,8 +312,8 @@ public class Controller implements Initializable {                 //im not able
             }
         }
 
-        if(start<last) quickSortElections(a,start,last);
-        if(beginning<end) quickSortElections(a,beginning,end);
+        if (start < last) quickSortElections(a, start, last);
+        if (beginning < end) quickSortElections(a, beginning, end);
 
 
         return a;
@@ -321,22 +322,13 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
-
-
-
-
-
-    
-
-
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
-        Politician candidate = new Candidate(selectPolitician.getValue(),forCandidate.getContents().getDateOfBirth(),forCandidate.getContents().getPoliticalParty(),partyStoodFor.getValue(),forCandidate.getContents().getHomeCounty(),forCandidate.getContents().getImgUrl(),totalVotesCandidate.getValue());
-       forCandidate.setContents(candidate);
+        Politician candidate = new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue());
+        forCandidate.setContents(candidate);
 
 
         Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
-
 
 
         election.getCandidateGenList().addElement(candidate);
@@ -345,22 +337,21 @@ public class Controller implements Initializable {                 //im not able
         TreeItem<String> date = new TreeItem<>(election.getDate());
 
 
-
         Boolean found = false;
         for (TreeItem<String> x : canListView.getRoot().getChildren()) {
             if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
                 for (TreeItem<String> y : x.getChildren()) {
-                    if(y!=null) {
+                    if (y != null) {
                         if (y.getValue().equals(election.getDate())) {
-                            y.getChildren().add(new TreeItem<>("Name : "+forCandidate.getContents().getName()+"\n"+"Number of Votes : "+election.getNumberOfSeats()));
+                            y.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
                             found = true;
                         }
-                    }else {
+                    } else {
                         for (TreeItem<String> s : canListView.getRoot().getChildren()) {
 
                             if (election.getElectionType().toUpperCase().equals(s.getValue().toUpperCase())) {
                                 s.getChildren().add(date);
-                                date.getChildren().add(new TreeItem<>("Name : "+forCandidate.getContents().getName()+"\n"+"Number of Votes : "+"\n"+"Party stood for : "));
+                                date.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
 
                             }
                         }
@@ -376,16 +367,12 @@ public class Controller implements Initializable {                 //im not able
 
                 if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
                     x.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>(forCandidate.getContents().getName()));
+                    date.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
 
 
                 }
             }
         }
-
-
-
-
 
 
         canListView.getRoot().getChildren();
@@ -395,11 +382,9 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
-
-
     /**
      * updatePoliticianGui
-     *
+     * <p>
      * this method uses the method in the NonCandidate Class to get some inputs and update them.
      *
      * @param actionEvent
@@ -407,8 +392,8 @@ public class Controller implements Initializable {                 //im not able
     public void updatePoliticianGui(ActionEvent actionEvent) {
 
 
-        Node<Politician> upPol= searchPoliticianByName(polToUpdate.getValue());
-        upPol.getContents().update(upPol.getContents(),updatePolParty.getValue(),updatePolCounty.getValue(),updatePolImg.getText());
+        Node<Politician> upPol = searchPoliticianByName(polToUpdate.getValue());
+        upPol.getContents().update(upPol.getContents(), updatePolParty.getValue(), updatePolCounty.getValue(), updatePolImg.getText());
         setProfileView(upPol);
         polTableView.refresh();
     }
@@ -416,20 +401,21 @@ public class Controller implements Initializable {                 //im not able
     public void deletePoliticianGui(ActionEvent actionEvent) {
 
         //ObservableList<Node<Politician>> selected,allPoliticians;
-     // allPoliticians = polTableView.getItems();
-     Node selected = polTableView.getSelectionModel().getSelectedItem();
-     // for(Node<Politician> politicianNode : selected){
-            polTableView.getItems().remove(selected);
-            politicians.remove(selected.getKey());
-    //  }
+        // allPoliticians = polTableView.getItems();
+        Node selected = polTableView.getSelectionModel().getSelectedItem();
+        // for(Node<Politician> politicianNode : selected){
+        polTableView.getItems().remove(selected);
+        politicians.remove(selected.getKey());
+        //  }
 
-      politicians.displayHashTable();
-      System.out.println(selected.getContents().toString());
+        politicians.displayHashTable();
+        System.out.println(selected.getContents().toString());
 
     }
 
     /**
      * Makes the card object of the Politician
+     *
      * @param node NonCandidate
      */
     public void setProfileView(Node<Politician> node) {
@@ -439,101 +425,96 @@ public class Controller implements Initializable {                 //im not able
         cDate.setText(node.getContents().getDateOfBirth());
 
 
-        try{
+        try {
             Image image = new Image(node.getContents().getImgUrl());
             cImg.setImage(image);
 
 
-        }
-        catch (java.lang.IllegalArgumentException ex){
-           Image image = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg/1200px-Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg");
+        } catch (java.lang.IllegalArgumentException ex) {
+            Image image = new Image("https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg/1200px-Joe_Cunningham%2C_Official_Porrtait%2C_116th_Congress.jpg");
             cImg.setImage(image);
             System.out.println("Default image set");
         }
-
 
 
     }
 
     public void displaySelectedPol(ActionEvent actionEvent) {
 
-        Node<Politician> nodeSelected =  polTableView.getSelectionModel().getSelectedItem();
-        if(nodeSelected!= null) {
+        Node<Politician> nodeSelected = polTableView.getSelectionModel().getSelectedItem();
+        if (nodeSelected != null) {
             nodeSelected.setContents(nodeSelected.getContents());
             setProfileView(nodeSelected);
         }
     }
 
 
-
-    public Node searchPoliticianByName(String Name){
+    public Node searchPoliticianByName(String Name) {
 
         return politicians.getValue(politicians.hashFunction(Name));
 
 
     }
-    public void searchPoliticianByParty(){
+
+    public void searchPoliticianByParty() {
 
     }
-    public void searchPoliticianByLocation(){
+
+    public void searchPoliticianByLocation() {
 
     }
 
 
-    /**\
+    /**
+     * \
      * listPoliticians
-     *
+     * <p>
      * this method loops through the Nodes in the hashtable returns all that are not null
+     *
      * @return String list
      */
 
-    public String listPoliticians(){
+    public String listPoliticians() {
         String list = "";
-        for(Node politician : politicians.hashTable){
-            if(politician != null){
-                list = list + " " + politician.getContents().toString()+"\n";
+        for (Node politician : politicians.hashTable) {
+            if (politician != null) {
+                list = list + " " + politician.getContents().toString() + "\n";
             }
         }
         return list;
     }
 
-    public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort, Comparator<Node<Politician>> c){
+    public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort, Comparator<Node<Politician>> c) {
         //int[] gaps = {1};
         ArrayList<Integer> gaps = new ArrayList<>();
         int size = toSort.size();
 
-        while(size>1){
-            size = size/2;
+        while (size > 1) {
+            size = size / 2;
 
-            gaps.add(size/2);
+            gaps.add(size / 2);
         }
 
 
-
-        for(int g : gaps){
-            for(int e =g;e<toSort.size();e++){
+        for (int g : gaps) {
+            for (int e = g; e < toSort.size(); e++) {
                 Node<Politician> elem = toSort.get(e);
                 int i;
-                for(i=e;i>=g && c.compare(toSort.get(i-g),elem)<0;i-=g){
-                        toSort.set(i,toSort.get(i-g)) ;
+                for (i = e; i >= g && c.compare(toSort.get(i - g), elem) < 0; i -= g) {
+                    toSort.set(i, toSort.get(i - g));
                 }
-                toSort.set(i,elem);
-
-
-
+                toSort.set(i, elem);
 
 
             }
         }
 
-           return toSort;
+        return toSort;
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
 
 
         cardViewPane.setStyle("-fx-border-color: black");
@@ -548,30 +529,25 @@ public class Controller implements Initializable {                 //im not able
         //Allow multiple selection
         polTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getName()));
-      dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDateOfBirth()));;
-      partyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getPoliticalParty()));
+        dateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDateOfBirth()));
+        ;
+        partyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getPoliticalParty()));
         countyColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getHomeCounty()));
 
         //Election table
 
 
-
-
         typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getElectionType()));
         locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getElectionLocation()));
         elecDateColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getDate()));
-        seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getNumberOfSeats()+""));
-
-
-
-
+        seatsColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getNumberOfSeats() + ""));
 
 
         //
         // Spinners set up
         //
 
-        SpinnerValueFactory<Integer> spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,10,1);
+        SpinnerValueFactory<Integer> spinner = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 60, 10, 1);
         noOfSeats.setValueFactory(spinner);
         updSeats.setValueFactory(spinner);
         totalVotesCandidate.setValueFactory(spinner);
@@ -587,24 +563,22 @@ public class Controller implements Initializable {                 //im not able
 
         */
 
-       //
+        //
 
         //
 
 
-        rootItem=new TreeItem<String>("Election Type");
+        rootItem = new TreeItem<String>("Election Type");
 
-         general=new  TreeItem<String>("General");
-        local=new  TreeItem<String>("Local");
-        european=new TreeItem<String>("European");
-        presidential=new TreeItem<String>("Presidential");
+        general = new TreeItem<String>("General");
+        local = new TreeItem<String>("Local");
+        european = new TreeItem<String>("European");
+        presidential = new TreeItem<String>("Presidential");
         rootItem.getChildren().add(general);
         rootItem.getChildren().add(local);
         rootItem.getChildren().add(european);
         rootItem.getChildren().add(presidential);
         canListView.setRoot(rootItem);
-
-
 
 
     }
@@ -617,12 +591,12 @@ public class Controller implements Initializable {                 //im not able
 
     /**
      * open<PANE>Menu methods
-     *
+     * <p>
      * make the panes chosen by the menu visible and invisible,
      * ie switch the panes.
+     *
      * @param actionEvent
      */
-
 
 
     public void openAddPolMenu(ActionEvent actionEvent) {
@@ -635,15 +609,15 @@ public class Controller implements Initializable {                 //im not able
         updatePoliticianPane.setVisible(true);
     }
 
-    public void openUpElecMenu(ActionEvent event){
+    public void openUpElecMenu(ActionEvent event) {
         addElectionPane.setVisible(false);
         updateElectionPane.setVisible(true);
     }
 
-    public void toggleView(){
-        if(toggleViewElection.isSelected()){
+    public void toggleView() {
+        if (toggleViewElection.isSelected()) {
             electionTreeViewPane.setVisible(true);
-        }else{
+        } else {
             electionTreeViewPane.setVisible(false);
         }
     }
@@ -662,11 +636,10 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
-
     public void loadPoliticians() throws Exception {
         XStream xstream = new XStream(new DomDriver());
         ObjectInputStream is = xstream.createObjectInputStream(new FileReader("elecSysPoliticians.xml"));
-        politicians=(GenHash<Politician>) is.readObject();
+        politicians = (GenHash<Politician>) is.readObject();
 
         is.close();
 
@@ -702,9 +675,9 @@ public class Controller implements Initializable {                 //im not able
         }
     }
 
-    public void reloadTable(){
-        for(Node<Politician> x : politicians.hashTable){
-            if(x!= null && !(x.getContents().equals("tomb"))){
+    public void reloadTable() {
+        for (Node<Politician> x : politicians.hashTable) {
+            if (x != null && !(x.getContents().equals("tomb"))) {
                 polTableView.getItems().add(x);
                 pols.add(x);
                 names.add(x.getContents().getName());
@@ -715,7 +688,7 @@ public class Controller implements Initializable {                 //im not able
 
     public void sortPoliticiansByParty(ActionEvent actionEvent) {
 
-        if(partySortChoice.isSelected())
+        if (partySortChoice.isSelected())
             polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));
         else {
             polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getName())));
@@ -725,9 +698,10 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void searchPolTableView(ActionEvent actionEvent) {
-        ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();;
-        for(Node<Politician> politicianNode : polTableView.getItems()){
-            if(searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase())>-1){
+        ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();
+        ;
+        for (Node<Politician> politicianNode : polTableView.getItems()) {
+            if (searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase()) > -1) {
                 searched.add(politicianNode);
             }
         }
@@ -740,6 +714,6 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void quickSortElectionsGui(ActionEvent actionEvent) {
-        elecTableView.setItems(quickSortElections(elecTableView.getItems(),0,elecTableView.getItems().size()-1));
+        elecTableView.setItems(quickSortElections(elecTableView.getItems(), 0, elecTableView.getItems().size() - 1));
     }
 }
