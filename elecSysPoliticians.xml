@@ -2,16 +2,35 @@
   <utils.GenHash>
     <hashTable>
       <null/>
-      <null/>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>den</name>
-          <dateOfBirth>2020-12-29</dateOfBirth>
-          <politicalParty>loki</politicalParty>
-          <homeCounty>Donegal</homeCounty>
-          <imgUrl></imgUrl>
+          <name>asdsad</name>
+          <dateOfBirth>2020-12-15</dateOfBirth>
+          <politicalParty>asdas</politicalParty>
+          <homeCounty>Cavan</homeCounty>
+          <imgUrl>asda</imgUrl>
+        </contents>
+        <k>1</k>
+      </utils.Node>
+      <utils.Node>
+        <contents class="models.NonCandidate">
+          <name>bbbb</name>
+          <dateOfBirth>2020-12-10</dateOfBirth>
+          <politicalParty>asdas</politicalParty>
+          <homeCounty>Kilkenny</homeCounty>
+          <imgUrl>asda</imgUrl>
         </contents>
         <k>2</k>
+      </utils.Node>
+      <utils.Node>
+        <contents class="models.NonCandidate">
+          <name>zzzz</name>
+          <dateOfBirth>2020-12-07</dateOfBirth>
+          <politicalParty>asdas</politicalParty>
+          <homeCounty>Kerry</homeCounty>
+          <imgUrl>asda</imgUrl>
+        </contents>
+        <k>3</k>
       </utils.Node>
     </hashTable>
   </utils.GenHash>

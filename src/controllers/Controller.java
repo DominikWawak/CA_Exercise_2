@@ -91,7 +91,8 @@ public class Controller implements Initializable {                 //im not able
     @FXML
     private Spinner<Integer> noOfSeats,totalVotesCandidate,updSeats;
 
-
+    @FXML
+    private RadioButton partySortChoice,polNameSortChoice;
 
     @FXML
     private DatePicker polDob,elecDate,updDate;
@@ -340,25 +341,7 @@ public class Controller implements Initializable {                 //im not able
 
         election.getCandidateGenList().addElement(candidate);
 
-        //
-        //New List View alternative code
-        //
 
-     ///no
-/*
-        TreeItem<String> electionItem = new TreeItem<String>(election.toString());
-        if(!(canListView.getRoot().getChildren().contains(electionItem))) {
-
-            canListView.getRoot().getChildren().add(electionItem);
-            electionItem.getChildren().add(new TreeItem<>(candidate.toString()));
-        }
-        else {
-            for(TreeItem<String> item: canListView.getRoot().getChildren()){
-                if(election.toString().equals(item.getValue())){
-                    item.getChildren().add(new TreeItem<>(candidate.toString()));
-                }
-            }
-        }*/
         TreeItem<String> date = new TreeItem<>(election.getDate());
 
 
@@ -494,9 +477,7 @@ public class Controller implements Initializable {                 //im not able
     public void searchPoliticianByLocation(){
 
     }
-    public void sort(){
 
-    }
 
     /**\
      * listPoliticians
@@ -515,7 +496,7 @@ public class Controller implements Initializable {                 //im not able
         return list;
     }
 
-    public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort){
+    public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort, Comparator<Node<Politician>> c){
         //int[] gaps = {1};
         ArrayList<Integer> gaps = new ArrayList<>();
         int size = toSort.size();
@@ -532,7 +513,7 @@ public class Controller implements Initializable {                 //im not able
             for(int e =g;e<toSort.size();e++){
                 Node<Politician> elem = toSort.get(e);
                 int i;
-                for(i=e;i>=g && toSort.get(i-g).getContents().getPoliticalParty().compareTo(elem.getContents().getPoliticalParty())<0;i-=g){
+                for(i=e;i>=g && c.compare(toSort.get(i-g),elem)<0;i-=g){
                         toSort.set(i,toSort.get(i-g)) ;
                 }
                 toSort.set(i,elem);
@@ -705,6 +686,7 @@ public class Controller implements Initializable {                 //im not able
             loadPoliticians();
             reloadTable();
 
+
         } catch (Exception e) {
             System.err.println("Error reading from file: " + e);
         }
@@ -720,17 +702,25 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void reloadTable(){
-        for(Node x : politicians.hashTable){
-            if(x!= null && x.getContents()!="tomb"){
+        for(Node<Politician> x : politicians.hashTable){
+            if(x!= null && !(x.getContents().equals("tomb"))){
                 polTableView.getItems().add(x);
                 pols.add(x);
+                names.add(x.getContents().getName());
+                selectPolitician.setItems(names);
             }
         }
     }
 
-    public void sortPoliticians(ActionEvent actionEvent) {
+    public void sortPoliticiansByParty(ActionEvent actionEvent) {
 
-        polTableView.setItems(shellSort(polTableView.getItems()));
+        if(partySortChoice.isSelected())
+            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));
+        else {
+            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getName())));
+        }
+        polTableView.refresh();
+
     }
 
     public void searchPolTableView(ActionEvent actionEvent) {
