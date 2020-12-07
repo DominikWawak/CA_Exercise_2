@@ -41,7 +41,7 @@ public class GenHash<E>
         hashTable=new Node [(int)(hashTable.length*1.5)];
 
         for(Node x : hashTable2) {
-            if(x!=null && x.getContents() != "tomb")
+            if(x!=null && x.getContents() != "empty")
             add(x);
         }
 

@@ -408,8 +408,12 @@ public class Controller implements Initializable {                 //im not able
         if(selected.getContents() instanceof Candidate){
 
            for(TreeItem<String> item : canListView.getRoot().getChildren()){
-               if(item.getValue().toUpperCase().equals(((Candidate) selected.getContents()).getElectionTookPartIn().electionType.toUpperCase())){
-                   item.getChildren().removeIf(j -> j.getValue().contains(((Candidate) selected.getContents()).getName()));
+               if(item.getValue().toUpperCase().equals(((Candidate) selected.getContents()).getElectionTookPartIn().electionType.toUpperCase())) {
+                   for (TreeItem<String> x : item.getChildren()) {
+                       System.out.println(x.getChildren());
+                       x.getChildren().removeIf(j -> j.getValue().contains(((Candidate) selected.getContents()).getName()));
+                       System.out.println(x.getChildren());
+                   }
                }
            }
             ((Candidate) selected.getContents()).getElectionTookPartIn().getCandidateGenList().removeElement(selected,((Candidate) selected.getContents()).getElectionTookPartIn().getCandidateGenList());
@@ -688,7 +692,7 @@ public class Controller implements Initializable {                 //im not able
 
     public void reloadTable() {
         for (Node<Politician> x : politicians.hashTable) {
-            if (x != null && !(x.getContents().equals("tomb"))) {
+            if (x != null && !(x.getContents().equals("empty"))) {
                 polTableView.getItems().add(x);
                 pols.add(x);
                 names.add(x.getContents().getName());
