@@ -3,34 +3,38 @@
     <hashTable>
       <null/>
       <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>asdsad</name>
-          <dateOfBirth>2020-12-15</dateOfBirth>
-          <politicalParty>asdas</politicalParty>
-          <homeCounty>Cavan</homeCounty>
-          <imgUrl>asda</imgUrl>
+        <contents class="models.Candidate">
+          <name>Denis</name>
+          <dateOfBirth>2020-12-08</dateOfBirth>
+          <politicalParty>sdad</politicalParty>
+          <homeCounty>Carlow</homeCounty>
+          <imgUrl>asd</imgUrl>
+          <totalVotes>10</totalVotes>
+          <partyStoodFor>sdad</partyStoodFor>
+          <electionTookPartIn>
+            <electionType>European</electionType>
+            <electionLocation>Cavan</electionLocation>
+            <date>2020-12-01</date>
+            <numberOfSeats>10</numberOfSeats>
+            <candidateGenList>
+              <head>
+                <contents class="models.Candidate" reference="../../../.."/>
+                <k>0</k>
+              </head>
+            </candidateGenList>
+          </electionTookPartIn>
         </contents>
         <k>1</k>
       </utils.Node>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>bbbb</name>
-          <dateOfBirth>2020-12-10</dateOfBirth>
-          <politicalParty>asdas</politicalParty>
-          <homeCounty>Kilkenny</homeCounty>
-          <imgUrl>asda</imgUrl>
+          <name>Dominik</name>
+          <dateOfBirth>2020-12-09</dateOfBirth>
+          <politicalParty>Independent</politicalParty>
+          <homeCounty>Antrim</homeCounty>
+          <imgUrl>asd</imgUrl>
         </contents>
         <k>2</k>
-      </utils.Node>
-      <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>zzzz</name>
-          <dateOfBirth>2020-12-07</dateOfBirth>
-          <politicalParty>asdas</politicalParty>
-          <homeCounty>Kerry</homeCounty>
-          <imgUrl>asda</imgUrl>
-        </contents>
-        <k>3</k>
       </utils.Node>
     </hashTable>
   </utils.GenHash>

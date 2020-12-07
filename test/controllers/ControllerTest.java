@@ -1,6 +1,7 @@
 package controllers;
 
 import models.NonCandidate;
+import models.Politician;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ControllerTest {
     Controller controller=new Controller();
     GenHash<NonCandidate> politicians =new GenHash(13);
+    Politician p1 = new NonCandidate("John","20/06/1980","Green Party","wicklow","pic.ie");
 
     @BeforeEach
     void setUp() {
@@ -25,11 +27,53 @@ class ControllerTest {
 
     @Test
     void addPolitician() {
-
-       // Node pol = politicians.getValue(politicians.hashFunction(politicians.hashFunction("John")));
+        //TODO
+      // Node pol = politicians.getValue(politicians.hashFunction(politicians.hashFunction("John")));
        // assertEquals(controller.addPolitician("John","20/06/1980","Green Party","wicklow","pic.ie"),pol);
 
     }
+
+    @Test
+    void addElection() {
+        //TODO
+    }
+
+
+    @Test
+    void deleteElection() {
+        //TODO
+    }
+
+
+    @Test
+    void deletePolitician() {
+        //TODO
+    }
+
+
+    @Test
+    void addCandidateToElection() {
+        //TODO
+    }
+
+    @Test
+    void shellSortTest(){
+        //TODO
+    }
+
+
+    @Test
+    void quickSortTest(){
+        //TODO
+    }
+
+
+
+
+
+
+
+
 }
 
 /*

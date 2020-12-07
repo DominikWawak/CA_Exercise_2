@@ -51,7 +51,12 @@ class GenHashTest {
     }
 
     @org.junit.jupiter.api.Test
+
     void getValue() {
         //Tested above,
+    }
+
+    void removeTest() {
+       //TODO
     }
 }

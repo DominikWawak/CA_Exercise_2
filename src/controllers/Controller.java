@@ -109,10 +109,10 @@ public class Controller implements Initializable {                 //im not able
 
 
     @FXML
-    private Button addPol, addElec, updatePol, deletePol, viewPol, addCandidate, searchPolsButton, sortPolButton, viewAllPols;
+    private Button addPol, addElec, updatePol, deletePol, viewPol, addCandidate, searchPolsButton,viewCandidates, sortPolButton, viewAllPols;
 
     @FXML
-    private Label cName, cDate, cParty, cCounty;
+    private Label cName, cDate, cParty, cCounty,cPartyStoodFor,cTotalVotes;
     @FXML
     private ImageView cImg;
 
@@ -439,6 +439,11 @@ public class Controller implements Initializable {                 //im not able
         cCounty.setText(node.getContents().getHomeCounty());
         cDate.setText(node.getContents().getDateOfBirth());
 
+        if(node.getContents() instanceof Candidate){
+            cTotalVotes.setText("Total Votes : " + ((Candidate) node.getContents()).getTotalVotes());
+            cPartyStoodFor.setText("Party Stood for : " + ((Candidate) node.getContents()).getPartyStoodFor());
+        }
+
 
         try {
             Image image = new Image(node.getContents().getImgUrl());
@@ -489,19 +494,11 @@ public class Controller implements Initializable {                 //im not able
      * @return String list
      */
 
-    public String listPoliticians() {
-        String list = "";
-        for (Node politician : politicians.hashTable) {
-            if (politician != null) {
-                list = list + " " + politician.getContents().toString() + "\n";
-            }
-        }
-        return list;
-    }
 
+    // Do it using own lists
     public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort, Comparator<Node<Politician>> c) {
         //int[] gaps = {1};
-        ArrayList<Integer> gaps = new ArrayList<>();
+        ArrayList<Integer> gaps = new ArrayList<>(); //
         int size = toSort.size();
 
         while (size > 1) {
@@ -668,11 +665,29 @@ public class Controller implements Initializable {                 //im not able
         ((ObjectOutputStream) out).writeObject(politicians);
         out.close();
     }
+    public void loadElections() throws Exception {
+        XStream xstream = new XStream(new DomDriver());
+        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("elecSysElections.xml"));
+        elections = (GenHash<Election>) is.readObject();
+
+        is.close();
+
+
+    }
+
+    public void saveElections() throws Exception {
+        XStream xstream = new XStream(new DomDriver());
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("elecSysElections.xml"));
+
+        ((ObjectOutputStream) out).writeObject(elections);
+        out.close();
+    }
 
 
     public void loadApp(ActionEvent actionEvent) throws Exception {
         try {
             loadPoliticians();
+            loadElections();
             reloadTable();
 
 
@@ -684,6 +699,7 @@ public class Controller implements Initializable {                 //im not able
     public void saveApp(ActionEvent actionEvent) throws Exception {
         try {
             savePoliticians();
+            saveElections();
 
         } catch (Exception e) {
             System.err.println("Error saving the file: " + e);
@@ -734,5 +750,15 @@ public class Controller implements Initializable {                 //im not able
 
     public void refreshTreeView(MouseEvent mouseEvent) {
         canListView.refresh();
+    }
+
+    public void viewCandidatesInTable(ActionEvent actionEvent) {
+         ObservableList<Node<Politician>> candidates = FXCollections.observableArrayList();
+         for(Node<Politician> pol : politicians.hashTable){
+             if(pol != null && !(pol.getContents().equals("empty"))&& pol.getContents() instanceof Candidate){
+                 candidates.add(pol);
+             }
+         }
+         polTableView.setItems(candidates);
     }
 }
