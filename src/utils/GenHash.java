@@ -109,6 +109,16 @@ public class GenHash<E>
 
     }
 
+    public GenList<E> makeList(){
+        GenList<E> toList = new GenList<>();
+        for(Node x : hashTable) {
+            if(x!=null && x.getContents() != "empty")
+                toList.addElement((E) x.getContents());
+        }
+        return toList;
+
+    }
+
 
 
 }

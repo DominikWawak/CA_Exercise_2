@@ -34,6 +34,26 @@ public class GenList<G> {
 
     }
 
+    public int  getSize(){
+        int counter = 0;
+        for(Node x = head ; x!=null;x=x.next)
+            counter+=1;
+
+        return counter;
+    }
+
+    public Node<G> getAtIndex(int i){
+        Node<G> stop = head;
+        for(int j = 0; j< i;j++){
+            stop = stop.next;
+        }
+        return stop;
+    }
+    public void setAt(int i, Node<G> node){
+        G temp = getAtIndex(i).getContents();
+        getAtIndex(i).setContents(node.getContents());
+        node.setContents(temp);
+    }
 
 
 
@@ -47,25 +67,6 @@ public class GenList<G> {
 
 
 
-
-        /*
-
-        if (head.head != null) {
-            for (Node<G> i = head.head; i != null; i = i.next) {
-                System.out.println(i.getContents().toString());
-                if (i.getContents().equals(toRemove)) {
-                    toRemove = null;
-                    break;
-                }
-                if (i.next.getContents().equals(toRemove)) {
-                    i.next = (i.next.next != null) ? i.next.next: null; //skip
-                    break;
-
-                }
-
-
-            }
-        }*/
 
 
 

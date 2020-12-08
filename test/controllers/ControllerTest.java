@@ -8,15 +8,36 @@ import org.junit.jupiter.api.Test;
 import utils.GenHash;
 import utils.Node;
 
+import java.util.Comparator;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class ControllerTest {
     Controller controller=new Controller();
-    GenHash<NonCandidate> politicians =new GenHash(13);
-    Politician p1 = new NonCandidate("John","20/06/1980","Green Party","wicklow","pic.ie");
+    GenHash<Politician> politicians =new GenHash(13);
+    Politician p1 ;
+    Politician p2 ;
+    Politician p3 ;
+    Node<Politician> n1;
+    Node<Politician> n2;
+    Node<Politician> n3;
+
 
     @BeforeEach
     void setUp() {
+       p1 = new NonCandidate("John","20/06/1980","Green Party","wicklow","pic.ie");
+      p2 = new NonCandidate("Xavier","20/06/1980","Green Party","wicklow","pic.ie");
+         p3 = new NonCandidate("ADA","20/06/1980","Green Party","wicklow","pic.ie");
+         n1 = new Node<>();
+         n2 = new Node<>();
+         n3 = new Node<>();
+         n1.setContents(p1);
+         n2.setContents(p2);
+         n3.setContents(p3);
+        politicians.add(n1);
+        politicians.add(n2);
+        politicians.add(n3);
+
 
     }
 
@@ -58,7 +79,9 @@ class ControllerTest {
 
     @Test
     void shellSortTest(){
-        //TODO
+        System.out.println(politicians);
+        System.out.println(politicians.makeList());
+        controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName()));
     }
 
 

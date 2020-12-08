@@ -326,10 +326,9 @@ public class Controller implements Initializable {                 //im not able
         Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
         Politician candidate = new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election);
+
+
         forCandidate.setContents(candidate);
-
-
-
 
 
         election.getCandidateGenList().addElement(candidate);
@@ -504,7 +503,7 @@ public class Controller implements Initializable {                 //im not able
         while (size > 1) {
             size = size / 2;
 
-            gaps.add(size / 2);
+            gaps.add(size );
         }
 
 
@@ -516,6 +515,34 @@ public class Controller implements Initializable {                 //im not able
                     toSort.set(i, toSort.get(i - g));
                 }
                 toSort.set(i, elem);
+
+
+            }
+        }
+
+        return toSort;
+    }
+
+    public GenList<Politician> myOwnShellSort(GenList<Politician> toSort, Comparator<Node<Politician>> c) {
+        //int[] gaps = {1};
+        ArrayList<Integer> gaps = new ArrayList<>(); //
+        int size = toSort.getSize();
+
+        while (size > 1) {
+            size = size / 2;
+
+            gaps.add(size);
+        }
+
+
+        for (int g : gaps) {
+            for (int e = g; e < toSort.getSize(); e++) {
+                Node<Politician> elem = toSort.getAtIndex(e);
+                int i;
+                for (i = e; i >= g && c.compare(toSort.getAtIndex(i - g), elem) < 0; i -= g) {
+                    toSort.setAt(i, toSort.getAtIndex(i - g));
+                }
+                toSort.setAt(i, elem);
 
 
             }
