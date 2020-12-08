@@ -74,6 +74,9 @@ public class Controller implements Initializable {                 //im not able
     private TableColumn<Node<Election>, String> typeColumn, locationColumn, elecDateColumn, seatsColumn;
 
 
+    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+
+
     @FXML
     ChoiceBox<String> elecType, selectPolitician, updType;
 
@@ -81,7 +84,7 @@ public class Controller implements Initializable {                 //im not able
     private MenuItem addPolMenu, updatePolMenu, loadMenu, saveMenu, updateElecMenu;
 
     @FXML
-    private TextField polImg, updatePolImg, searchText;
+    private TextField polImg, updatePolImg, searchText,searchElecText;
 
 
     @FXML
@@ -153,7 +156,7 @@ public class Controller implements Initializable {                 //im not able
     private ObservableList<Node<Politician>> pols = FXCollections.observableArrayList();
     private ObservableList<Node<Election>> elecs = FXCollections.observableArrayList();
     private ObservableList<String> elecList = FXCollections.observableArrayList("general", "local", "European", "presidential");
-
+    private ObservableList<Node<Election>> temp = null;
 
 //
     // sample image https://i.pinimg.com/originals/7d/1a/3f/7d1a3f77eee9f34782c6f88e97a6c888.jpg
@@ -573,6 +576,7 @@ public class Controller implements Initializable {                 //im not able
 
         //Election table
 
+        temp=elecTableView.getItems();
 
         typeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getElectionType()));
         locationColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getContents().getElectionLocation()));
@@ -746,9 +750,18 @@ public class Controller implements Initializable {                 //im not able
 
     public void sortPoliticiansByParty(ActionEvent actionEvent) {
 
-        if (partySortChoice.isSelected())
-            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));
+        ToggleGroup group=new ToggleGroup();
+
+        partySortChoice.setToggleGroup(group);
+        polNameSortChoice.setToggleGroup(group);
+
+        if (partySortChoice.isSelected()){
+            partySortChoice.setSelected(true);
+            polNameSortChoice.setSelected(false);
+            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));}
         else {
+            polNameSortChoice.setSelected(true);
+            partySortChoice.setSelected(false);
             polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getName())));
         }
         polTableView.refresh();
@@ -757,7 +770,8 @@ public class Controller implements Initializable {                 //im not able
 
     public void searchPolTableView(ActionEvent actionEvent) {
         ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();
-        ;
+
+
         for (Node<Politician> politicianNode : polTableView.getItems()) {
             if (searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase()) > -1) {
                 searched.add(politicianNode);
@@ -766,6 +780,58 @@ public class Controller implements Initializable {                 //im not able
         polTableView.getItems().clear();
         polTableView.setItems(searched);
     }
+
+    public void searchElection(ActionEvent event){
+        ObservableList<Node<Election>> searched = FXCollections.observableArrayList();
+        Boolean found=false;
+
+
+        //resetting the table view
+        if(searchElecText.getText().equals("")){
+            temp.addAll(elecs);
+            elecTableView.setItems(temp);
+        }else {
+
+            //while loop here
+            for (Node<Election> electionNode : elecTableView.getItems()) {
+
+
+                    if (searchElecText.getText().toUpperCase().indexOf(electionNode.getContents().getElectionType().toUpperCase()) > -1) {
+                        searched.add(electionNode);
+                        found = true;
+                    }
+//by seats
+                    else if (searchElecText.getText().indexOf(electionNode.getContents().getNumberOfSeats()) > -1 ) {
+                        searched.add(electionNode);
+                        found = true;
+
+                    } else if (searchElecText.getText().toUpperCase().indexOf(electionNode.getContents().getElectionLocation().toUpperCase()) > -1 ) {
+                        searched.add(electionNode);
+                        found = true;
+                    }
+
+
+
+
+            }
+
+        }
+        if(found){
+            elecTableView.getItems().clear();
+            elecTableView.setItems(searched);
+        }
+        else{
+            alert.setTitle("Error Message");
+            alert.setContentText("No Elections match your search result :(");
+            alert.showAndWait();
+        }
+
+
+
+    }
+
+
+
 
     public void viewAllPoliticiansInTableView(ActionEvent actionEvent) {
         polTableView.setItems(pols);
