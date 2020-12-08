@@ -325,7 +325,8 @@ public class Controller implements Initializable {                 //im not able
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
         Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
-        Politician candidate = new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election);
+        GenList<Election> electionsTookPart = new GenList<>();
+        Politician candidate = (!(forCandidate.getContents() instanceof  Candidate)) ? new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election,electionsTookPart) : (Candidate)forCandidate.getContents();
 
 
         forCandidate.setContents(candidate);
@@ -479,9 +480,6 @@ public class Controller implements Initializable {                 //im not able
 
     }
 
-    public void searchPoliticianByLocation() {
-
-    }
 
 
     /**

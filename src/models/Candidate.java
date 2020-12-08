@@ -1,9 +1,15 @@
 package models;
 
+import utils.GenList;
+import utils.Node;
+
 public class Candidate extends Politician {
         private int totalVotes;
         private String partyStoodFor;
-        Election electionTookPartIn;
+
+
+        private Election electionTookPartIn;
+        private GenList<Election> elections;
 
     public Election getElectionTookPartIn() {
         return electionTookPartIn;
@@ -13,11 +19,15 @@ public class Candidate extends Politician {
         this.electionTookPartIn = electionTookPartIn;
     }
 
-    public Candidate(String name, String dateOfBirth, String politicalParty, String partyStoodFor, String homeCounty, String imgUrl, int totalVotes,Election electionTookPartIn) {
+
+    public Candidate(String name, String dateOfBirth, String politicalParty, String partyStoodFor, String homeCounty, String imgUrl, int totalVotes, Election electionTookPartIn, GenList<Election> elections) {
         super(name, dateOfBirth, politicalParty, homeCounty, imgUrl);
         this.partyStoodFor=partyStoodFor;
         this.totalVotes=totalVotes;
         this.electionTookPartIn =electionTookPartIn;
+        this.elections = elections ;
+
+        elections.addElement(electionTookPartIn);
 
 
 
