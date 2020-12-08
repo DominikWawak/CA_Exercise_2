@@ -171,16 +171,21 @@
                               <Button fx:id="addCandidate" layoutX="148.0" layoutY="180.0" mnemonicParsing="false" onAction="#addCandidateToElectionGui" text="ADD CANDIDATE" />
                            </children>
                         </Pane>
-                        <Pane fx:id="updateElectionPane" layoutX="674.0" layoutY="340.0" prefHeight="187.0" prefWidth="205.0" visible="false">
+                        <Pane fx:id="updateElectionPane" layoutX="466.0" layoutY="340.0" prefHeight="187.0" prefWidth="413.0" visible="false">
                            <children>
-                              <DatePicker fx:id="updDate" layoutX="7.0" layoutY="81.0" prefHeight="25.0" prefWidth="155.0" />
-                              <ComboBox fx:id="updElec" layoutX="10.0" layoutY="46.0" prefWidth="150.0" />
-                              <ChoiceBox fx:id="updType" layoutX="10.0" layoutY="14.0" prefWidth="150.0" />
-                              <Spinner fx:id="updSeats" layoutX="11.0" layoutY="121.0" />
+                              <DatePicker fx:id="updDate" layoutX="236.0" layoutY="81.0" prefHeight="25.0" prefWidth="155.0" />
+                              <ComboBox fx:id="updElec" layoutX="238.0" layoutY="48.0" prefWidth="150.0" />
+                              <ChoiceBox fx:id="updType" layoutX="238.0" layoutY="14.0" prefWidth="150.0" />
+                              <Spinner fx:id="updSeats" layoutX="236.0" layoutY="123.0" />
                               <Button layoutX="29.0" layoutY="155.0" mnemonicParsing="false" onAction="#updateElection" prefHeight="25.0" prefWidth="149.0" text="update chosen Election" />
+                              <Label layoutX="168.0" layoutY="18.0" text="Type :" />
+                              <Label layoutX="170.0" layoutY="52.0" text="Location : " />
+                              <Label layoutX="170.0" layoutY="85.0" text="Date : " />
+                              <Label layoutX="129.0" layoutY="127.0" text="Number Of Seats :" />
                            </children>
                         </Pane>
-                        <Button fx:id="sortElections" layoutX="482.0" layoutY="9.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="sort" />
+                        <RadioButton fx:id="quickSortByDate" layoutX="533.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="Sort By Date" />
+                        <RadioButton fx:id="quickSortBySeats" layoutX="639.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="Sort by Seats" />
                      </children></AnchorPane>
             </content>
           </Tab>

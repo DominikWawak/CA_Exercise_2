@@ -99,7 +99,7 @@ public class Controller implements Initializable {                 //im not able
     private Spinner<Integer> noOfSeats, totalVotesCandidate, updSeats;
 
     @FXML
-    private RadioButton partySortChoice, polNameSortChoice;
+    private RadioButton partySortChoice, polNameSortChoice,quickSortByDate,quickSortBySeats;
 
     @FXML
     private DatePicker polDob, elecDate, updDate;
@@ -285,7 +285,7 @@ public class Controller implements Initializable {                 //im not able
         elecTableView.refresh();
     }
 
-    public ObservableList<Node<Election>> quickSortElections(ObservableList<Node<Election>> a, int start, int end) {
+    public ObservableList<Node<Election>> quickSortElections(ObservableList<Node<Election>> a, int start, int end,Comparator<Node<Election>> c) {
 
         int beginning = start;
         int last = end;
@@ -296,8 +296,8 @@ public class Controller implements Initializable {                 //im not able
 
         while (beginning <= last) {
 
-            while (a.get(beginning).getContents().getDate().compareTo(pivot.getContents().getDate()) > 0) beginning++;
-            while (a.get(last).getContents().getDate().compareTo(pivot.getContents().getDate()) < 0) last--;
+            while (c.compare(a.get(beginning),pivot)<0) beginning++;
+            while (c.compare(a.get(last),pivot) > 0) last--;
 
             if (beginning <= last) {
                 Node<Election> swap = a.get(beginning);
@@ -312,8 +312,8 @@ public class Controller implements Initializable {                 //im not able
             }
         }
 
-        if (start < last) quickSortElections(a, start, last);
-        if (beginning < end) quickSortElections(a, beginning, end);
+        if (start < last) quickSortElections(a, start, last,c);
+        if (beginning < end) quickSortElections(a, beginning, end,c);
 
 
         return a;
@@ -618,6 +618,8 @@ public class Controller implements Initializable {                 //im not able
         canListView.setRoot(rootItem);
 
 
+
+
     }
 
     /*
@@ -770,8 +772,21 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void quickSortElectionsGui(ActionEvent actionEvent) {
-        elecTableView.setItems(quickSortElections(elecTableView.getItems(), 0, elecTableView.getItems().size() - 1));
+        ToggleGroup group=new ToggleGroup();
+        quickSortByDate.setToggleGroup(group);
+        quickSortBySeats.setToggleGroup(group);
+
+        if(quickSortByDate.isSelected()) {
+            quickSortByDate.setSelected(true);
+            quickSortBySeats.setSelected(false);
+            elecTableView.setItems(quickSortElections(elecTableView.getItems(), 0, elecTableView.getItems().size() - 1, Comparator.comparing(a -> a.getContents().getDate())));
+        }else {
+            quickSortBySeats.setSelected(true);
+            quickSortByDate.setSelected(false);
+            elecTableView.setItems(quickSortElections(elecTableView.getItems(), 0, elecTableView.getItems().size() - 1, Comparator.comparing(a -> a.getContents().getNumberOfSeats())));
+        }elecTableView.refresh();
     }
+
 
     public void refreshTreeView(MouseEvent mouseEvent) {
         canListView.refresh();
