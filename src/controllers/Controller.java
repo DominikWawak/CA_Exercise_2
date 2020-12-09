@@ -73,8 +73,8 @@ public class Controller implements Initializable {                 //im not able
     @FXML
     private TableColumn<Node<Election>, String> typeColumn, locationColumn, elecDateColumn, seatsColumn;
 
+    Alert alert;
 
-  //  Alert alert=new Alert(Alert.AlertType.INFORMATION);
 
 
     @FXML
@@ -336,60 +336,65 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-        forCandidate.setContents(candidate);
 
 
-        election.getCandidateGenList().addElement(candidate);
+        if(!(election.getElectionType().toUpperCase().equals("LOCAL") && !(candidate.getHomeCounty().equals(election.electionLocation)))) {
+            forCandidate.setContents(candidate);
+            election.getCandidateGenList().addElement(candidate);
 
 
+            TreeItem<String> date = new TreeItem<>(election.getDate());
 
 
+            Boolean found = false;
+            for (TreeItem<String> x : canListView.getRoot().getChildren()) {
+                if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
+                    for (TreeItem<String> y : x.getChildren()) {
+                        if (y != null) {
+                            if (y.getValue().equals(election.getDate())) {
+                                y.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
+                                found = true;
+                            }
+                        } else {
+                            for (TreeItem<String> s : canListView.getRoot().getChildren()) {
 
-        TreeItem<String> date = new TreeItem<>(election.getDate());
+                                if (election.getElectionType().toUpperCase().equals(s.getValue().toUpperCase())) {
+                                    s.getChildren().add(date);
+                                    date.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
 
-
-        Boolean found = false;
-        for (TreeItem<String> x : canListView.getRoot().getChildren()) {
-            if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
-                for (TreeItem<String> y : x.getChildren()) {
-                    if (y != null) {
-                        if (y.getValue().equals(election.getDate())) {
-                            y.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
-                            found = true;
-                        }
-                    } else {
-                        for (TreeItem<String> s : canListView.getRoot().getChildren()) {
-
-                            if (election.getElectionType().toUpperCase().equals(s.getValue().toUpperCase())) {
-                                s.getChildren().add(date);
-                                date.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
-
+                                }
                             }
                         }
+
                     }
 
-                }
-
-
-            }
-        }
-        if (!found) {
-            for (TreeItem<String> x : canListView.getRoot().getChildren()) {
-
-                if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
-                    x.getChildren().add(date);
-                    date.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
-
 
                 }
             }
+            if (!found) {
+                for (TreeItem<String> x : canListView.getRoot().getChildren()) {
+
+                    if (election.getElectionType().toUpperCase().equals(x.getValue().toUpperCase())) {
+                        x.getChildren().add(date);
+                        date.getChildren().add(new TreeItem<>("Name : " + forCandidate.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) candidate).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) candidate).getPartyStoodFor()));
+
+
+                    }
+                }
+            }
+
+
+            canListView.getRoot().getChildren();
+
+
+            System.out.println(election.getCandidateGenList().head.getContents().toString());
+        }
+        else {
+            alert.setTitle("Error Message");
+            alert.setContentText("Politician not suited for this election");
+            alert.showAndWait();
         }
 
-
-        canListView.getRoot().getChildren();
-
-
-        System.out.println(election.getCandidateGenList().head.getContents().toString());
     }
 
 
@@ -501,10 +506,21 @@ public class Controller implements Initializable {                 //im not able
 
 
     }
+    public   ObservableList<Node<Politician>> searchPoliticians(String option){
+        ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();
 
-    public void searchPoliticianByParty() {
 
+        for (Node<Politician> politicianNode : politicians.hashTable) {
+            if(politicianNode!=null && !(politicianNode.getContents().equals("empty"))) {
+                if (searchText.getText().toUpperCase().indexOf(politicianNode.getContents().searchOption(option).toUpperCase()) > -1) {
+                    searched.add(politicianNode);
+                }
+            }
+        }
+        return searched;
     }
+
+
 
 
 
@@ -583,7 +599,7 @@ public class Controller implements Initializable {                 //im not able
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        alert=new Alert(Alert.AlertType.INFORMATION);
 
         cardViewPane.setStyle("-fx-border-color: black");
         polCounty.setItems(counties);
@@ -797,18 +813,12 @@ public class Controller implements Initializable {                 //im not able
     }
 
     public void searchPolTableView(ActionEvent actionEvent) {
-        ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();
 
-
-        for (Node<Politician> politicianNode : politicians.hashTable) {
-            if(politicianNode!=null && !(politicianNode.getContents().equals("empty"))) {
-                if (searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase()) > -1) {
-                    searched.add(politicianNode);
-                }
-            }
-        }
         polTableView.getItems().clear();
-        polTableView.setItems(searched);
+        polTableView.setItems(searchPoliticians("PARTY"));
+        if(polTableView.getItems().size()==0)
+            polTableView.setItems(searchPoliticians("NAME"));
+
     }
 
     public void searchElection(ActionEvent event){
@@ -851,9 +861,9 @@ public class Controller implements Initializable {                 //im not able
             elecTableView.setItems(searched);
         }
         else{
-          //  alert.setTitle("Error Message");
-          //  alert.setContentText("No Elections match your search result :(");
-         //  alert.showAndWait();
+           alert.setTitle("Error Message");
+            alert.setContentText("No Elections match your search result :(");
+          alert.showAndWait();
         }
 
 

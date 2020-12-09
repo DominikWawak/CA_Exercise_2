@@ -74,6 +74,14 @@ public abstract class Politician  {
 
     public abstract void update( Politician pol,String politicalParty, String homeCounty, String imgUrl);
 
+    public String searchOption(String option){
+        if(option.toUpperCase().equals("NAME"))
+            return getName();
+        else if(option.toUpperCase().equals("PARTY"))
+            return getPoliticalParty();
+
+        return null;
+    }
 
 
 

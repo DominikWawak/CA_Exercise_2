@@ -89,9 +89,9 @@ class ControllerTest {
         assertEquals(three,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.next.next.getContents());
 
         //By Party
-        assertEquals(one,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.getContents());
+        assertEquals(three,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.getContents());
         assertEquals(two,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.next.getContents());
-        assertEquals(three,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.next.next.getContents());
+        assertEquals(one,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.next.next.getContents());
 
     }
 
