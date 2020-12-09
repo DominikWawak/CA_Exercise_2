@@ -11,6 +11,14 @@ public class Candidate extends Politician {
         private Election electionTookPartIn;
         private GenList<Election> elections;
 
+    public GenList<Election> getElections() {
+        return elections;
+    }
+
+    public void setElections(GenList<Election> elections) {
+        this.elections = elections;
+    }
+
     public Election getElectionTookPartIn() {
         return electionTookPartIn;
     }

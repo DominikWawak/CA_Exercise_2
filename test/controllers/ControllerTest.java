@@ -81,8 +81,15 @@ class ControllerTest {
     void shellSortTest(){
         System.out.println(politicians);
         System.out.println(politicians.makeList());
-        controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName()));
+        Politician three = politicians.makeList().getAtIndex(0).getContents();
+        Politician one =politicians.makeList().getAtIndex(1).getContents();
+        Politician two = politicians.makeList().getAtIndex(2).getContents();
+        assertEquals(one,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.getContents());
+        assertEquals(two,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.next.getContents());
+        assertEquals(three,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.next.next.getContents());
     }
+
+
 
 
     @Test

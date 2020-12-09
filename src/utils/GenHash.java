@@ -42,7 +42,7 @@ public class GenHash<E>
 
         for(Node x : hashTable2) {
             if(x!=null && x.getContents() != "empty")
-            add(x);
+                add(x);
         }
 
     }

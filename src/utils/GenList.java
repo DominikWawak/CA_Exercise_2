@@ -50,9 +50,10 @@ public class GenList<G> {
         return stop;
     }
     public void setAt(int i, Node<G> node){
-        G temp = getAtIndex(i).getContents();
+        Node<G> old = getAtIndex(i);
         getAtIndex(i).setContents(node.getContents());
-        node.setContents(temp);
+        node = old;
+
     }
 
 

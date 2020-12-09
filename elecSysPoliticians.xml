@@ -1,41 +1,37 @@
 <object-stream>
   <utils.GenHash>
     <hashTable>
-      <null/>
       <utils.Node>
-        <contents class="models.Candidate">
-          <name>Denis</name>
+        <contents class="models.NonCandidate">
+          <name>xavier</name>
+          <dateOfBirth>2020-12-14</dateOfBirth>
+          <politicalParty>ss</politicalParty>
+          <homeCounty>Armagh</homeCounty>
+          <imgUrl>sa</imgUrl>
+        </contents>
+        <k>0</k>
+      </utils.Node>
+      <utils.Node>
+        <contents class="models.NonCandidate">
+          <name>ada</name>
           <dateOfBirth>2020-12-08</dateOfBirth>
-          <politicalParty>sdad</politicalParty>
+          <politicalParty>ssdd</politicalParty>
           <homeCounty>Carlow</homeCounty>
-          <imgUrl>asd</imgUrl>
-          <totalVotes>10</totalVotes>
-          <partyStoodFor>sdad</partyStoodFor>
-          <electionTookPartIn>
-            <electionType>European</electionType>
-            <electionLocation>Cavan</electionLocation>
-            <date>2020-12-01</date>
-            <numberOfSeats>10</numberOfSeats>
-            <candidateGenList>
-              <head>
-                <contents class="models.Candidate" reference="../../../.."/>
-                <k>0</k>
-              </head>
-            </candidateGenList>
-          </electionTookPartIn>
+          <imgUrl>sa</imgUrl>
         </contents>
         <k>1</k>
       </utils.Node>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>Dominik</name>
+          <name>john</name>
           <dateOfBirth>2020-12-09</dateOfBirth>
-          <politicalParty>Independent</politicalParty>
-          <homeCounty>Antrim</homeCounty>
-          <imgUrl>asd</imgUrl>
+          <politicalParty>sd</politicalParty>
+          <homeCounty>Cavan</homeCounty>
+          <imgUrl>sa</imgUrl>
         </contents>
         <k>2</k>
       </utils.Node>
+      <null/>
     </hashTable>
   </utils.GenHash>
 </object-stream>

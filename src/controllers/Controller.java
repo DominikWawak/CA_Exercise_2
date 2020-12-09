@@ -74,7 +74,7 @@ public class Controller implements Initializable {                 //im not able
     private TableColumn<Node<Election>, String> typeColumn, locationColumn, elecDateColumn, seatsColumn;
 
 
-    Alert alert=new Alert(Alert.AlertType.INFORMATION);
+  //  Alert alert=new Alert(Alert.AlertType.INFORMATION);
 
 
     @FXML
@@ -115,7 +115,9 @@ public class Controller implements Initializable {                 //im not able
     private Button addPol, addElec, updatePol, deletePol, viewPol, addCandidate, searchPolsButton,viewCandidates, sortPolButton, viewAllPols;
 
     @FXML
-    private Label cName, cDate, cParty, cCounty,cPartyStoodFor,cTotalVotes;
+    private Label cName, cDate, cParty, cCounty;
+    @FXML
+    private ListView<String> cElections;
     @FXML
     private ImageView cImg;
 
@@ -158,9 +160,8 @@ public class Controller implements Initializable {                 //im not able
     private ObservableList<String> elecList = FXCollections.observableArrayList("general", "local", "European", "presidential");
     private ObservableList<Node<Election>> temp = null;
 
-//
-    // sample image https://i.pinimg.com/originals/7d/1a/3f/7d1a3f77eee9f34782c6f88e97a6c888.jpg
-    ////
+    public Controller() {
+    }
 
     /**
      * addPoloticianMethod and addPoliticianGui
@@ -328,14 +329,20 @@ public class Controller implements Initializable {                 //im not able
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
         Election election = elecTableView.getSelectionModel().getSelectedItem().getContents();
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
-        GenList<Election> electionsTookPart = new GenList<>();
-        Politician candidate = (!(forCandidate.getContents() instanceof  Candidate)) ? new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election,electionsTookPart) : (Candidate)forCandidate.getContents();
+        GenList<Election> electionsTookPart = (forCandidate.getContents() instanceof Candidate) ? ((Candidate) forCandidate.getContents()).getElections() : new GenList<>();
+        Politician candidate =  new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election,electionsTookPart);
+       // ((Candidate) forCandidate.getContents()).setTotalVotes(totalVotesCandidate.getValue());
+        //((Candidate) forCandidate.getContents()).setPartyStoodFor(partyStoodFor.getValue());
+
 
 
         forCandidate.setContents(candidate);
 
 
         election.getCandidateGenList().addElement(candidate);
+
+
+
 
 
         TreeItem<String> date = new TreeItem<>(election.getDate());
@@ -442,9 +449,9 @@ public class Controller implements Initializable {                 //im not able
         cCounty.setText(node.getContents().getHomeCounty());
         cDate.setText(node.getContents().getDateOfBirth());
 
+
         if(node.getContents() instanceof Candidate){
-            cTotalVotes.setText("Total Votes : " + ((Candidate) node.getContents()).getTotalVotes());
-            cPartyStoodFor.setText("Party Stood for : " + ((Candidate) node.getContents()).getPartyStoodFor());
+          viewCandidateElections(node);
         }
 
 
@@ -460,6 +467,22 @@ public class Controller implements Initializable {                 //im not able
         }
 
 
+    }
+
+    public void viewCandidateElections(Node<Politician> p){
+         ObservableList<String> elecs = FXCollections.observableArrayList();
+        if(p.getContents() instanceof Candidate) {
+            Node<Election> temp = ((Candidate) p.getContents()).getElections().head;
+            for (Node<Election> i = temp;i!=null;i=i.next) {
+                for(Node<Politician> c  = i.getContents().getCandidateGenList().head; c!=null; c=c.next){
+                    if(c.getContents().getName().equals(p.getContents().getName() )){ //More options
+                        elecs.add(i.getContents().electionType + i.getContents().date +  ((Candidate) c.getContents()).getTotalVotes() + ((Candidate) c.getContents()).getPartyStoodFor());
+
+                    }
+                }
+            }
+            cElections.setItems(elecs);
+        }
     }
 
     public void displaySelectedPol(ActionEvent actionEvent) {
@@ -537,11 +560,16 @@ public class Controller implements Initializable {                 //im not able
 
 
         for (int g : gaps) {
-            for (int e = g; e < toSort.getSize(); e++) {
-                Node<Politician> elem = toSort.getAtIndex(e);
+            for (int e = g; e < toSort.getSize() ; e++) {
+                Politician p = toSort.getAtIndex(e).getContents();
+                Node<Politician> elem = new Node<>();
+                elem.setContents(p);
                 int i;
                 for (i = e; i >= g && c.compare(toSort.getAtIndex(i - g), elem) < 0; i -= g) {
-                    toSort.setAt(i, toSort.getAtIndex(i - g));
+                  //  toSort.setAt(1,toSort.getAtIndex(i-g));
+                   // toSort.getAtIndex(i-g).setContents(toSort.getAtIndex());
+                    toSort.getAtIndex(i).setContents(toSort.getAtIndex(i-g).getContents());
+
                 }
                 toSort.setAt(i, elem);
 
@@ -772,9 +800,11 @@ public class Controller implements Initializable {                 //im not able
         ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();
 
 
-        for (Node<Politician> politicianNode : polTableView.getItems()) {
-            if (searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase()) > -1) {
-                searched.add(politicianNode);
+        for (Node<Politician> politicianNode : politicians.hashTable) {
+            if(politicianNode!=null && !(politicianNode.getContents().equals("empty"))) {
+                if (searchText.getText().toUpperCase().indexOf(politicianNode.getContents().getName().toUpperCase()) > -1) {
+                    searched.add(politicianNode);
+                }
             }
         }
         polTableView.getItems().clear();
@@ -821,9 +851,9 @@ public class Controller implements Initializable {                 //im not able
             elecTableView.setItems(searched);
         }
         else{
-            alert.setTitle("Error Message");
-            alert.setContentText("No Elections match your search result :(");
-            alert.showAndWait();
+          //  alert.setTitle("Error Message");
+          //  alert.setContentText("No Elections match your search result :(");
+         //  alert.showAndWait();
         }
 
 
