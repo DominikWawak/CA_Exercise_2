@@ -26,8 +26,8 @@ class ControllerTest {
     @BeforeEach
     void setUp() {
        p1 = new NonCandidate("John","20/06/1980","Green Party","wicklow","pic.ie");
-      p2 = new NonCandidate("Xavier","20/06/1980","Green Party","wicklow","pic.ie");
-         p3 = new NonCandidate("ADA","20/06/1980","Green Party","wicklow","pic.ie");
+      p2 = new NonCandidate("Xavier","20/06/1980","Blue Party","wicklow","pic.ie");
+         p3 = new NonCandidate("ADA","20/06/1980","Red Party","wicklow","pic.ie");
          n1 = new Node<>();
          n2 = new Node<>();
          n3 = new Node<>();
@@ -87,6 +87,12 @@ class ControllerTest {
         assertEquals(one,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.getContents());
         assertEquals(two,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.next.getContents());
         assertEquals(three,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head.next.next.getContents());
+
+        //By Party
+        assertEquals(one,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.getContents());
+        assertEquals(two,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.next.getContents());
+        assertEquals(three,controller.myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head.next.next.getContents());
+
     }
 
 
