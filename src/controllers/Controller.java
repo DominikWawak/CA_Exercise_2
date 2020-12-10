@@ -397,7 +397,7 @@ public class Controller implements Initializable {                 //im not able
 
             if(canListView.getRoot().getChildren().size()!=1) {
                 int topVote = 0;
-                for (int i = canListView.getRoot().getChildren().indexOf(forCandidate); i < canListView.getRoot().getChildren().size(); i++) {
+                for (int i = canListView.getRoot().getChildren().indexOf(forCandidate.getContents().toString()); i < canListView.getRoot().getChildren().size()-1; i++) {
                     for (int votes = ((Candidate) forCandidate.getContents()).getTotalVotes(); votes < 100; votes = canListView.getRoot().getChildren().indexOf(i)) {
 
                         if (topVote < votes) {
