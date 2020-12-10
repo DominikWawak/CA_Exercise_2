@@ -409,6 +409,7 @@ public class Controller implements Initializable {                 //im not able
                             canListView.getSelectionModel().select(canListView.getRoot().getChildren().get(i));
                             canListView.getSelectionModel().getSelectedItem();
 
+
                             break;
                         }
                     }
