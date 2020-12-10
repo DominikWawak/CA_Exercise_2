@@ -8,15 +8,23 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.css.StyleClass;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Callback;
 import models.Candidate;
 import models.Election;
@@ -33,8 +41,12 @@ import utils.GenList;
 import utils.Node;
 
 
+import javax.swing.*;
 import javax.swing.tree.TreeNode;
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.awt.event.ItemEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -331,7 +343,7 @@ public class Controller implements Initializable {                 //im not able
         Node<Politician> forCandidate = politicians.getValue(politicians.hashFunction(selectPolitician.getValue()));
         GenList<Election> electionsTookPart = (forCandidate.getContents() instanceof Candidate) ? ((Candidate) forCandidate.getContents()).getElections() : new GenList<>();
         Politician candidate =  new Candidate(selectPolitician.getValue(), forCandidate.getContents().getDateOfBirth(), forCandidate.getContents().getPoliticalParty(), partyStoodFor.getValue(), forCandidate.getContents().getHomeCounty(), forCandidate.getContents().getImgUrl(), totalVotesCandidate.getValue(),election,electionsTookPart);
-       // ((Candidate) forCandidate.getContents()).setTotalVotes(totalVotesCandidate.getValue());
+        //((Candidate) forCandidate.getContents()).setTotalVotes(totalVotesCandidate.getValue().toString());
         //((Candidate) forCandidate.getContents()).setPartyStoodFor(partyStoodFor.getValue());
 
 
@@ -383,8 +395,27 @@ public class Controller implements Initializable {                 //im not able
                 }
             }
 
+            if(canListView.getRoot().getChildren().size()!=1) {
+                int topVote = 0;
+                for (int i = canListView.getRoot().getChildren().indexOf(forCandidate); i < canListView.getRoot().getChildren().size(); i++) {
+                    for (int votes = ((Candidate) forCandidate.getContents()).getTotalVotes(); votes < 100; votes = canListView.getRoot().getChildren().indexOf(i)) {
+
+                        if (topVote < votes) {
+                            topVote = votes;
+
+
+                        } else {
+
+                            canListView.getSelectionModel().select(canListView.getRoot().getChildren().indexOf(i));
+                            canListView.getSelectionModel().getSelectedItem();
+
+                        }
+                    }
+                }
+            }
 
             canListView.getRoot().getChildren();
+
 
 
             System.out.println(election.getCandidateGenList().head.getContents().toString());
@@ -395,9 +426,19 @@ public class Controller implements Initializable {                 //im not able
             alert.showAndWait();
         }
 
+
+
     }
 
 
+
+
+
+        /* */
+
+
+
+/* */
     /**
      * updatePoliticianGui
      * <p>
@@ -653,6 +694,9 @@ public class Controller implements Initializable {                 //im not able
         //
 
 
+
+
+
         rootItem = new TreeItem<String>("Election Type");
 
         general = new TreeItem<String>("General");
@@ -834,6 +878,7 @@ public class Controller implements Initializable {                 //im not able
 
             //while loop here
             for (Node<Election> electionNode : elecTableView.getItems()) {
+
 
 
                     if (searchElecText.getText().toUpperCase().indexOf(electionNode.getContents().getElectionType().toUpperCase()) > -1) {

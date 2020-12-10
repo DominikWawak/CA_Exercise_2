@@ -28,6 +28,7 @@ public class Candidate extends Politician {
     }
 
 
+
     public Candidate(String name, String dateOfBirth, String politicalParty, String partyStoodFor, String homeCounty, String imgUrl, int totalVotes, Election electionTookPartIn, GenList<Election> elections) {
         super(name, dateOfBirth, politicalParty, homeCounty, imgUrl);
         this.partyStoodFor=partyStoodFor;
