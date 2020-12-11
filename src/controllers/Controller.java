@@ -124,7 +124,7 @@ public class Controller implements Initializable {                 //im not able
 
 
     @FXML
-    private Button addPol, addElec, updatePol, deletePol, viewPol, addCandidate, searchPolsButton,viewCandidates, sortPolButton, viewAllPols;
+    private Button addPol, sortWithMyCustomBtn,addElec, updatePol, deletePol, viewPol, addCandidate, searchPolsButton,viewCandidates, sortPolButton, viewAllPols;
 
     @FXML
     private Label cName, cDate, cParty, cCounty;
@@ -448,13 +448,6 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-
-
-        /* */
-
-
-
-/* */
     /**
      * updatePoliticianGui
      * <p>
@@ -581,17 +574,9 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-    /**
-     * \
-     * listPoliticians
-     * <p>
-     * this method loops through the Nodes in the hashtable returns all that are not null
-     *
-     * @return String list
-     */
 
 
-    // Do it using own lists
+
     public ObservableList<Node<Politician>> shellSort(ObservableList<Node<Politician>> toSort, Comparator<Node<Politician>> c) {
         //int[] gaps = {1};
         ArrayList<Integer> gaps = new ArrayList<>(); //
@@ -693,22 +678,6 @@ public class Controller implements Initializable {                 //im not able
         noOfSeats.setValueFactory(spinner);
         updSeats.setValueFactory(spinner);
         totalVotesCandidate.setValueFactory(spinner);
-
-       /* NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
-        Node<Politician> p=new Node<>();
-        p.setContents(pol);
-
-        politicians.add(p);
-        politicians.add(p);
-        politicians.add(p);
-        politicians.displayHashTable();
-
-        */
-
-        //
-
-        //
-
 
 
 
@@ -852,25 +821,6 @@ public class Controller implements Initializable {                 //im not able
         }
     }
 
-    public void sortPoliticiansByParty(ActionEvent actionEvent) {
-
-        ToggleGroup group=new ToggleGroup();
-
-        partySortChoice.setToggleGroup(group);
-        polNameSortChoice.setToggleGroup(group);
-
-        if (partySortChoice.isSelected()){
-            partySortChoice.setSelected(true);
-            polNameSortChoice.setSelected(false);
-            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));}
-        else {
-            polNameSortChoice.setSelected(true);
-            partySortChoice.setSelected(false);
-            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getName())));
-        }
-        polTableView.refresh();
-
-    }
 
     public void searchPolTableView(ActionEvent actionEvent) {
 
@@ -938,6 +888,11 @@ public class Controller implements Initializable {                 //im not able
         polTableView.setItems(pols);
     }
 
+
+    //
+    // ====Sorting in GUI============
+    //
+
     public void quickSortElectionsGui(ActionEvent actionEvent) {
         ToggleGroup group=new ToggleGroup();
         quickSortByDate.setToggleGroup(group);
@@ -955,6 +910,53 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
+    public void sortPoliticians(ActionEvent actionEvent) {
+
+        ToggleGroup group=new ToggleGroup();
+
+        partySortChoice.setToggleGroup(group);
+        polNameSortChoice.setToggleGroup(group);
+
+        if (partySortChoice.isSelected()){
+            partySortChoice.setSelected(true);
+            polNameSortChoice.setSelected(false);
+            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getPoliticalParty())));}
+        else {
+            polNameSortChoice.setSelected(true);
+            partySortChoice.setSelected(false);
+            polTableView.setItems(shellSort(polTableView.getItems(), Comparator.comparing(a -> a.getContents().getName())));
+        }
+        polTableView.refresh();
+
+    }
+
+    public void sortAllWithHashTable(ActionEvent actionEvent) {
+        ToggleGroup group=new ToggleGroup();
+        ObservableList<Node<Politician>> sortedPols = FXCollections.observableArrayList();
+
+        partySortChoice.setToggleGroup(group);
+        polNameSortChoice.setToggleGroup(group);
+
+        if (partySortChoice.isSelected()){
+            partySortChoice.setSelected(true);
+            polNameSortChoice.setSelected(false);
+            for(Node<Politician>i = myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getPoliticalParty())).head ; i!= null ;i=i.next){
+                sortedPols.add(i);
+            }
+            polTableView.setItems(sortedPols);}
+        else {
+            polNameSortChoice.setSelected(true);
+            partySortChoice.setSelected(false);
+            for(Node<Politician>i = myOwnShellSort(politicians.makeList(), Comparator.comparing(a -> a.getContents().getName())).head ; i!= null ;i=i.next){
+                sortedPols.add(i);
+            }
+            polTableView.setItems(sortedPols);
+        }
+        polTableView.refresh();
+
+    }
+
+
     public void refreshTreeView(MouseEvent mouseEvent) {
         canListView.refresh();
     }
@@ -968,4 +970,6 @@ public class Controller implements Initializable {                 //im not able
          }
          polTableView.setItems(candidates);
     }
+
+
 }
