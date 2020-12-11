@@ -3,33 +3,23 @@
     <hashTable>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>xavier</name>
-          <dateOfBirth>2020-12-14</dateOfBirth>
-          <politicalParty>ss</politicalParty>
-          <homeCounty>Armagh</homeCounty>
-          <imgUrl>sa</imgUrl>
+          <name>fsds</name>
+          <dateOfBirth>2020-12-07</dateOfBirth>
+          <politicalParty>dfs</politicalParty>
+          <homeCounty>Carlow</homeCounty>
+          <imgUrl></imgUrl>
         </contents>
         <k>0</k>
       </utils.Node>
       <utils.Node>
         <contents class="models.NonCandidate">
-          <name>ada</name>
-          <dateOfBirth>2020-12-08</dateOfBirth>
-          <politicalParty>ssdd</politicalParty>
-          <homeCounty>Carlow</homeCounty>
-          <imgUrl>sa</imgUrl>
+          <name>dtghfgh</name>
+          <dateOfBirth>2020-12-23</dateOfBirth>
+          <politicalParty>fg</politicalParty>
+          <homeCounty>Clare</homeCounty>
+          <imgUrl></imgUrl>
         </contents>
         <k>1</k>
-      </utils.Node>
-      <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>john</name>
-          <dateOfBirth>2020-12-09</dateOfBirth>
-          <politicalParty>sd</politicalParty>
-          <homeCounty>Cavan</homeCounty>
-          <imgUrl>sa</imgUrl>
-        </contents>
-        <k>2</k>
       </utils.Node>
       <null/>
     </hashTable>

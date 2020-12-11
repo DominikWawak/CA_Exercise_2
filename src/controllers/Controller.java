@@ -395,26 +395,6 @@ public class Controller implements Initializable {                 //im not able
                 }
             }
 
-            if(canListView.getRoot().getChildren().size()!=1) {
-                int topVote = 0;
-                for (int i = canListView.getRoot().getChildren().indexOf(candidate); i < canListView.getRoot().getChildren().size()-1; i++) {
-                    for (int votes = ((Candidate) forCandidate.getContents()).getTotalVotes(); votes < 100; votes = canListView.getRoot().getChildren().indexOf(i)) {
-
-                        if (topVote < votes) {
-                            topVote = votes;
-
-
-                        } else {
-
-                            canListView.getSelectionModel().select(canListView.getRoot().getChildren().get(i));
-                            canListView.getSelectionModel().getSelectedItem();
-
-
-                            break;
-                        }
-                    }
-                }
-            }
 
             canListView.getRoot().getChildren();
 
@@ -427,10 +407,44 @@ public class Controller implements Initializable {                 //im not able
             alert.setContentText("Politician not suited for this election");
             alert.showAndWait();
         }
-
+        if(election.getCandidateGenList().getSize()!=1) {
+            getCanWithMostVotes(election);
+        }
 
 
     }
+
+
+    public void getCanWithMostVotes(Election election){
+
+        if(election.getCandidateGenList().getSize()!=1) {
+            Node<Politician> topVotes = election.getCandidateGenList().head;
+            int topVote = 0;
+            for (Node<Politician> i = topVotes; i!=null; i=i.next ) {
+                if (((Candidate) i.getContents()).getTotalVotes() > ((Candidate) topVotes.getContents()).getTotalVotes()) {
+                    topVotes = i;
+                    break;
+                }
+
+            }
+            // find in gui
+            for(TreeItem<String > el : canListView.getRoot().getChildren()){
+                if(el.getValue().toUpperCase().equals(election.getElectionType().toUpperCase())){
+                    for(TreeItem<String> date : el.getChildren()){
+                        if(date.getValue().equals(election.getDate())){
+                            for(TreeItem<String> can : date.getChildren()){
+                                if(can.getValue().contains(((Candidate) topVotes.getContents()).getTotalVotes() +  "")){
+                                    can.setValue("Name : " + topVotes.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) topVotes.getContents()).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) topVotes.getContents()).getPartyStoodFor() + "\n" + "*********************");
+                                    canListView.refresh();
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+   }
 
 
 
