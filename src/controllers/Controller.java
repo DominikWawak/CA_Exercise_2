@@ -301,41 +301,11 @@ public class Controller implements Initializable {                 //im not able
         elecTableView.refresh();
     }
 
-    public ObservableList<Node<Election>> quickSortElections(ObservableList<Node<Election>> a, int start, int end,Comparator<Node<Election>> c) {
-
-        int beginning = start;
-        int last = end;
 
 
-        Node<Election> pivot = a.get(start + (end - start) / 2);
 
 
-        while (beginning <= last) {
 
-            while (c.compare(a.get(beginning),pivot)<0) beginning++;
-            while (c.compare(a.get(last),pivot) > 0) last--;
-
-            if (beginning <= last) {
-                Node<Election> swap = a.get(beginning);
-
-                a.set(beginning, a.get(last));
-                a.set(last, swap);
-
-
-                beginning++;
-                last--;
-
-            }
-        }
-
-        if (start < last) quickSortElections(a, start, last,c);
-        if (beginning < end) quickSortElections(a, beginning, end,c);
-
-
-        return a;
-
-
-    }
 
 
     public void addCandidateToElectionGui(ActionEvent actionEvent) {
@@ -435,6 +405,8 @@ public class Controller implements Initializable {                 //im not able
                             for(TreeItem<String> can : date.getChildren()){
                                 if(can.getValue().contains(((Candidate) topVotes.getContents()).getTotalVotes() +  "")){
                                     can.setValue("Name : " + topVotes.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) topVotes.getContents()).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) topVotes.getContents()).getPartyStoodFor() + "\n" + "*********************");
+                                    canListView.getSelectionModel().select(can);
+                                    canListView.getSelectionModel().getSelectedItem();
                                     canListView.refresh();
                                 }
 
@@ -893,6 +865,7 @@ public class Controller implements Initializable {                 //im not able
     // ====Sorting in GUI============
     //
 
+
     public void quickSortElectionsGui(ActionEvent actionEvent) {
         ToggleGroup group=new ToggleGroup();
         quickSortByDate.setToggleGroup(group);
@@ -909,7 +882,91 @@ public class Controller implements Initializable {                 //im not able
         }elecTableView.refresh();
     }
 
+    public ObservableList<Node<Election>> quickSortElections(ObservableList<Node<Election>> a, int start, int end,Comparator<Node<Election>> c) {
 
+        int beginning = start;
+        int last = end;
+
+
+        Node<Election> pivot = a.get(start + (end - start) / 2);
+
+
+        while (beginning <= last) {
+
+            while (c.compare(a.get(beginning),pivot)<0) beginning++;
+            while (c.compare(a.get(last),pivot) > 0) last--;
+
+            if (beginning <= last) {
+                Node<Election> swap = a.get(beginning);
+
+                a.set(beginning, a.get(last));
+                a.set(last, swap);
+
+
+                beginning++;
+                last--;
+
+            }
+        }
+
+        if (start < last) quickSortElections(a, start, last,c);
+        if (beginning < end) quickSortElections(a, beginning, end,c);
+
+
+        return a;
+
+
+    }
+
+    public Node<Election> partitionLast(Node<Election> start,Node<Election> end){
+        if(start==end || start==null || end==null) return start;
+
+        Node<Election> pivot_prev =start;
+        Node<Election> current =start;
+        int pivot=end.getKey();
+
+        while(start!=end){
+            if(start.getKey()<pivot){
+                pivot_prev=current;
+                int temp=current.getKey();
+                current.k=start.getKey();
+                start.k=temp;
+                current=current.next;
+            }
+            start=start.next;
+        }
+
+        int temp=current.getKey();
+        current.k=pivot;
+        end.k=temp;
+
+        return pivot_prev;
+    }
+    public ObservableList<Node<Election>> quickSort(Node<Election> start,Node<Election> end){
+
+        if(start==end){
+            return elecTableView.getItems();
+        }
+
+        Node<Election> pivot=partitionLast(start,end);
+        quickSort(start,pivot);
+
+
+        if (pivot!=null&&pivot==start) quickSort(pivot.next,end);
+
+        else if(pivot!=null&&pivot.next!=null) quickSort(pivot.next.next,end);
+
+        return elecTableView.getItems();
+    }
+
+
+
+
+
+    public void quickSortElecLinkedList(ActionEvent event){
+        elecTableView.setItems(quickSort(elecTableView.getItems().get(0), elecTableView.getItems().get(elecTableView.getItems().size() - 1)));
+        elecTableView.refresh();
+    }
     public void sortPoliticians(ActionEvent actionEvent) {
 
         ToggleGroup group=new ToggleGroup();

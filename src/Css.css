@@ -1,3 +1,4 @@
-.tree-cell:selected {
-    background-color: darkorange;
+.tree-view .tree-cell:selected{
+    -fx-background-color: lightgreen;
+    -fx-font-weight: bold;
 }

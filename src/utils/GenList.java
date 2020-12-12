@@ -56,21 +56,20 @@ public class GenList<G> {
 
     }
 
+    public Node<G> reverse(Node<G> node) {
+        Node<G> prev=null;
+        Node<G> curr=node;
+        Node<G> next=null;
+        while(curr!=null){
+            next=curr.next;
+            curr.next=prev;
+            prev=curr;
+            curr=next;
+        }
+        node=prev;
+        return node;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }
 }
 
 

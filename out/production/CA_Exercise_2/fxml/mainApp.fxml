@@ -106,13 +106,14 @@
                         </TableView>
                         <Button fx:id="deletePol" layoutX="366.0" layoutY="261.0" mnemonicParsing="false" onAction="#deletePoliticianGui" prefHeight="25.0" prefWidth="105.0" text="Delete" />
                         <Button fx:id="viewPol" layoutX="365.0" layoutY="230.0" mnemonicParsing="false" onAction="#displaySelectedPol" prefHeight="25.0" prefWidth="108.0" text="view Politician" />
-                        <TextField fx:id="searchText" layoutX="545.0" layoutY="14.0" prefHeight="25.0" prefWidth="128.0" />
-                        <Button fx:id="searchPolsButton" layoutX="471.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchPolTableView" prefHeight="25.0" prefWidth="59.0" text="Search" />
+                        <TextField fx:id="searchText" layoutX="473.0" layoutY="14.0" prefHeight="25.0" prefWidth="128.0" />
+                        <Button fx:id="searchPolsButton" layoutX="410.0" layoutY="14.0" mnemonicParsing="false" onAction="#searchPolTableView" prefHeight="25.0" prefWidth="59.0" text="Search" />
                         <Button fx:id="viewAllPols" layoutX="366.0" layoutY="199.0" mnemonicParsing="false" onAction="#viewAllPoliticiansInTableView" prefHeight="25.0" prefWidth="106.0" text="view all" />
-                        <RadioButton fx:id="partySortChoice" layoutX="733.0" layoutY="18.0" mnemonicParsing="false" text="Party" />
-                        <RadioButton fx:id="polNameSortChoice" layoutX="787.0" layoutY="18.0" mnemonicParsing="false" text="Name" />
-                        <Button fx:id="sortPolButton" layoutX="681.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortPoliticiansByParty" text="sort" />
+                        <RadioButton fx:id="partySortChoice" layoutX="783.0" layoutY="18.0" mnemonicParsing="false" text="Party" />
+                        <RadioButton fx:id="polNameSortChoice" layoutX="839.0" layoutY="18.0" mnemonicParsing="false" text="Name" />
+                        <Button fx:id="sortPolButton" layoutX="612.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortPoliticians" text="sort" />
                         <Button fx:id="viewCandidates" layoutX="365.0" layoutY="166.0" mnemonicParsing="false" onAction="#viewCandidatesInTable" prefHeight="25.0" prefWidth="107.0" text="View Candidates" />
+                        <Button fx:id="sortWithMyCustomBtn" layoutX="658.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortAllWithHashTable" prefHeight="25.0" prefWidth="122.0" text="Sort all stored" />
                      </children>
                   </Pane>
                </content>
@@ -184,11 +185,12 @@
                               <Label layoutX="129.0" layoutY="127.0" text="Number Of Seats :" />
                            </children>
                         </Pane>
-                        <RadioButton fx:id="quickSortByDate" layoutX="759.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="Sort By Date" />
-                        <RadioButton fx:id="quickSortBySeats" layoutX="649.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="Sort by Seats" />
+                        <RadioButton fx:id="quickSortByDate" layoutX="748.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElecLinkedList" text="Sort By Date" />
+                        <RadioButton fx:id="quickSortBySeats" layoutX="649.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElecLinkedList" text="Sort by Seats" />
                         <TextField fx:id="searchElecText" layoutX="486.0" layoutY="9.0" prefHeight="25.0" prefWidth="91.0" />
                         <Label layoutX="441.0" layoutY="13.0" text="Search : " />
                         <Button layoutX="584.0" layoutY="9.0" mnemonicParsing="false" onAction="#searchElection" text="Go" />
+                        <Button layoutX="846.0" layoutY="9.0" mnemonicParsing="false" onAction="#quickSortElecLinkedList" text="Sort All" />
                      </children></AnchorPane>
             </content>
           </Tab>
