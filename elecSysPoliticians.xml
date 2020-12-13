@@ -1,27 +1,66 @@
 <object-stream>
   <utils.GenHash>
     <hashTable>
+      <null/>
       <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>fsds</name>
-          <dateOfBirth>2020-12-07</dateOfBirth>
-          <politicalParty>dfs</politicalParty>
-          <homeCounty>Carlow</homeCounty>
-          <imgUrl></imgUrl>
-        </contents>
-        <k>0</k>
-      </utils.Node>
-      <utils.Node>
-        <contents class="models.NonCandidate">
-          <name>dtghfgh</name>
+        <contents class="models.Candidate">
+          <name>m</name>
           <dateOfBirth>2020-12-23</dateOfBirth>
-          <politicalParty>fg</politicalParty>
-          <homeCounty>Clare</homeCounty>
+          <politicalParty>lk</politicalParty>
+          <homeCounty>Derry</homeCounty>
           <imgUrl></imgUrl>
+          <totalVotes>20</totalVotes>
+          <partyStoodFor>kjm, </partyStoodFor>
+          <electionTookPartIn>
+            <electionType>general</electionType>
+            <electionLocation>Dublin</electionLocation>
+            <date>2020-12-23</date>
+            <numberOfSeats>10</numberOfSeats>
+            <seatsRemaining>2</seatsRemaining>
+            <candidateGenList>
+              <head>
+                <contents class="models.Candidate" reference="../../../.."/>
+                <k>0</k>
+                <next>
+                  <contents class="models.Candidate">
+                    <name>kk</name>
+                    <dateOfBirth>2020-12-23</dateOfBirth>
+                    <politicalParty>lk</politicalParty>
+                    <homeCounty>Derry</homeCounty>
+                    <imgUrl></imgUrl>
+                    <totalVotes>10</totalVotes>
+                    <partyStoodFor>kkk</partyStoodFor>
+                    <electionTookPartIn reference="../../../../.."/>
+                    <elections>
+                      <head>
+                        <contents class="models.Election" reference="../../../../../../.."/>
+                        <k>0</k>
+                        <next>
+                          <contents class="models.Election" reference="../../../../../../../.."/>
+                          <k>0</k>
+                        </next>
+                      </head>
+                    </elections>
+                  </contents>
+                  <k>0</k>
+                </next>
+              </head>
+            </candidateGenList>
+          </electionTookPartIn>
+          <elections reference="../electionTookPartIn/candidateGenList/head/next/contents/elections"/>
         </contents>
         <k>1</k>
       </utils.Node>
-      <null/>
+      <utils.Node>
+        <contents class="models.NonCandidate">
+          <name>m</name>
+          <dateOfBirth>2020-12-22</dateOfBirth>
+          <politicalParty>kjm, </politicalParty>
+          <homeCounty>Down</homeCounty>
+          <imgUrl></imgUrl>
+        </contents>
+        <k>2</k>
+      </utils.Node>
     </hashTable>
   </utils.GenHash>
 </object-stream>

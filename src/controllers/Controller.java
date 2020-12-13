@@ -42,7 +42,7 @@ public class Controller implements Initializable {                 //im not able
 
     GenHash<Politician> politicians = new GenHash(3);
 
-    GenHash<Node<Election>> elections = new GenHash(13);
+    GenHash<Election> elections = new GenHash(13);
 
     //
     // SET UP TABLE
@@ -708,9 +708,11 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
+
+
     public void loadPoliticians() throws Exception {
         XStream xstream = new XStream(new DomDriver());
-        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("elecSysPoliticians.xml"));
+        ObjectInputStream is = xstream.createObjectInputStream(new FileReader("Politicians.xml"));
         politicians = (GenHash<Politician>) is.readObject();
 
         is.close();
@@ -720,35 +722,39 @@ public class Controller implements Initializable {                 //im not able
 
     public void savePoliticians() throws Exception {
         XStream xstream = new XStream(new DomDriver());
-        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("elecSysPoliticians.xml"));
+        ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("Politicians.xml"));
 
-        ((ObjectOutputStream) out).writeObject(politicians);
+        out.writeObject(politicians);
         out.close();
     }
     public void loadElections() throws Exception {
         XStream xstream = new XStream(new DomDriver());
         ObjectInputStream is = xstream.createObjectInputStream(new FileReader("elecSysElections.xml"));
-        elections = (GenHash<Node<Election>>) is.readObject();
+        elections = (GenHash<Election>) is.readObject();
+        //canListView=(TreeView<String>) is.readObject();
 
         is.close();
 
 
     }
 
+
     public void saveElections() throws Exception {
         XStream xstream = new XStream(new DomDriver());
         ObjectOutputStream out = xstream.createObjectOutputStream(new FileWriter("elecSysElections.xml"));
 
-        ((ObjectOutputStream) out).writeObject(elections);
+        out.writeObject(elections);
+
         out.close();
     }
 
 
-    public void loadApp(ActionEvent actionEvent) throws Exception {
+
+    public void loadPol(ActionEvent actionEvent) throws Exception {
         try {
             loadPoliticians();
-            loadElections();
-            reloadTable();
+            polTableView.getItems().clear();
+            reloadPolTable();
 
 
         } catch (Exception e) {
@@ -756,23 +762,66 @@ public class Controller implements Initializable {                 //im not able
         }
     }
 
-    public void saveApp(ActionEvent actionEvent) throws Exception {
+    public void loadElec(ActionEvent actionEvent) throws Exception {
+        try {
+            loadElections();
+
+            canListView.refresh();
+            elecTableView.getItems().clear();
+            reloadElecTable();
+
+
+
+        } catch (Exception e) {
+            System.err.println("Error reading from file: " + e);
+        }
+    }
+
+    public void savePol(ActionEvent actionEvent) throws Exception {
         try {
             savePoliticians();
+
+
+        } catch (Exception e) {
+            System.err.println("Error saving the file: " + e);
+        }
+    }
+    public void saveElec(ActionEvent actionEvent) throws Exception {
+        try {
             saveElections();
+
+
+
 
         } catch (Exception e) {
             System.err.println("Error saving the file: " + e);
         }
     }
 
-    public void reloadTable() {
+    public void reloadPolTable() {
         for (Node<Politician> x : politicians.hashTable) {
             if (x != null && !(x.getContents().equals("empty"))) {
                 polTableView.getItems().add(x);
                 pols.add(x);
                 names.add(x.getContents().getName());
                 selectPolitician.setItems(names);
+            }
+        }
+
+    }
+
+    public void reloadElecTable(){
+        for (Node<Election> x : elections.hashTable) {
+            if (x != null && !(x.getContents().equals("empty"))) {
+                elecTableView.getItems().add(x);
+                elecs.add(x);
+                elecList.add(x.getContents().getElectionType());
+                elecList.add(x.getContents().getDate());
+                elecList.add(x.getContents().getElectionLocation());
+                elecType.setItems(elecList);
+                elecType.getItems();
+                elecTableView.getItems();
+
             }
         }
     }
@@ -901,20 +950,20 @@ public class Controller implements Initializable {                 //im not able
 
 
     }
-    public GenList<Node<Election>> sortList( GenList<Node<Election>> e,int low, int high, Comparator<Node<Election>> c) {
+    public GenList<Election> sortList( GenList<Election> e,int low, int high, Comparator<Node<Election>> c) {
         //e = elections.makeList();
 
 
         int x = low, y = high;
          //isnt able to set this for whatever reason
-        Node<Election> pivot = e.getAtIndex(low + (high- low) / 2).getContents();
+        Node<Election> pivot = e.getAtIndex(low + (high- low) / 2);
         while (x <= y) {
-            while (c.compare(e.getAtIndex(x).getContents(), pivot) < 0){
+            while (c.compare(e.getAtIndex(x), pivot) < 0){
                 e.getAtIndex(x).setContents(e.getAtIndex(x).getContents());
                 x++;}
 
 
-            while (c.compare(e.getAtIndex(y).getContents(), pivot) > 0){
+            while (c.compare(e.getAtIndex(y), pivot) > 0){
                 e.getAtIndex(y).setContents(e.getAtIndex(y).getContents());
                 y--;}
 
@@ -949,14 +998,14 @@ public class Controller implements Initializable {                 //im not able
         if(quickSortByDate.isSelected()) {
             quickSortByDate.setSelected(true);
             quickSortBySeats.setSelected(false);
-            for(Node<Election> i = sortList(elections.makeList(),0,elections.makeList().getSize(),Comparator.comparing(a ->a.getContents().getDate())).head.getContents(); i!=null; i=i.next){
+            for(Node<Election> i = sortList(elections.makeList(),0,elections.makeList().getSize(),Comparator.comparing(a ->a.getContents().getDate())).head; i!=null; i=i.next){
                 sortedElec.add(i);
             }
             elecTableView.setItems(sortedElec);
         }else {
             quickSortBySeats.setSelected(true);
             quickSortByDate.setSelected(false);
-            for(Node<Election> i = sortList(elections.makeList(),0,elections.makeList().getSize(),Comparator.comparing(a ->a.getContents().getNumberOfSeats())).head.getContents(); i!=null; i=i.next){
+            for(Node<Election> i = sortList(elections.makeList(),0,elections.makeList().getSize(),Comparator.comparing(a ->a.getContents().getNumberOfSeats())).head; i!=null; i=i.next){
                 sortedElec.add(i);
             }
             elecTableView.setItems(sortedElec);

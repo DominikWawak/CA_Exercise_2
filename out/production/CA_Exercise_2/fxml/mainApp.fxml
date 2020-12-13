@@ -29,8 +29,6 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                  <MenuItem fx:id="loadMenu" mnemonicParsing="false" onAction="#loadApp" text="load" />
-                  <MenuItem fx:id="saveMenu" mnemonicParsing="false" onAction="#saveApp" text="save" />
                   <MenuItem fx:id="addCandidateMenu" mnemonicParsing="false" onAction="#openAddCandidateMenu" text="Add Candidate" />
               <MenuItem mnemonicParsing="false" text="Close" />
                   <MenuItem fx:id="addPolMenu" mnemonicParsing="false" onAction="#openAddPolMenu" text="Add Politician" />
@@ -114,6 +112,8 @@
                         <Button fx:id="sortPolButton" layoutX="612.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortPoliticians" text="sort" />
                         <Button fx:id="viewCandidates" layoutX="365.0" layoutY="166.0" mnemonicParsing="false" onAction="#viewCandidatesInTable" prefHeight="25.0" prefWidth="107.0" text="View Candidates" />
                         <Button fx:id="sortWithMyCustomBtn" layoutX="658.0" layoutY="14.0" mnemonicParsing="false" onAction="#sortAllWithHashTable" prefHeight="25.0" prefWidth="122.0" text="Sort all stored" />
+                        <Button layoutX="393.0" layoutY="91.0" mnemonicParsing="false" onAction="#loadPol" text="Load" />
+                        <Button layoutX="393.0" layoutY="128.0" mnemonicParsing="false" onAction="#savePol" text="Save" />
                      </children>
                   </Pane>
                </content>
@@ -190,6 +190,8 @@
                         <TextField fx:id="searchElecText" layoutX="486.0" layoutY="9.0" prefHeight="25.0" prefWidth="91.0" />
                         <Label layoutX="441.0" layoutY="13.0" text="Search : " />
                         <Button layoutX="584.0" layoutY="9.0" mnemonicParsing="false" onAction="#searchElection" text="Go" />
+                        <Button layoutX="415.0" layoutY="86.0" mnemonicParsing="false" onAction="#loadElec" text="Load" />
+                        <Button layoutX="415.0" layoutY="120.0" mnemonicParsing="false" onAction="#saveElec" text="Save" />
                      </children></AnchorPane>
             </content>
           </Tab>
