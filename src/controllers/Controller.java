@@ -798,6 +798,7 @@ public class Controller implements Initializable {                 //im not able
         }
     }
 
+
     public void reloadPolTable() {
         for (Node<Politician> x : politicians.hashTable) {
             if (x != null && !(x.getContents().equals("empty"))) {
