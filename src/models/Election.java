@@ -8,6 +8,7 @@ public class Election {
     public String electionLocation;
     public String date;
     public int numberOfSeats;
+    private int seatsRemaining = 0;
     GenList<Politician> candidateGenList;
 
     public GenList<Politician> getCandidateGenList() {
@@ -59,6 +60,14 @@ public class Election {
     }
 // DO UPDATE METHOD HERE
 
+
+    public int getSeatsRemaining() {
+        return seatsRemaining;
+    }
+
+    public void setSeatsRemaining(int seatsRemaining) {
+        this.seatsRemaining = seatsRemaining;
+    }
 
     @Override
     public String toString() {

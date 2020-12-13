@@ -302,8 +302,9 @@ public class Controller implements Initializable {                 //im not able
 
 
 
-        if(!(election.getElectionType().toUpperCase().equals("LOCAL") && !(candidate.getHomeCounty().equals(election.electionLocation)))) {
+        if(!(election.getElectionType().toUpperCase().equals("LOCAL") && !(candidate.getHomeCounty().equals(election.electionLocation))) && (election.getNumberOfSeats() >= election.getSeatsRemaining() +1 )) {
             forCandidate.setContents(candidate);
+            election.setSeatsRemaining(election.getSeatsRemaining() +1 );
             election.getCandidateGenList().addElement(candidate);
 
 
@@ -356,7 +357,7 @@ public class Controller implements Initializable {                 //im not able
         }
         else {
             alert.setTitle("Error Message");
-            alert.setContentText("Politician not suited for this election");
+            alert.setContentText("Politician not suited for this election or the number of seats is full");
             alert.showAndWait();
         }
         if(election.getCandidateGenList().getSize()!=1) {
@@ -901,12 +902,12 @@ public class Controller implements Initializable {                 //im not able
 
     }
     public GenList<Node<Election>> sortList( GenList<Node<Election>> e,int low, int high, Comparator<Node<Election>> c) {
-        e = elections.makeList();
+        //e = elections.makeList();
 
 
         int x = low, y = high;
-        Node<Election> pivot = e.getAtIndex(x + (y - x) / 2).getContents(); //isnt able to set this for whatever reason
-
+         //isnt able to set this for whatever reason
+        Node<Election> pivot = e.getAtIndex(low + (high- low) / 2).getContents();
         while (x <= y) {
             while (c.compare(e.getAtIndex(x).getContents(), pivot) < 0){
                 e.getAtIndex(x).setContents(e.getAtIndex(x).getContents());
@@ -948,14 +949,14 @@ public class Controller implements Initializable {                 //im not able
         if(quickSortByDate.isSelected()) {
             quickSortByDate.setSelected(true);
             quickSortBySeats.setSelected(false);
-            for(Node<Election> i = sortList(elections.makeList(),0,elecTableView.getItems().size()-1,Comparator.comparing(a ->a.getContents().getDate())).head.getContents(); i!=null; i=i.next){
+            for(Node<Election> i = sortList(elections.makeList(),0,elections.makeList().getSize(),Comparator.comparing(a ->a.getContents().getDate())).head.getContents(); i!=null; i=i.next){
                 sortedElec.add(i);
             }
             elecTableView.setItems(sortedElec);
         }else {
             quickSortBySeats.setSelected(true);
             quickSortByDate.setSelected(false);
-            for(Node<Election> i = sortList(elections.makeList(),0,elecTableView.getItems().size()-1,Comparator.comparing(a ->a.getContents().getNumberOfSeats())).head.getContents(); i!=null; i=i.next){
+            for(Node<Election> i = sortList(elections.makeList(),0,elections.makeList().getSize(),Comparator.comparing(a ->a.getContents().getNumberOfSeats())).head.getContents(); i!=null; i=i.next){
                 sortedElec.add(i);
             }
             elecTableView.setItems(sortedElec);
