@@ -1,6 +1,7 @@
 package utils;
 
 
+import javafx.collections.ObservableList;
 import models.Candidate;
 import models.Election;
 
@@ -51,6 +52,7 @@ public class GenList<G> {
         }
         return stop;
     }
+
     public void setAt(int i, Node<G> node){
         Node<G> old = getAtIndex(i);
         getAtIndex(i).setContents(node.getContents());

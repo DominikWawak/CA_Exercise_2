@@ -15,6 +15,8 @@ public class Election {
         return candidateGenList;
     }
 
+
+
     public void setCandidateGenList(GenList<Politician> candidateGenList) {
         this.candidateGenList = candidateGenList;
     }
