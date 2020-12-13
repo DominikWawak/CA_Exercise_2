@@ -185,12 +185,12 @@
                               <Label layoutX="129.0" layoutY="127.0" text="Number Of Seats :" />
                            </children>
                         </Pane>
-                        <RadioButton fx:id="quickSortByDate" layoutX="748.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="Sort By Date" />
-                        <RadioButton fx:id="quickSortBySeats" layoutX="649.0" layoutY="13.0" mnemonicParsing="false" onAction="#quickSortElectionsGui" text="Sort by Seats" />
+                        <RadioButton fx:id="quickSortByDate" layoutX="748.0" layoutY="13.0" mnemonicParsing="false" onAction="#qse" text="Sort By Date" />
+                        <RadioButton fx:id="quickSortBySeats" layoutX="649.0" layoutY="13.0" mnemonicParsing="false" onAction="#qse" text="Sort by Seats" />
                         <TextField fx:id="searchElecText" layoutX="486.0" layoutY="9.0" prefHeight="25.0" prefWidth="91.0" />
                         <Label layoutX="441.0" layoutY="13.0" text="Search : " />
                         <Button layoutX="584.0" layoutY="9.0" mnemonicParsing="false" onAction="#searchElection" text="Go" />
-                        <Button layoutX="846.0" layoutY="9.0" mnemonicParsing="false" onAction="#quickSortElecLinkedList" text="Sort All" />
+                        <Button layoutX="846.0" layoutY="9.0" mnemonicParsing="false"  text="Sort All" />
                      </children></AnchorPane>
             </content>
           </Tab>

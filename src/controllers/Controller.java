@@ -4,28 +4,18 @@ package controllers;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.css.StyleClass;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldListCell;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Callback;
 import models.Candidate;
 import models.Election;
 
@@ -41,27 +31,18 @@ import utils.GenList;
 import utils.Node;
 
 
-import javax.swing.*;
-import javax.swing.tree.TreeNode;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.event.ItemEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.ResourceBundle;
-import java.util.regex.Pattern;
 
 public class Controller implements Initializable {                 //im not able to run the programme for some reason so i cant exactly test if any of this that i added works yet
 
     GenHash<Politician> politicians = new GenHash(3);
 
-    GenHash<Election> elections = new GenHash(13);
+    GenHash<Node<Election>> elections = new GenHash(13);
 
     //
     // SET UP TABLE
@@ -77,6 +58,7 @@ public class Controller implements Initializable {                 //im not able
     private TreeItem<String> rootItem, general, local, european, presidential;
     @FXML
     private ToggleButton toggleViewElection;
+
 
 
     @FXML
@@ -615,6 +597,7 @@ public class Controller implements Initializable {                 //im not able
     public void initialize(URL location, ResourceBundle resources) {
         alert=new Alert(Alert.AlertType.INFORMATION);
 
+
         cardViewPane.setStyle("-fx-border-color: black");
         polCounty.setItems(counties);
         elecType.setItems(elecList);
@@ -744,7 +727,7 @@ public class Controller implements Initializable {                 //im not able
     public void loadElections() throws Exception {
         XStream xstream = new XStream(new DomDriver());
         ObjectInputStream is = xstream.createObjectInputStream(new FileReader("elecSysElections.xml"));
-        elections = (GenHash<Election>) is.readObject();
+        elections = (GenHash<Node<Election>>) is.readObject();
 
         is.close();
 
@@ -917,59 +900,81 @@ public class Controller implements Initializable {                 //im not able
 
 
     }
+    public GenList<Node<Election>> sortList( GenList<Node<Election>> e,int low, int high, Comparator<Node<Election>> c) {
+        e = elections.makeList();
 
-    public Node<Election> partitionLast(Node<Election> start,Node<Election> end){
-        if(start==end || start==null || end==null) return start;
 
-        Node<Election> pivot_prev =start;
-        Node<Election> current =start;
-        int pivot=end.getKey();
+        int x = low, y = high;
+        Node<Election> pivot = e.getAtIndex(x + (y - x) / 2).getContents(); //isnt able to set this for whatever reason
 
-        while(start!=end){
-            if(start.getKey()<pivot){
-                pivot_prev=current;
-                int temp=current.getKey();
-                current.k=start.getKey();
-                start.k=temp;
-                current=current.next;
+        while (x <= y) {
+            while (c.compare(e.getAtIndex(x).getContents(), pivot) < 0){
+                e.getAtIndex(x).setContents(e.getAtIndex(x).getContents());
+                x++;}
+
+
+            while (c.compare(e.getAtIndex(y).getContents(), pivot) > 0){
+                e.getAtIndex(y).setContents(e.getAtIndex(y).getContents());
+                y--;}
+
+
+            if (x <= y) {
+                int swap = x;
+                x = y;
+                y = swap;
+
+                x++;
+                y--;
             }
-            start=start.next;
         }
+        if (x < high)
+            sortList(e,x, high, c);
+        if (low < y)
+            sortList(e,low, y, c);
 
-        int temp=current.getKey();
-        current.k=pivot;
-        end.k=temp;
-
-        return pivot_prev;
-    }
-    public ObservableList<Node<Election>> quickSort(Node<Election> start,Node<Election> end){
-
-        if(start==end){
-            return elecTableView.getItems();
-        }
-
-        Node<Election> pivot=partitionLast(start,end);
-        quickSort(start,pivot);
-
-
-        if (pivot!=null&&pivot==start) quickSort(pivot.next,end);
-
-        else if(pivot!=null&&pivot.next!=null) quickSort(pivot.next.next,end);
-
-        return elecTableView.getItems();
+        return e;
     }
 
 
 
 
 
-    public void quickSortElecLinkedList(ActionEvent event){
-        elecTableView.setItems(quickSort(elecTableView.getItems().get(0), elecTableView.getItems().get(elecTableView.getItems().size() - 1)));
-        elecTableView.refresh();
+    public void qse(ActionEvent event) {
+        ToggleGroup group=new ToggleGroup();
+        quickSortByDate.setToggleGroup(group);
+        quickSortBySeats.setToggleGroup(group);
+        ObservableList<Node<Election>> sortedElec=FXCollections.observableArrayList();
+
+        if(quickSortByDate.isSelected()) {
+            quickSortByDate.setSelected(true);
+            quickSortBySeats.setSelected(false);
+            for(Node<Election> i = sortList(elections.makeList(),0,elecTableView.getItems().size()-1,Comparator.comparing(a ->a.getContents().getDate())).head.getContents(); i!=null; i=i.next){
+                sortedElec.add(i);
+            }
+            elecTableView.setItems(sortedElec);
+        }else {
+            quickSortBySeats.setSelected(true);
+            quickSortByDate.setSelected(false);
+            for(Node<Election> i = sortList(elections.makeList(),0,elecTableView.getItems().size()-1,Comparator.comparing(a ->a.getContents().getNumberOfSeats())).head.getContents(); i!=null; i=i.next){
+                sortedElec.add(i);
+            }
+            elecTableView.setItems(sortedElec);
+        }elecTableView.refresh();
+
+
+
     }
+
+
+
+
+
+
+
     public void sortPoliticians(ActionEvent actionEvent) {
 
         ToggleGroup group=new ToggleGroup();
+
 
         partySortChoice.setToggleGroup(group);
         polNameSortChoice.setToggleGroup(group);

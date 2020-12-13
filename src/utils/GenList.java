@@ -4,6 +4,8 @@ package utils;
 import models.Candidate;
 import models.Election;
 
+import java.util.Comparator;
+
 public class GenList<G> {
     public  Node<G> head = null;
 
@@ -70,6 +72,34 @@ public class GenList<G> {
         return node;
 
     }
+
+    public Node<G> findByIndex(int index) {
+        Node<G> current =head;
+
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+
+        return current;
+    }
+
+    public int listSize() {
+        Node<G> current = head;
+        int count = 0;
+        while (current != null) {
+            current = current.next;
+            count++;
+        }
+
+        return count;
+    }
+
+
+
+
+
+
+
 }
 
 
