@@ -26,7 +26,5 @@
     </orderEntry>
     <orderEntry type="library" name="xstream-1.4.10" level="application" />
     <orderEntry type="library" name="javafx.controls" level="project" />
-    <orderEntry type="library" name="javafx-swt" level="application" />
-    <orderEntry type="library" name="xstream-1.4.11" level="application" />
   </component>
 </module>

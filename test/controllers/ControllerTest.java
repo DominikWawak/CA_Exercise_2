@@ -48,9 +48,9 @@ class ControllerTest {
 
     @Test
     void addPolitician() {
-        //TODO
+
       // Node pol = politicians.getValue(politicians.hashFunction(politicians.hashFunction("John")));
-       // assertEquals(controller.addPolitician("John","20/06/1980","Green Party","wicklow","pic.ie"),pol);
+     //   assertEquals(controller.addPolitician("John","20/06/1980","Green Party","wicklow","pic.ie"),pol);
 
     }
 

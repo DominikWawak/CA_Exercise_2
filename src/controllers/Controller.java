@@ -367,7 +367,11 @@ public class Controller implements Initializable {                 //im not able
 
     }
 
-
+    /**
+     * getCanWithMostVotes methos
+     * Looks for the candidate with the most votes in a given election passed in by a parameter.
+     * @param election
+     */
     public void getCanWithMostVotes(Election election){
 
         if(election.getCandidateGenList().getSize()!=1) {
@@ -479,6 +483,11 @@ public class Controller implements Initializable {                 //im not able
 
     }
 
+    /**
+     * viewCandidateElection
+     * method sets the small list view in the Poliutician pane with all the elections a politician took part in
+     * @param p
+     */
     public void viewCandidateElections(Node<Politician> p){
          ObservableList<String> elecs = FXCollections.observableArrayList();
         if(p.getContents() instanceof Candidate) {
@@ -486,7 +495,7 @@ public class Controller implements Initializable {                 //im not able
             for (Node<Election> i = temp;i!=null;i=i.next) {
                 for(Node<Politician> c  = i.getContents().getCandidateGenList().head; c!=null; c=c.next){
                     if(c.getContents().getName().equals(p.getContents().getName() )){ //More options
-                        elecs.add(i.getContents().electionType + i.getContents().date +  ((Candidate) c.getContents()).getTotalVotes() + ((Candidate) c.getContents()).getPartyStoodFor());
+                        elecs.add("Type "+ i.getContents().electionType + " Date: "+ i.getContents().date + " Votes: " + ((Candidate) c.getContents()).getTotalVotes() + " Party: "+((Candidate) c.getContents()).getPartyStoodFor());
 
                     }
                 }
@@ -505,12 +514,26 @@ public class Controller implements Initializable {                 //im not able
     }
 
 
+    /**
+     * searchPoliticianByName
+     * Search method using the hash function
+     * @param Name
+     * @return
+     */
     public Node searchPoliticianByName(String Name) {
 
         return politicians.getValue(politicians.hashFunction(Name));
 
 
     }
+
+    /**
+     * searchPoliticians
+     * seaching for all politicians provided a search option either party or name.
+     * uses the index of operator.
+     * @param option
+     * @return
+     */
     public   ObservableList<Node<Politician>> searchPoliticians(String option){
         ObservableList<Node<Politician>> searched = FXCollections.observableArrayList();
 
@@ -560,6 +583,15 @@ public class Controller implements Initializable {                 //im not able
         return toSort;
     }
 
+    /**
+     * myOwnShellSort
+     *
+     * shell sort using custom data structure of a hashtable implementation.
+     * used with the comparator interface to give more sorting options with radio buttons
+     * @param toSort
+     * @param c
+     * @return
+     */
     public GenList<Politician> myOwnShellSort(GenList<Politician> toSort, Comparator<Node<Politician>> c) {
         //int[] gaps = {1};
         ArrayList<Integer> gaps = new ArrayList<>(); //
@@ -579,8 +611,7 @@ public class Controller implements Initializable {                 //im not able
                 elem.setContents(p);
                 int i;
                 for (i = e; i >= g && c.compare(toSort.getAtIndex(i - g), elem) < 0; i -= g) {
-                  //  toSort.setAt(1,toSort.getAtIndex(i-g));
-                   // toSort.getAtIndex(i-g).setContents(toSort.getAtIndex());
+
                     toSort.getAtIndex(i).setContents(toSort.getAtIndex(i-g).getContents());
 
                 }
@@ -765,10 +796,13 @@ public class Controller implements Initializable {                 //im not able
     public void loadElec(ActionEvent actionEvent) throws Exception {
         try {
             loadElections();
+            loadPoliticians();
 
             canListView.refresh();
             elecTableView.getItems().clear();
+
             reloadElecTable();
+            reloadCanTreeView();
 
 
 
@@ -817,8 +851,8 @@ public class Controller implements Initializable {                 //im not able
                 elecTableView.getItems().add(x);
                 elecs.add(x);
                 elecList.add(x.getContents().getElectionType());
-                elecList.add(x.getContents().getDate());
-                elecList.add(x.getContents().getElectionLocation());
+              //  elecList.add(x.getContents().getDate());
+               // elecList.add(x.getContents().getElectionLocation());
                 elecType.setItems(elecList);
                 elecType.getItems();
                 elecTableView.getItems();
@@ -827,6 +861,28 @@ public class Controller implements Initializable {                 //im not able
         }
     }
 
+
+    public void reloadCanTreeView() {
+        for (Node<Politician> p : politicians.hashTable) {
+            if(p.getContents() instanceof Candidate){
+                for(Node<Election> e = ((Candidate) p.getContents()).getElections().head;e!=null;e=e.next){
+                    for(TreeItem<String> el :canListView.getRoot().getChildren()) {
+                        if (el.getValue().toUpperCase().equals(e.getContents().getElectionType())) {
+                            el.getChildren().add(new TreeItem<>(e.getContents().getDate()));
+                            for (TreeItem<String> date : el.getChildren()) {
+                                if (date.getValue().equals(e.getContents().getDate())) {
+                                    date.getChildren().add(new TreeItem<>("Name : " + p.getContents().getName() + "\n" + "Number of Votes : " + ((Candidate) p.getContents()).getTotalVotes() + "\n" + "Party Stood For : " + ((Candidate) p.getContents()).getPartyStoodFor()));
+
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 
     public void searchPolTableView(ActionEvent actionEvent) {
 
@@ -849,7 +905,7 @@ public class Controller implements Initializable {                 //im not able
         }else {
 
             //while loop here
-            for (Node<Election> electionNode : elecTableView.getItems()) {
+            for (Node<Election> electionNode : elections.hashTable) {
 
 
 
