@@ -864,9 +864,10 @@ public class Controller implements Initializable {                 //im not able
 
     public void reloadCanTreeView() {
         for (Node<Politician> p : politicians.hashTable) {
-            if(p.getContents() instanceof Candidate){
-                for(Node<Election> e = ((Candidate) p.getContents()).getElections().head;e!=null;e=e.next){
-                    for(TreeItem<String> el :canListView.getRoot().getChildren()) {
+            if(p!=null && !(p.getContents().equals("empty"))) {
+            if(p.getContents() instanceof Candidate) {
+                for (Node<Election> e = ((Candidate) p.getContents()).getElections().head; e != null; e = e.next) {
+                    for (TreeItem<String> el : canListView.getRoot().getChildren()) {
                         if (el.getValue().toUpperCase().equals(e.getContents().getElectionType())) {
                             el.getChildren().add(new TreeItem<>(e.getContents().getDate()));
                             for (TreeItem<String> date : el.getChildren()) {
@@ -879,6 +880,7 @@ public class Controller implements Initializable {                 //im not able
                         }
                     }
                 }
+            }
             }
         }
 
@@ -904,9 +906,9 @@ public class Controller implements Initializable {                 //im not able
             elecTableView.setItems(temp);
         }else {
 
-            //while loop here
-            for (Node<Election> electionNode : elections.hashTable) {
 
+            for (Node<Election> electionNode : elections.hashTable) {
+                if (electionNode != null && !(electionNode.getContents().equals("empty"))) {
 
 
                     if (searchElecText.getText().toUpperCase().indexOf(electionNode.getContents().getElectionType().toUpperCase()) > -1) {
@@ -914,18 +916,17 @@ public class Controller implements Initializable {                 //im not able
                         found = true;
                     }
 //by seats
-                    else if (searchElecText.getText().indexOf(electionNode.getContents().getNumberOfSeats()) > -1 ) {
+                    else if (searchElecText.getText().indexOf(electionNode.getContents().getNumberOfSeats()) > -1) {
                         searched.add(electionNode);
                         found = true;
 
-                    } else if (searchElecText.getText().toUpperCase().indexOf(electionNode.getContents().getElectionLocation().toUpperCase()) > -1 ) {
+                    } else if (searchElecText.getText().toUpperCase().indexOf(electionNode.getContents().getElectionLocation().toUpperCase()) > -1) {
                         searched.add(electionNode);
                         found = true;
                     }
 
 
-
-
+                }
             }
 
         }

@@ -68,7 +68,7 @@ class ControllerTest {
 
     @Test
     void deletePolitician() {
-        //TODO
+
     }
 
 
@@ -134,7 +134,7 @@ class ControllerTest {
         System.out.println(el.getCandidateGenList().head.getContents().toString());
 
         =============================
-         /* NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
+         NonCandidate pol = new NonCandidate("Tony Stark","20/02/22/","","Laois","Mypic.ie");
         Node<Politician> p=new Node<>();
         p.setContents(pol);
 
